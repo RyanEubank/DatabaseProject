@@ -12,6 +12,8 @@ public class ConnectionManager {
 	
 	private String m_database; 			// name of the database host
 	private String m_port;				// port number for the database
+	private String m_user;				// username for database login
+	private String m_password;			// password for database login
 	private Connection m_connection;	// connection interface to the database
 	private Properties m_properties;	// properties for the database connection
 	
@@ -24,9 +26,13 @@ public class ConnectionManager {
 		// this step is not strictly required as of JDBC 4, but included just in case
 		registerJDBCDriver();
 		
-		//TODO read in the database and port number instead of hard-coding values.
+		this.m_properties = new Properties();
+		
+		//TODO read in the connection info instead of hard-coding values.
 		this.m_database = "localhost";
 		this.m_port = "3306";
+		this.m_user = "Librarian";
+		this.m_password = "password";
 		
 		makeConnection();
 	}
@@ -52,6 +58,8 @@ public class ConnectionManager {
 	 */
 	private void makeConnection() {
 		String url = "jdbc:mysql://" + this.m_database + ":" + this.m_port + "/";
+		m_properties.put("user", m_user);
+		m_properties.put("password", m_password);
 		try {
 			this.m_connection = DriverManager.getConnection(url, m_properties);
 		} catch (SQLException e) {
