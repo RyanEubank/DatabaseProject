@@ -18,6 +18,8 @@ Building the project from source requires the above system requirement in additi
 This project uses JavaFX, an open source library for UI development for Java applications. JavaFX was removed from the Java SDK in Java 11, and is now available from [OpenFX](https://gluonhq.com/products/javafx/) for free.
 
 ##### Install Connector/J 8.0:
-Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL) in addition to a MySQL shell and server application.
+Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and server application is installed.
+
+In the launch.bat file, be sure to set the path to the mysql connector java .jar file that is located put in the root folder. 
 
 ## Database Requirements
