@@ -20,6 +20,10 @@ This project uses JavaFX, an open source library for UI development for Java app
 ##### Install Connector/J 8.0:
 Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and server application is installed.
 
-In the launch.bat file, be sure to set the path to the mysql connector java .jar file that is located put in the root folder. 
+#### Install Eclipse
+For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.org/downloads/) 
+- In the launch.bat file, be sure to set the path to the mysql connector java .jar file that is located put in the root folder. 
+- Be sure to go to run -> run configurations -> make a new configuration if it doesn't exist and set VM arguments in the arguments tab: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls
+- Be sure to also set the needed dependencies in the dependencies tab (located to the right of the arguments tab) under the Classpath entries
 
 ## Database Requirements
