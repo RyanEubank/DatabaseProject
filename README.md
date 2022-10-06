@@ -25,7 +25,7 @@ For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.or
 - In the launch.bat file, be sure to set the path to the mysql connector java .jar file that is located put in the root folder. 
 - Be sure to go to run -> run configurations -> java application -> arguments tab and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls
 - Set the needed dependencies in the dependencies tab (located in run - run configuration -> java application -> dependencies) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql connector .jar file (located in your computers's Program Files(x86) -> MySQL folder -> Connector J 8.0 folder), and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
-- Set the root folder to be the project's source folder so that its included in the classpath
+- Set the root folder to be a source folder that the project can access so that it's included in the classpath
 
 
 ## Database Requirements
