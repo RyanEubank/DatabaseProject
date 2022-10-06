@@ -18,7 +18,7 @@ Building the project from source requires the above system requirement in additi
 This project uses JavaFX, an open source library for UI development for Java applications. JavaFX was removed from the Java SDK in Java 11, and is now available from [OpenFX](https://gluonhq.com/products/javafx/) for free.
 
 ##### Install Connector/J 8.0:
-Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and server application is installed.
+Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and MySQL server application are installed.
 
 #### Install Eclipse
 For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.org/downloads/) 
@@ -26,5 +26,6 @@ For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.or
 - Be sure to go to run -> run configurations -> java application -> arguments tab and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls
 - Set the needed dependencies in the dependencies tab (located in run - run configuration -> java application -> dependencies) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql connector .jar file (located in your computers's Program Files(x86) -> MySQL folder -> Connector J 8.0 folder), and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
 - Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
+- If you don't have the Referenced Libraries section in Eclipse's Package Explorer, then right click on the project -> build path -> configure build path -> java build path -> libraries -> 
 
 ## Database Requirements
