@@ -23,7 +23,9 @@ Connection to the project database requires Connector/J version 8.0, a driver to
 #### Install Eclipse
 For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.org/downloads/) 
 - In the launch.bat file, be sure to set the path to the mysql connector java .jar file that is located put in the root folder. 
-- Be sure to go to run -> run configurations -> make a new configuration if it doesn't exist and set VM arguments in the arguments tab: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls
-- Be sure to also set the needed dependencies in the dependencies tab (located to the right of the arguments tab) under the Classpath entries
+- Be sure to go to run -> run configurations -> java application -> arguments tab and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls
+- Be sure to also set the needed dependencies in the dependencies tab (located in run - run configuration -> java application -> dependencies) under the Classpath entries section. There should be the database project, JRE system library [ire], the mysql connector .jar file (located in your program files(x86) mysql folder), and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
+- tell eclipse the root folder is a source folder for the project so its included in the classpath
+
 
 ## Database Requirements
