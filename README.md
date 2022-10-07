@@ -25,14 +25,19 @@ For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.or
 - In the launch.bat file, be sure that the path is set to the mysql connector .jar file (located in your computers's Program Files(x86) -> MySQL folder -> Connector J 8.0 folder)
 - Be sure to go to run -> run configurations -> java application -> arguments, and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls and then click the apply button
 - Set the needed dependencies in the dependencies tab (located in run - run configuration -> java application -> dependencies -> add external jars -> select the javafx .jar files and the mySQL connector .jar file -> open -> apply) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql connector .jar file (located in your computers's Program Files(x86) -> MySQL folder -> Connector J 8.0 folder), and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
-- Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
+- DO NOT DO THIS STEP (it just causes you to have Connector j  8.0 in eclipse's package explorer): Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
+- If you don't have the Referenced Libraries section in Eclipse's Package Explorer, then right click on the project -> build path -> configure build path -> java build path -> libraries -> classpath -> add the .jar files of mySQL connector .jar and the javafx .jar files from the previous steps -> apply -> apply and close
+
+#### Install JDK
+- install [jdk version 19](https://jdk.java.net/19/), unzip it, move the unzipped folder to be inside of Program files (x86) -> Java
+- Follow the instructions from [here](https://openjfx.io/openjfx-docs/) 
+- Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> system variables -> new -> set JAVA_HOME as the variable name -> set path of where JDK is installed as variable value -> ok -> ok -> apply
+- Follow the javaFX and eclipse [non-modular from IDE instructions](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
 
 
-#### install [jdk version 19](https://jdk.java.net/19/), unzip it, move the unzipped folder to be inside of Program files (x86) -> Java
-- Follow the instructions from [here](https://openjfx.io/openjfx-docs/#next-steps) 
-- Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> system variables -> new -> set JAVA_HOME as variable name -> set path of where JDK is installed as variable value -> ok -> ok -> appy
-- Include the jdk by: Windows -> Preferences -> Java -> Installed JREs -> add
+- Include the jdk by?: Windows -> Preferences -> Java -> Installed JREs -> add
+- Click Run -> Run As -> Java Application -> Main - name of proj? to run the project.
 
-If you don't have the Referenced Libraries section in Eclipse's Package Explorer, then right click on the project -> build path -> configure build path -> java build path -> libraries -> add the .jar files
+
 
 ## Database Requirements
