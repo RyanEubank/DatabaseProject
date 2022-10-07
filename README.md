@@ -34,12 +34,12 @@ For ease of use of this code, run it on the [Eclipse IDE](https://www.eclipse.or
 - Follow the javaFX and eclipse [non-modular from IDE instructions](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
 - Check what java version you have in Command Promot using: java -version
 - check what javac version you have in Command prompt using: javac -version
-- Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path of where JDK is installed as variable value -> ok -> ok -> apply  
+- Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path of where JDK is installed as variable value -> ok -> ok -> ok
 
-
+- Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> system variables -> path -> edit -> new -> add in: %JAVA_HOME%\bin or should it be C:\Program Files (x86)\Java\jdk-19 as an additional path-> ok -> ok 
 - (apparently it's path enviroment varible where it points ot that binary (which i assume to be the jdk?) so have to add the jdk bin folder to the path enviroment variable 
 - Include the jdk (must be at least jdk 11) by?: Windows -> Preferences -> Java -> Installed JREs -> add
-- in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" did you add a enviroment variable or command prompt or just leave it be in the .bat file
+- in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" did you add a enviroment variable or command prompt or just leave it be in the .bat file?
 
 - note to self: DO NOT DO THIS STEP (it just causes you to have Connector j  8.0 in eclipse's package explorer): Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
 
