@@ -22,7 +22,7 @@ Connection to the project database requires Connector/J version 8.0, a driver to
 
 #### Install Eclipse
 For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/downloads/) 
-- In the launch.bat file, be sure that the path is set wherever your javafx-sdk-19 is located at and double click it to run it. 
+- In the launch.bat file, be sure that the path is set wherever your javafx-sdk-19 is located at and double click it to run it. (if this doesn't work then you're stuck doing in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" )
 - Be sure to go to run -> run configurations -> java application -> arguments, and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls and then click the apply button
 - Set the needed dependencies in the dependencies tab (located in run - run configuration -> java application -> dependencies -> add external jars -> select the javafx .jar files and the mySQL connector .jar file -> open -> apply) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql connector .jar file (located in your computers's Program Files(x86) -> MySQL folder -> Connector J 8.0 folder), and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
 - If you don't have the Referenced Libraries section in Eclipse's Package Explorer, then right click on the project -> build path -> configure build path -> java build path -> libraries -> classpath -> add the .jar files of mySQL connector .jar and the javafx .jar files from the previous steps -> apply -> apply and close
@@ -39,7 +39,7 @@ For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/do
 - Include the jdk by: eclipse -> Windows -> Preferences -> Java -> Installed JREs -> add -> standard VM -> -> next -> in jre home choose the folder where your jdk is stored and select it -> finish -> unclick the jre and click the newly added jdk -> ok
 
 
-- in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" (just double click the luanch.bat file instead)
+- in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" 
 - note to self: DO NOT DO THIS STEP (it just causes you to have Connector j  8.0 in eclipse's package explorer): Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
 
 ## Database Requirements
