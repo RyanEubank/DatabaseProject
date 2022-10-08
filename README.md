@@ -34,12 +34,13 @@ For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/do
 - Follow the javaFX and eclipse [non-modular from IDE instructions](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
 - Check what java version you have in Command Promot using: java -version
 - check what javac version you have in Command prompt using: javac -version
+- You'll know if you installed this correctly  if command prompt recognizes both the java and javac command
 - Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path of where JDK is installed as variable value -> ok -> ok -> ok
 - Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> system variables -> path -> edit -> new -> add in: %JAVA_HOME%\bin or it can be C:\Program Files (x86)\Java\jdk-19 as an additional path-> ok -> ok -> ok
 - Include the jdk by: eclipse -> Windows -> Preferences -> Java -> Installed JREs -> add -> standard VM -> -> next -> in jre home choose the folder where your jdk is stored and select it -> finish -> unclick the jre and click the newly added jdk -> ok
-
+- Right click the project folder -> java build path -> libraries -> jre system library -> edit -> execution enviroment -> set it to JavaSE-18 (jdk-19) -> finish -> java compiler -> compiler compliance level, set it to 18 -> apply
 
 - in command prompt use: cd eclipse-workspace\DatabaseProject\lib and then use: set PATH_TO_FX="lib/javafx-sdk-19/lib" 
-- note to self: DO NOT DO THIS STEP (it just causes you to have Connector j  8.0 in eclipse's package explorer): Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
+- note to self (remember to delete this bullet point later): DO NOT DO THIS STEP (it just causes you to have Connector j  8.0 in eclipse's package explorer): Set the root folder to be a source folder that the project can access so that it's included in the classpath by right clicking on the project -> build path -> link source -> browse -> C:\Program Files (x86)\MySQL\Connector J 8.0 -> select folder -> next -> finish
 
 ## Database Requirements
