@@ -1,11 +1,9 @@
-package app;
+package src.application;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
-import app.server.connection.ConnectionManager;
+import javafx.scene.*;
 
 /**
  * The main entry point for the library application. Includes a
@@ -14,7 +12,6 @@ import app.server.connection.ConnectionManager;
 public class MainApplication extends Application {
 	
 	public static void main(String[] args) {
-		ConnectionManager.getSingleton().getConnection();
 		launch(args);
 	}
 	
@@ -27,9 +24,9 @@ public class MainApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root, 400, 400);
-			primaryStage.setScene(scene);
+			Parent root = FXMLLoader.load(getClass().getResource("/resource/LoginScreen.fxml"));
+			primaryStage.setTitle("LibraryManager");
+			primaryStage.setScene(new Scene(root, 1200, 800));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
