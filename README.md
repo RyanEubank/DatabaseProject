@@ -1,4 +1,4 @@
-# SE4347.002 DatabaseProject
+# CS/SE 4347.002 DatabaseProject
 -- Class project for database systems. --
 	
 ## System Requirements
