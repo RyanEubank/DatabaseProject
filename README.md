@@ -41,3 +41,4 @@ For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/do
 - Right click the project folder -> java build path -> libraries -> jre system library -> edit -> execution enviroment -> set it to JavaSE-18 (jdk-19) -> finish -> java compiler -> compiler compliance level, set it to 18 -> apply
 
 ## Database Requirements
+- Database is to match the cleaned up database that one of the team members has plans for
