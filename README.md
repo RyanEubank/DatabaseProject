@@ -21,7 +21,7 @@ This project uses JavaFX, an open source library for UI development for Java app
 Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and MySQL server application are installed.
 
 #### Install Eclipse
-For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/downloads/) 
+For ease of editing and development, run on [Eclipse IDE](https://www.eclipse.org/downloads/) 
 - In the launch.bat file, be sure that the path is set wherever your javafx-sdk-19's lib folder is located at and double click it to run it. (if this doesn't work then you're stuck doing in command prompt use: cd eclipse-workspace\DatabaseProject and then enter the code listed in the launch.bat file that starts with: set PATH_TO_FX)
 - Be sure to go to run -> run configurations -> java application -> arguments, and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls and then click the apply button
 - Set the needed dependencies in the dependencies tab (located in run -> run configuration -> java application -> dependencies -> add external jars -> select the javafx .jar files and the mysql-connector-java-8.0.30.jar file -> open -> apply) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql-connector-java-8.0.30.jar file and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
