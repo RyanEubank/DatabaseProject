@@ -32,8 +32,8 @@ For ease of use of this code, run it on [Eclipse IDE](https://www.eclipse.org/do
 - install [jdk version 19](https://jdk.java.net/19/), unzip it, move the unzipped folder to be inside of Program files (x86) -> Java (if java is installed in program files then move it inside of the Java folder located there)
 - Follow the instructions from [here](https://openjfx.io/openjfx-docs/) 
 - Follow the javaFX and eclipse [non-modular from IDE instructions](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
-- Check what java version you have in Command Promot using: java -version
-- check what javac version you have in Command prompt using: javac -version
+- Check what java runtime version you have in Command Promot using: java -version
+- Check what java compiler version you have in Command prompt using: javac -version
 - You'll know if you installed this correctly if command prompt recognizes both the java and javac command and displays info about them
 - Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path of where JDK is installed as variable value -> ok -> ok -> ok
 - Open command prompt -> type in javac -> press enter -> Go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> path -> edit -> new -> add in: %JAVA_HOME%\bin or it can be C:\Program Files (x86)\Java\jdk-19\bin as an additional path (or if Java and/or your javac.exe is installed in the Program files folder on your computer then use that Java folder path instead)-> press the ok buttons -> close Command Prompt -> reopen Command Prompt -> type in javac (the command will be recognized if you set it up correctly)
