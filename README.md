@@ -22,7 +22,7 @@ Connection to the project database requires Connector/J version 8.0, a driver to
 
 #### Install Eclipse
 For ease of editing and development, run [Eclipse IDE](https://www.eclipse.org/downloads/) 
-- In the launch.bat file, be sure to set the correct path to your javafx-sdk-19/lib folder. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: cd <local path>/DatabaseProject. Then run the following commands to compile and launch the program:
+- In the launch.bat file, be sure to set the correct path to your javafx-sdk-19/lib folder. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: cd \<local path\>/DatabaseProject. Then run the following commands to compile and launch the program:
 ```
 set PATH_TO_FX="lib/javafx-sdk-19/lib"
 set PATH_TO_DRIVER="lib/connector-j-8.0/mysql-connector-j-8.0.31.jar"
