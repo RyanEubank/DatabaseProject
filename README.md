@@ -22,7 +22,14 @@ Connection to the project database requires Connector/J version 8.0, a driver to
 
 #### Install Eclipse
 For ease of editing and development, run [Eclipse IDE](https://www.eclipse.org/downloads/) 
-- In the launch.bat file, be sure that the path is set wherever your javafx-sdk-19's lib folder is located at and double click it to run it. (if this doesn't work then you're stuck doing in command prompt use: cd eclipse-workspace\DatabaseProject and then enter the code listed in the launch.bat file that starts with: set PATH_TO_FX)
+- In the launch.bat file, be sure to set the correct path to your javafx-sdk-19/lib folder. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: cd <local path>/DatabaseProject. Then run the following commands to compile and launch the program:
+```
+set PATH_TO_FX="lib/javafx-sdk-19/lib"
+set PATH_TO_DRIVER="lib/connector-j-8.0/mysql-connector-j-8.0.31.jar"
+javac --module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml -classpath %cd%;%PATH_TO_DRIVER% src/application/MainApplication.java
+java --module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml -classpath %cd%;%PATH_TO_DRIVER% src.application.MainApplication
+pause
+```
 - Be sure to go to run -> run configurations -> java application -> arguments, and then make a new configuration if it doesn't exist by setting a VM arguments using: --module-path "lib/javafx-sdk-19/lib" --add-modules javafx.controls and then click the apply button
 - Set the needed dependencies in the dependencies tab (located in run -> run configuration -> java application -> dependencies -> add external jars -> select the javafx .jar files and the mysql-connector-java-8.0.30.jar file -> open -> apply) under the Classpath Entries section. Within the Classpath Entries section, should be the the database project folder, JRE system library [ire], the mysql-connector-java-8.0.30.jar file and the rest of the javafx .jar files (located in DatabaseProject\lib\javafx-sdk-19\lib). 
 - If you don't have the Referenced Libraries section in Eclipse's Package Explorer, then right click on the project -> build path -> configure build path -> java build path -> libraries -> classpath -> add the .jar files of mySQL connector .jar and the javafx .jar files from the previous steps -> apply -> apply and close
