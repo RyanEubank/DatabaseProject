@@ -3,7 +3,9 @@ package src.application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import src.application.client.SceneManager;
 import javafx.scene.*;
+import javafx.scene.text.Font;
 
 /**
  * The main entry point for the library application. Includes a
@@ -22,12 +24,14 @@ public class MainApplication extends Application {
 	 * 	- the initial window stage setup by javaFX.
 	 */
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage stage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/resource/LoginScreen.fxml"));
-			primaryStage.setTitle("LibraryManager");
-			primaryStage.setScene(new Scene(root, 1200, 800));
-			primaryStage.show();
+			Scene scene = SceneManager.getSingleton().loadScene(SceneManager.LOGIN_SCREEN, 1200, 800);
+			String style = getClass().getResource("/src/resource/stylesheets/application.css").toExternalForm();
+			scene.getStylesheets().add(style);
+			stage.setTitle("LibraryManager");
+			stage.setScene(scene);
+			stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

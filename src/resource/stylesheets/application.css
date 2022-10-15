@@ -1,0 +1,29 @@
+@font-face {
+	/* font-family: 'Kenyan Coffee Rg' */
+	src: url("../fonts/Kenyan-Coffee-Bold.ttf");
+}
+
+@font-face {
+	/* font-family: "Saturday Bright"; */
+	src: url("../fonts/Saturday-Bright-Italic.ttf");	
+}
+ 
+.label {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 40;	
+}
+
+.button {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 40;
+}
+
+#screen_title_top {
+	-fx-font-family: "Saturday Bright";
+	-fx-font-size: 40;
+}
+
+#screen_title_bottom {
+	-fx-font-family: "Saturday Bright";
+	-fx-font-size: 40;
+}

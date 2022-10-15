@@ -18,6 +18,20 @@ public class ConnectionManager {
 	private Properties m_properties;	// properties for the database connection
 	
 	/**
+	 * Returns an instance of the connection manager, or creates a new
+	 * instance if it does not yet exist: i.e. the first call to this
+	 * method.
+	 * 
+	 * @return
+	 * 	a static instance of the connection manager for the library system.
+	 */
+	public static ConnectionManager getSingleton() {
+		if (INSTANCE == null)
+			INSTANCE = new ConnectionManager();
+		return INSTANCE;
+	}
+	
+	/**
 	 * Constructs a new ConnectionManager by reading the system configuration
 	 * files to get the database host name and port number then establishing
 	 * a new connection via JDBC.
@@ -76,19 +90,5 @@ public class ConnectionManager {
 	 */
 	public Connection getConnection() {
 		return this.m_connection;
-	}
-	
-	/**
-	 * Returns an instance of the connection manager, or creates a new
-	 * instance if it does not yet exist: i.e. the first call to this
-	 * method.
-	 * 
-	 * @return
-	 * 	a static instance of the connection manager for the library system.
-	 */
-	public static ConnectionManager getSingleton() {
-		if (INSTANCE == null)
-			INSTANCE = new ConnectionManager();
-		return INSTANCE;
 	}
 }
