@@ -95,7 +95,7 @@ public class ConnectionManager {
 			e.printStackTrace();
 		}
 		
-		//DriverManager.setLoginTimeout(5);
+		DriverManager.setLoginTimeout(5);
 	}
 
 	/**
