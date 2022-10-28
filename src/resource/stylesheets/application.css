@@ -7,16 +7,6 @@
 	/* font-family: "Saturday Bright"; */
 	src: url("../fonts/Saturday-Bright-Italic.ttf");	
 }
- 
-.label {
-	-fx-font-family: "Kenyan Coffee Rg";
-	-fx-font-size: 40;	
-}
-
-.button {
-	-fx-font-family: "Kenyan Coffee Rg";
-	-fx-font-size: 40;
-}
 
 #screen_title_top {
 	-fx-font-family: "Saturday Bright";
@@ -26,4 +16,31 @@
 #screen_title_bottom {
 	-fx-font-family: "Saturday Bright";
 	-fx-font-size: 40;
+}
+
+#incorrect_login_label {
+	-fx-font-family: "System";
+	-fx-font-size: 12;
+}
+
+.label {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 40;	
+}
+
+.button {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 40;
+	-fx-background-color: #6085b7;
+	-fx-background-radius: 15px;
+}
+
+.button:hover {
+	-fx-background-color: #0384fc; 
+	-fx-border-color: #000000; 
+	-fx-border-radius: 15px
+}
+
+.button:armed {
+	-fx-background-color: #767676;
 }

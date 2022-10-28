@@ -24,7 +24,7 @@
                <font>
                   <Font name="Arial" size="40.0" />
                </font></Text>
-            <Text fx:id="screen_title_bottom" fill="#00000073" layoutX="224.0" layoutY="774.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solutions">
+            <Text fx:id="screen_title_bottom" fill="#00000073" layoutX="224.0" layoutY="774.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
@@ -51,7 +51,7 @@
                </image>
             </ImageView>
             <TextField fx:id="username" layoutX="200.0" layoutY="306.0" prefHeight="35.0" prefWidth="300.0" promptText="username" />
-            <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="72.0" prefWidth="175.0" style="-fx-background-color: #6085b7; -fx-background-radius: 15px;" text="Login" textFill="#0000007f">
+            <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="72.0" prefWidth="175.0" text="Login" textFill="#0000007f">
                <font>
                   <Font name="Arial" size="46.0" />
                </font>

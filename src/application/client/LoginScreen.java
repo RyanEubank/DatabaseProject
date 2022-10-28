@@ -1,17 +1,18 @@
 package src.application.client;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
-public class LoginScreen implements Initializable {
+import src.application.server.*;
+import src.application.server.network.LoginHandler;
 
-	private static String IDLE_BUTTON_STYLE = "-fx-background-color: #6085b7; -fx-background-radius: 15px";
-	private static String HOVER_BUTTON_STYLE = "-fx-background-color: #91ceff; -fx-background-radius: 15px; -fx-border-color: #000000; -fx-border-radius: 15px";
-	private static String CLICKED_BUTTON_STYLE = "-fx-background-color: #767676; -fx-background-radius: 15px;";
+public class LoginScreen {
+
+	private static final String EMPTY_LOGIN = "Please enter a username and password.";
+	private static final String INVALID_LOGIN = "Invalid username or password.";
+	private static final String SERVER_UNAVAILABLE = "Database servers are currently down. Please try again later.";
+	private static final String ERROR = "An unexpected error has occured. Please see log for details";
 	
 	@FXML
 	private Button login_button;
@@ -31,21 +32,34 @@ public class LoginScreen implements Initializable {
 	@FXML
 	private Text screen_title_bottom;
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		login_button.setStyle(IDLE_BUTTON_STYLE);
-		login_button.setOnMouseEntered(event -> login_button.setStyle(HOVER_BUTTON_STYLE));
-		login_button.setOnMouseExited(event -> login_button.setStyle(IDLE_BUTTON_STYLE));
-	}
-	
+	/**
+	 * Retrieves the username and password entered by the uiser and attempts to
+	 * make a valid connection with the database and load the main application screen.
+	 * Issues such as invalid logins or server availability are displayed above
+	 * the login form.
+	 */
 	public void onLoginClicked() {
-		
-		// set button color to grey and disable color updates while login is processed
-		login_button.setStyle(CLICKED_BUTTON_STYLE);
-		login_button.setOnMouseEntered(event -> login_button.setStyle(CLICKED_BUTTON_STYLE));
-		login_button.setOnMouseExited(event -> login_button.setStyle(CLICKED_BUTTON_STYLE));
-		
-		// process login information -> change scenes if login
-		System.out.println("hello");
+		if (username.getText().isBlank() || password.getText().isBlank())
+			incorrect_login_label.textProperty().set(EMPTY_LOGIN);
+		else 
+			tryLogin();
+	}
+
+	/**
+	 * Attempts to login to the mysql library database. If successful the scene manager
+	 * loads the main screen, otherwise displays an error to the user.
+	 */
+	public void tryLogin() {
+			LoginHandler.LoginStatus status = LoginHandler.login(username.getText(), password.getText());
+			
+			if (status == LoginHandler.LoginStatus.VALID) 
+				SceneManager.getSingleton().loadScene(SceneManager.MAIN_SCREEN, SceneManager.STYLE, 1200, 800);
+			else if (status == LoginHandler.LoginStatus.INVALID)
+				incorrect_login_label.textProperty().set(INVALID_LOGIN);
+			else if (status == LoginHandler.LoginStatus.UNAVAILABLE)
+				incorrect_login_label.textProperty().set(SERVER_UNAVAILABLE);
+			else
+				incorrect_login_label.textProperty().set(ERROR);
+				
 	}
 }

@@ -1,11 +1,8 @@
 package src.application;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import src.application.client.SceneManager;
-import javafx.scene.*;
-import javafx.scene.text.Font;
 
 /**
  * The main entry point for the library application. Includes a
@@ -14,7 +11,7 @@ import javafx.scene.text.Font;
 public class MainApplication extends Application {
 	
 	public static void main(String[] args) {
-		launch(args);
+		launch(args); 
 	}
 	
 	/**
@@ -25,15 +22,9 @@ public class MainApplication extends Application {
 	 */
 	@Override
 	public void start(Stage stage) {
-		try {
-			Scene scene = SceneManager.getSingleton().loadScene(SceneManager.LOGIN_SCREEN, 1200, 800);
-			String style = getClass().getResource("/src/resource/stylesheets/application.css").toExternalForm();
-			scene.getStylesheets().add(style);
-			stage.setTitle("LibraryManager");
-			stage.setScene(scene);
-			stage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		stage.setTitle("LibraryManager");
+		stage.setResizable(false);
+		SceneManager.initialize(stage);
+		SceneManager.getSingleton().loadScene(SceneManager.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
 	}
 }
