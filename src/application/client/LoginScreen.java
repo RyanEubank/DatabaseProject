@@ -4,7 +4,6 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
-import src.application.server.*;
 import src.application.server.network.LoginHandler;
 
 public class LoginScreen {

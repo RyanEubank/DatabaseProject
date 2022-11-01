@@ -73,7 +73,7 @@ public class ConfigReader {
 	 * @throws IOException 
 	 * 	Throws an IOException if there is an error while reading the file.
 	 */
-	public void parseFile(FileReader reader) 
+	private void parseFile(FileReader reader) 
 		throws ConfigFormatException, IOException 
 	{
 		BufferedReader buffer = new BufferedReader(reader);

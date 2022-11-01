@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import src.application.server.ConfigReader;
+import src.application.server.Configuration;
 import src.application.server.ConfigReader.ConfigFormatException;
 
 public class ConnectionManager {
@@ -73,31 +74,48 @@ public class ConnectionManager {
 	private ConnectionManager() {
 		// this step is not strictly required as of JDBC 4, but included just in case
 		registerJDBCDriver();
+
+		// read in database network settings from the config file
+		Map<String, String> dbProperties = getDatabaseProperties();
+
+		String host = dbProperties.getOrDefault("host", "localhost");
+		String port = dbProperties.getOrDefault("port", "3306");
+		int timeout = Integer.parseInt(dbProperties.getOrDefault("timeout", "5"));
 		
+		// set the connection timeout and url
+		DriverManager.setLoginTimeout(timeout);
+		this.m_url = "jdbc:mysql://" + host + ":" + port + "/Library";
 		this.m_properties = new Properties();
-		String host;
-		String port;
-		
-		// read in the port number ond host address from the config file
-		try {
-			ConfigReader reader = new ConfigReader("config.ini");
-			Map<String, String> database_section = reader.getValues("database");
-			
-			// create empty map if there is no database header defined in config
-			if (database_section == null)
-				database_section = new HashMap<>();
-			
-			// get the hostname and port number
-			host = database_section.getOrDefault("host", "localhost");
-			port = database_section.getOrDefault("port", "3306");
-			this.m_url = "jdbc:mysql://" + host + ":" + port + "/Library";
-		} catch (IOException | ConfigFormatException e) {
-			e.printStackTrace();
-		}
-		
-		DriverManager.setLoginTimeout(5);
 	}
 
+	/**
+	 * Obtains database properties read from the config and 
+	 * returns a map of the values read.
+	 * 
+	 * @return
+	 *  Returns the map of key-value pairs containing properties
+	 *  read in from the config file or an empty map if not available.
+	 */
+	private Map<String, String> getDatabaseProperties() {
+		Map<String, String> properties;
+		
+		try {
+			// attempt to read config file
+			ConfigReader reader = Configuration.get();
+			properties = reader.getValues("database");
+			
+			// create empty map if there is no database header defined in config
+			if (properties == null)
+				properties = new HashMap<>();	
+			
+		} catch (IOException | ConfigFormatException e) {
+			// create empty properties if the config cannot be read
+			properties = new HashMap<>();
+			e.printStackTrace();
+		}
+		return properties;
+	}
+	
 	/**
 	 * Loads and registers the mysql jdbc driver required to connect
 	 * to a mysql database. Logs an error and exits if the driver cannot

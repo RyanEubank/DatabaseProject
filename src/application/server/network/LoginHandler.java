@@ -46,7 +46,7 @@ public class LoginHandler {
 	private static LoginStatus loginAndValidate(ConnectionManager connectionMgr) {
 		LoginStatus status;
 		// pass a generic query to the server to test valid connection
-		String validationQuery = "SELECT COUNT(*) from library.books";
+		String validationQuery = "SHOW tables";
 		
 		// automatically closes connection resources in try block.
 		try (
