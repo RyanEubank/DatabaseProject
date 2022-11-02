@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class SceneManager {
 	
 	// path to common scene layouts
-	public static final String LOGIN_SCREEN = "src/resource/stylesheets/LoginScreen.fxml";
+	public static final String LOGIN_SCREEN = LoginScreen.getLayout();
 	public static final String MAIN_SCREEN = "src/resource/stylesheets/MainScreen.fxml";
 	
 	//path to common stylesheets
@@ -31,8 +31,7 @@ public class SceneManager {
 		Text error = new Text("SCENE PLACEHOLDER");
 		error.setStyle("-fx-text-fill: red");
 		DEFAULT_SCENE.getChildren().add(error);
-	}
-	
+	}	
 	
 	/**
 	 * Loads the specified fxml file to create a populated scene node ready to style
