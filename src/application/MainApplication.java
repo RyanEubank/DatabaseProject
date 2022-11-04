@@ -28,6 +28,6 @@ public class MainApplication extends Application {
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		SceneManager.initialize(stage);
-		SceneManager.getSingleton().loadScene(Scenes.HOME_SCREEN, SceneManager.STYLE, 1200, 800);
+		SceneManager.getSingleton().loadScene(Scenes.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
 	}
 }
