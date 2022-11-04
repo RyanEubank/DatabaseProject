@@ -6,18 +6,15 @@ import javafx.scene.text.Text;
 
 import src.application.server.network.LoginHandler;
 
-public class LoginScreen {
+public class LoginScreen extends AbstractScreen {
 
-	private static final String SCREEN_LAYOUT = "src/resource/stylesheets/LoginScreen.fxml";
+	public static final String SCREEN_LAYOUT = "src/resource/stylesheets/LoginScreen.fxml";
+	
 	private static final String EMPTY_LOGIN = "Please enter a username and password.";
 	private static final String INVALID_LOGIN = "Invalid username or password.";
 	private static final String SERVER_UNAVAILABLE = "Database servers are currently down. Please try again later.";
 	private static final String ERROR = "An unexpected error has occured. Please see log for details";
-	
-	public static String getLayout() {
-		return SCREEN_LAYOUT;
-	}
-	
+
 	@FXML
 	private Button login_button;
 	
@@ -57,7 +54,7 @@ public class LoginScreen {
 		LoginHandler.LoginStatus status = LoginHandler.login(username.getText(), password.getText());
 			
 		if (status == LoginHandler.LoginStatus.VALID) 
-			SceneManager.getSingleton().loadScene(SceneManager.MAIN_SCREEN, SceneManager.STYLE, 1200, 800);
+			SceneManager.getSingleton().loadScene(Scenes.HOME_SCREEN, SceneManager.STYLE, 1200, 800);
 		else if (status == LoginHandler.LoginStatus.INVALID)
 			incorrect_login_label.textProperty().set(INVALID_LOGIN);
 		else if (status == LoginHandler.LoginStatus.UNAVAILABLE)

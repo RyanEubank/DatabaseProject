@@ -1,11 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </top>
-</BorderPane>
+<VBox prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.application.client.MainScreen">
+   <children>
+      <StackPane fx:id="toolbar" prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="90.0" prefWidth="1200.0">
+               <children>
+                  <ToolBar prefHeight="48.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
+                    <items>
+                      <Button fx:id="home_button" mnemonicParsing="false" onAction="#OnHomeClicked" prefHeight="48.0" prefWidth="48.0" style="-fx-background-radius: 7;">
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <HBox prefHeight="48.0" prefWidth="1040.0" />
+                        <MenuButton fx:id="settings_button" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" translateY="-10.0">
+                          <items>
+                            <MenuItem fx:id="increment_dropdown" mnemonicParsing="false" text="Increment Date" />
+                            <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" onAction="#OnLogout" text="Logout" />
+                          </items>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/gear.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </MenuButton>
+                        <VBox prefHeight="32.0" prefWidth="24.0">
+                           <children>
+                              <Button fx:id="exit_button" alignment="TOP_LEFT" mnemonicParsing="false" text="X" />
+                           </children>
+                        </VBox>
+                    </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+      <BorderPane fx:id="home_canvas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
+         <left>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <Pane prefHeight="64.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="484.0" minWidth="10.0" prefWidth="378.6666666666667" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="215.3333740234375" minWidth="0.0" prefWidth="42.666666666666686" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="396.0" minWidth="10.0" prefWidth="379.33329264322913" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="488.0000305175781" minHeight="10.0" prefHeight="353.33326212565106" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="251.33338419596356" minHeight="3.999969482421875" prefHeight="164.33340454101568" vgrow="ALWAYS" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="book_button" mnemonicParsing="false" onAction="#OnBookClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/book_button.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#OnBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/borrower_button.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label text="Books" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Label text="Borrowers" textFill="#00000073" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="borrower_canvas" prefHeight="200.0" prefWidth="200.0" />
+      <BorderPane fx:id="book_canvas" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</VBox>

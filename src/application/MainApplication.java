@@ -2,7 +2,9 @@ package src.application;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import src.application.client.SceneManager;
+import src.application.client.Scenes;
 
 /**
  * The main entry point for the library application. Includes a
@@ -24,7 +26,8 @@ public class MainApplication extends Application {
 	public void start(Stage stage) {
 		stage.setTitle("LibraryManager");
 		stage.setResizable(false);
+		stage.initStyle(StageStyle.UNDECORATED);
 		SceneManager.initialize(stage);
-		SceneManager.getSingleton().loadScene(SceneManager.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
+		SceneManager.getSingleton().loadScene(Scenes.HOME_SCREEN, SceneManager.STYLE, 1200, 800);
 	}
 }

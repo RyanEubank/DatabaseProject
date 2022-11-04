@@ -10,10 +10,6 @@ import javafx.stage.Stage;
 
 public class SceneManager {
 	
-	// path to common scene layouts
-	public static final String LOGIN_SCREEN = LoginScreen.getLayout();
-	public static final String MAIN_SCREEN = "src/resource/stylesheets/MainScreen.fxml";
-	
 	//path to common stylesheets
 	public static final String STYLE = "/src/resource/stylesheets/application.css";
 	

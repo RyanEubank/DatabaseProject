@@ -9,7 +9,12 @@
 }
 
 .root {
-	-borderblue: #6085b7;
+	-border-blue: #6085b7;
+	-background-blue:  #c1cad4;
+	-exit-red: #c95e57;
+	-exit-red-hover: #8f3c36;
+	-select-blue: #0384fc;
+	-clicked-grey: #00000076;
 }
 
 #screen_title_top {
@@ -32,19 +37,92 @@
 	-fx-font-size: 40;	
 }
 
-.button {
+.menu-item {
+	-fx-background-color: -clicked-grey;
+}
+
+.menu-item .label {
+	-fx-font-size: 14;
+	-fx-font-family: "System";
+}
+
+.menu-item: focused .label {
+	-fx-background-color: -select-blue;
+	-fx-border-color: black;
+	-fx-border-radius: 2px;	
+}
+
+#login_button {
 	-fx-font-family: "Kenyan Coffee Rg";
 	-fx-font-size: 40;
-	-fx-background-color: -borderblue;
+	-fx-background-color: -border-blue;
 	-fx-background-radius: 15px;
 }
 
-.button:hover {
-	-fx-background-color: #0384fc; 
+#login_button:hover {
+	-fx-background-color: -select-blue; 
 	-fx-border-color: #000000; 
 	-fx-border-radius: 15px
 }
 
-.button:armed {
+#login_button:armed {
 	-fx-background-color: #767676;
 }
+
+#exit_button {
+	-fx-background-color: -exit-red;
+}
+
+#exit_button:hover {
+	-fx-background-color: -exit-red-hover;
+}
+
+#home_button {
+	-fx-background-color: -background-blue;
+	-fx-border-radius: 7px;
+	-fx-border-color: #000000;
+}
+
+#home_button:hover {
+	-fx-border-color: -select-blue;
+	-fx-border-width: 2px;
+}
+
+#home_button:armed {
+	-fx-border-color: -clicked-grey;
+}
+
+#home_canvas .button {
+	-fx-border-radius: 7px;
+	-fx-border-color: #000000;
+}
+
+#home_canvas .button:hover {
+	-fx-border-color: -select-blue;
+	-fx-border-width: 4px;
+}
+
+#home_canvas .button:armed {
+	-fx-border-color: -clicked-grey;	
+}
+
+#settings_button {
+	-fx-background-color: -background-blue;
+}
+
+#settings_button:hover .image-view {
+	-fx-rotate: -60;
+}
+
+#settings_button .arrow-button {
+	-fx-padding: 4;
+}
+
+#settings_button .arrow-button .arrow {
+	-fx-padding: 4;
+}
+
+#settings_button .image-view {
+	-fx-translate-x: 24;
+}
+
