@@ -1,0 +1,33 @@
+ISBN10	ISBN13	Title	Authro	Cover	Publisher	Pages
+1569871213	9781569871218	Black Beauty (Illustrated Classics)		http://www.openisbn.com/cover/1569871213_72.jpg	Landoll	240
+0836230868	9780836230864	Christmas: A Holiday Treasury	Della Rowland	http://www.openisbn.com/cover/0836230868_72.jpg		0
+037383232X	9780373832323	Sweet Promise		http://www.openisbn.com/cover/037383232X_72.jpg	Harlequin	0
+0880841109	9780880841108	The Children's Response: Beyond Tpr Toward Writing (American English)		http://www.openisbn.com/cover/0880841109_72.jpg	Alemany Press	88
+0553279912	9780553279917	A Is For Alibi		http://www.openisbn.com/cover/0553279912_72.jpg	Bantam Crime Line	0
+2890377741	9782890377745	Lame		http://www.openisbn.com/cover/2890377741_72.jpg	Quebec Amerique	243
+0007101953	9780007101955	At Ruby's		http://www.openisbn.com/cover/0007101953_72.jpg	HarperCollins Publishers	311
+1568652895	9781568652894	Homecoming		http://www.openisbn.com/cover/1568652895_72.jpg	Harper 1997/97	384
+0880384433	9780880384438	Dueltrack (Car Wars Adventure Game Book)		http://www.openisbn.com/cover/0880384433_72.jpg	T S R	192
+0936552034	9780936552033	Animal Talk Interspecies Telepathis Communication	Penelope Smith	http://www.openisbn.com/cover/0936552034_72.jpg		0
+1555472419	9781555472412	Just Before Daybreak		http://www.openisbn.com/cover/1555472419_72.jpg	Critics Choice Paperbacks/Lorevan Publishing	292
+034910171X	9780349101712	Canal Dreams		http://www.openisbn.com/cover/034910171X_72.jpg	Abacus	0
+0330328913	9780330328913	Consider The Lily		http://www.openisbn.com/cover/0330328913_72.jpg	Pan Macmillan	0
+325770044X	9783257700442	Warum Krieg? Ein Briefwechsel	Albert Einstein,Sigmund Freud,Isaac Asimov	http://www.openisbn.com/cover/325770044X_72.jpg		0
+0671724800	9780671724801	Ski Weekend (Fear Street, No. 10)		http://www.openisbn.com/cover/0671724800_72.jpg	Simon Pulse	0
+2894294247	9782894294246	Cat Lovers Companion		http://www.openisbn.com/cover/2894294247_72.jpg	Joshua Morris Pub	0
+0515120626	9780515120622	Just Once		http://www.openisbn.com/cover/0515120626_72.jpg	2013991	0
+0590483552	9780590483551	GOOSEBUMPS ATTACK OF THE MUTANT		http://www.openisbn.com/cover/0590483552_72.jpg	Scholastic Inc	0
+042512164X	9780425121641	Capital Crimes		http://www.openisbn.com/cover/042512164X_72.jpg	Penguin Group (USA) Incorporated	0
+0440142326	9780440142324	Joan Embery's Collection Of Amazing Animal Facts		http://www.openisbn.com/cover/0440142326_72.jpg	Dell Publishing Company	0
+2266002996	9782266002998	Le Secret Du Masque De Fer		http://www.openisbn.com/cover/2266002996_72.jpg	Presses Pocket	0
+0553247921	9780553247923	Hiroshima		http://www.openisbn.com/cover/0553247921_72.jpg	Bantam Books	0
+1893910245	9781893910249	Patient Heal Thyself: A Remarkable Health Program Combining Ancient Wisdom With	Jordan S.; Gordon, Gary Rubin	http://www.openisbn.com/cover/1893910245_72.jpg		0
+0785335927	9780785335924	365 Holiday Craft And Activities		http://www.openisbn.com/cover/0785335927_72.jpg	Publications Intl	0
+0590687247	9780590687249	Ramona Quimby, Age 8		http://www.openisbn.com/cover/0590687247_72.jpg	Scholastic Inc.	190
+0861128273	9780861128273	Show Baby: 1 2 3 (Show Baby)		http://www.openisbn.com/cover/0861128273_72.jpg	Brimax Books	0
+0333493400	9780333493403	The Church Cat Abroad (Picturemac)		http://www.openisbn.com/cover/0333493400_72.jpg	MacMillan Publishing Company	0
+3817132352	9783817132355	Die Elemente, Buch 1-13		http://www.openisbn.com/cover/3817132352_72.jpg		0
+1878734601	9781878734600	Problem-oriented Policing: Crime-specific Problems, Critical Issues, And Making POP Work		http://www.openisbn.com/cover/1878734601_72.jpg	Police Executive Research Forum	428
+1556610351	9781556610356	Love Takes Wing (Love Comes Softly)		http://www.openisbn.com/cover/1556610351_72.jpg	Bethany House Publishers	0
+0671533789	9780671533786	Bittersweet Sixteen (First Love From Silhouette #78)		http://www.openisbn.com/cover/0671533789_72.jpg	Pocket Books	186
+1555781020	9781555781026	The Girl With The Pop-Up Garden (Land Of Pleasant Dreams)		http://www.openisbn.com/cover/1555781020_72.jpg	Worlds Of Wonder	26
