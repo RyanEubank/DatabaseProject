@@ -1,4 +1,4 @@
-package src.application.server;
+package src.application.server.config;
 
 import java.io.*;
 import java.util.*;

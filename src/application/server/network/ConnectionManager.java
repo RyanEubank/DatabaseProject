@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import src.application.server.ConfigReader;
-import src.application.server.Configuration;
-import src.application.server.ConfigReader.ConfigFormatException;
+import src.application.server.config.ConfigReader;
+import src.application.server.config.Configuration;
+import src.application.server.config.ConfigReader.ConfigFormatException;
 
 public class ConnectionManager {
 
@@ -48,6 +48,13 @@ public class ConnectionManager {
 		if (this.m_properties.containsKey("password"))
 			this.m_properties.replace("password", password);
 		this.m_properties.put("password", password);
+	}
+	
+	/**
+	 * Clears the set username and password from the connection properties.
+	 */
+	public void clearProperties() {
+		this.m_properties.clear();
 	}
 	
 	/**

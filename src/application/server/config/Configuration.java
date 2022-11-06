@@ -1,9 +1,9 @@
-package src.application.server;
+package src.application.server.config;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import src.application.server.ConfigReader.ConfigFormatException;
+import src.application.server.config.ConfigReader.ConfigFormatException;
 
 public class Configuration {
 

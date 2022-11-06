@@ -52,6 +52,14 @@
 	-fx-border-radius: 2px;	
 }
 
+.table-column {
+	-fx-background-color: -border-blue;
+}
+.table-column .label {
+	-fx-font-size: 14;
+	-fx-font-family: "System";
+}
+
 #login_button {
 	-fx-font-family: "Kenyan Coffee Rg";
 	-fx-font-size: 40;
@@ -126,3 +134,11 @@
 	-fx-translate-x: 24;
 }
 
+#search_bar_box .label {
+	-fx-font-size: 12;
+}
+
+#date {
+	-fx-font-family: "Lucidia Console";
+	-fx-font-size: 14;
+}

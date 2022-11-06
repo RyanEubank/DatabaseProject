@@ -7,6 +7,8 @@ import javafx.scene.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 public class SceneManager {
 	
@@ -17,7 +19,7 @@ public class SceneManager {
 	private static SceneManager INSTANCE;
 	private static final StackPane DEFAULT_SCENE = new StackPane();
 	
-	private Stage m_stage; // the main stage for the application window.
+	private Stage m_stage; // the main application window.
 	
 	/**
 	 * Constructs a scene manager and fills in the layout for the default
@@ -81,7 +83,26 @@ public class SceneManager {
 			INSTANCE = new SceneManager();
 		return INSTANCE;
 	}
-
+	
+	/**
+	 * Loads the specified fxml scene layout and css style page from disk
+	 * and returns the scene with stylization applied.
+	 * 
+	 * @param scenePath - the path to the scene fxml file.
+	 * @param style - the path to the css file.
+	 * @param width - the width of the new scene in pixels.
+	 * @param height - the height of the new scene in pixels.
+	 * 
+	 * @return
+	 * Returns a new scene object with the given stlye applied.
+	 */
+	private Scene getStylizedScene(String scenePath, String style, int width, int height) {
+		String css = getClass().getResource(style).toExternalForm();
+		Scene scene = loadSceneFromFile(scenePath, width, height);
+		scene.getStylesheets().add(css);
+		return scene;
+	}
+	
 	/**
 	 * Loads the specified fxml and css files and paints the application window
 	 * with the resulting scene.
@@ -92,9 +113,7 @@ public class SceneManager {
 	 * @param height - the height of the resulting scene in pixels.
 	 */
 	public void loadScene(String scenePath, String style, int width, int height) {
-		String css = getClass().getResource(style).toExternalForm();
-		Scene scene = loadSceneFromFile(scenePath, width, height);
-		scene.getStylesheets().add(css);
+		Scene scene = getStylizedScene(scenePath, style, width, height);
 		this.m_stage.setScene(scene);
 		this.m_stage.show();
 	}
