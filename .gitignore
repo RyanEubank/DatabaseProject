@@ -3,3 +3,4 @@
 .classpath
 *.ini
 *.class
+config.ini
