@@ -22,12 +22,12 @@
                   <Image url="@../img/book.png" />
                </image>
             </ImageView>
-            <Text fx:id="screen_title_top" fill="#00000073" layoutX="95.0" layoutY="27.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
+            <Text fx:id="screen_title_bottom" fill="#00000073" layoutX="218.0" layoutY="721.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
             </Text>
-            <Text fx:id="screen_title_bottom" fill="#00000073" layoutX="218.0" layoutY="734.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
+            <Text fx:id="screen_title_top" fill="#00000073" layoutX="95.0" layoutY="36.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>

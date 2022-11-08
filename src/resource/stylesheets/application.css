@@ -15,6 +15,7 @@
 	-exit-red-hover: #8f3c36;
 	-select-blue: #0384fc;
 	-clicked-grey: #00000076;
+	-highlight-red: #f5e9ec;
 }
 
 #screen_title_top {
@@ -52,9 +53,10 @@
 	-fx-border-radius: 2px;	
 }
 
-.table-column {
+.table-view .column-header {
 	-fx-background-color: -border-blue;
 }
+
 .table-column .label {
 	-fx-font-size: 14;
 	-fx-font-family: "System";
@@ -134,7 +136,7 @@
 	-fx-translate-x: 24;
 }
 
-#search_bar_box .label {
+#search_bar_container .label {
 	-fx-font-size: 12;
 }
 

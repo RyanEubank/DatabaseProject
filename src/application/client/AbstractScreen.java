@@ -15,17 +15,14 @@ public class AbstractScreen {
 	private Button exit_button;
 	
 	/**
-	 * Sets the exit button action.
-	 */
-	@FXML
-	public void initialize() {
-		this.exit_button.setOnAction((event)-> OnExit());
-	}
-	
-	/**
 	 * Exits the program when the exit button is clicked.
 	 */
 	public void OnExit() {
 		System.exit(0);
+	}
+
+	@FXML
+	public void initialize() {
+		this.exit_button.setOnAction((event)-> OnExit());
 	}
 }
