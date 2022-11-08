@@ -1,4 +1,4 @@
-package src.application.client;
+package src.application.client.scenes;
 
 import java.io.IOException;
 import java.time.LocalDate;

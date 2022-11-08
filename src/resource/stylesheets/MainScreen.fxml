@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.application.client.MainScreen">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.application.client.scenes.MainScreen">
    <children>
       <StackPane fx:id="toolbar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1200.0">
          <children>
@@ -31,7 +31,7 @@
                <children>
                   <ToolBar prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
                     <items>
-                      <Button fx:id="home_button" mnemonicParsing="false" onAction="#OnHomeClicked" prefHeight="48.0" prefWidth="48.0" style="-fx-background-radius: 7;">
+                      <Button fx:id="home_button" mnemonicParsing="false" onAction="#onHomeClicked" prefHeight="48.0" prefWidth="48.0" style="-fx-background-radius: 7;">
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -47,7 +47,7 @@
                                     <Insets right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="search_bar" alignment="TOP_LEFT" onAction="#OnSearch" prefHeight="25.0" prefWidth="734.0" />
+                              <TextField fx:id="search_bar" alignment="TOP_LEFT" onAction="#onSearch" prefHeight="25.0" prefWidth="734.0" />
                               <Label text="By">
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
@@ -56,8 +56,8 @@
                            </children></HBox>
                         <MenuButton fx:id="settings_button" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" translateY="-10.0">
                           <items>
-                            <MenuItem fx:id="calendar_dropdown" mnemonicParsing="false" onAction="#OnCalendarClicked" text="Update Time" />
-                            <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" onAction="#OnLogoutClicked" text="Logout" />
+                            <MenuItem fx:id="calendar_dropdown" mnemonicParsing="false" onAction="#onCalendarClicked" text="Update Time" />
+                            <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" onAction="#onLogoutClicked" text="Logout" />
                           </items>
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -105,7 +105,7 @@
                       <RowConstraints maxHeight="251.33338419596356" minHeight="3.999969482421875" prefHeight="164.33340454101568" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="book_button" mnemonicParsing="false" onAction="#OnBookClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="book_button" mnemonicParsing="false" onAction="#onBookClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -114,7 +114,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#OnBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#onBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

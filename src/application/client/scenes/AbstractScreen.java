@@ -1,4 +1,4 @@
-package src.application.client;
+package src.application.client.scenes;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

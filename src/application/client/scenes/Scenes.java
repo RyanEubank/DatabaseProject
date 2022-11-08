@@ -1,4 +1,4 @@
-package src.application.client;
+package src.application.client.scenes;
 
 public class Scenes {
 	public static final String LOGIN_SCREEN = LoginScreen.SCREEN_LAYOUT;

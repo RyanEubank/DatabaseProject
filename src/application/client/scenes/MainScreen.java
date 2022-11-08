@@ -1,20 +1,15 @@
-package src.application.client;
+package src.application.client.scenes;
 
 import java.time.LocalDate;
 import java.util.*;
 
-import javafx.beans.value.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
-import javafx.collections.ObservableList;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
+
+import src.application.client.style.StylizedCell;
 import src.application.server.database.*;
 import src.application.server.network.ConnectionManager;
 
@@ -68,31 +63,19 @@ public class MainScreen extends AbstractScreen {
 	private Text date;
 	
 	/**
-	 * Sets up the initial layout and binds the visibility of the book search and
-	 * borrow search containers to automaticly resize when toggled.
+	 * Sets up the initial layout and displayed fields and binds the 
+	 * visibility of the book search and loan search containers to 
+	 * automaticly resize when toggled.
 	 */
 	@FXML
 	public void initialize() {
 		super.initialize();
-		
-		// bind visibility and auto resizing properties
 		bindVisibilty();
-		
-		// set placeholder nodes for empty search result sets
 		setPlaceholderCanvases();
-		
-		// initialize table columns and their cell factories to extract search 
-		// result data from objects into the table view
 		initTableColumns();
-		
-		// set row highlighting to grey out books that are checked out
-		setStyleFactory();
-		
-		// set current display date
+		this.isAvailableCol.setCellFactory(column -> new StylizedCell());
 		this.date.setText(LocalDate.now().toString());
-
-		// go to default canvas
-		OnHomeClicked();
+		onHomeClicked();
 	}
 
 	/**
@@ -132,32 +115,10 @@ public class MainScreen extends AbstractScreen {
 	}	
 	
 	/**
-	 * Enables dynamic highlighting for rows and changing availability column text 
-	 * based on book checkout status.
-	 */
-	private void setStyleFactory() {
-		String rowStyleCheckedOut = "-fx-background-color: #f5e9ec";
-		
-		// set the column text for book check out to show "UNAVAILABLE" to show 
-		// only when isAvailable = false
-		this.isAvailableCol.setCellFactory(
-			column -> new TableCell<BookSearchResult, Boolean>() 
-		{
-			@Override
-			protected void updateItem(Boolean result, boolean empty) {
-				super.updateItem(result, empty);
-				setText(empty ? "" : (result ? "" : "UNAVAILABLE"));
-			}
-		});
-
-		//book_result_table.setRowFactory();
-	}
-	
-	/**
 	 * Sets the home canvas as the active screen and hides the search bar/ book or
 	 * borrower menus.
 	 */
-	public void OnHomeClicked() {
+	public void onHomeClicked() {
 		this.book_canvas.setVisible(false);
 		this.borrower_canvas.setVisible(false);
 		this.search_bar_container.setVisible(false);
@@ -169,7 +130,7 @@ public class MainScreen extends AbstractScreen {
 	 * Sets the Book menu as the active container and hides the home and borrower 
 	 * menus.
 	 */
-	public void OnBookClicked() {
+	public void onBookClicked() {
 		this.home_canvas.setVisible(false);
 		this.book_canvas.setVisible(true);
 		this.search_type.getItems().clear();
@@ -182,7 +143,7 @@ public class MainScreen extends AbstractScreen {
 	 * Sets the borrower menu as the active container and hides the home and 
 	 * book menus.
 	 */
-	public void OnBorrowerClicked() {
+	public void onBorrowerClicked() {
 		this.home_canvas.setVisible(false);
 		this.borrower_canvas.setVisible(true);
 		this.search_type.getItems().clear();
@@ -196,7 +157,7 @@ public class MainScreen extends AbstractScreen {
 	 * the date changing to track various information such as book due dates
 	 * and overdue fees.
 	 */
-	public void OnCalendarClicked() {
+	public void onCalendarClicked() {
 		Dialog<LocalDate> dialog = new CalendarDialog();
 		Optional<LocalDate> result = dialog.showAndWait();
 		if (result.isPresent()) {
@@ -209,7 +170,7 @@ public class MainScreen extends AbstractScreen {
 	 * Clears the connection properties and returns to the application
 	 * login screen.
 	 */
-	public void OnLogoutClicked() {
+	public void onLogoutClicked() {
 		ConnectionManager.getSingleton().clearProperties();
 		SceneManager.getSingleton().loadScene(
 			Scenes.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
@@ -220,7 +181,7 @@ public class MainScreen extends AbstractScreen {
 	 * the search bar to populate the search table with results from a database
 	 * query.
 	 */
-	public void OnSearch() {
+	public void onSearch() {
 		String key = this.search_bar.getText();
 		String filter = this.search_type.getValue();
 		
@@ -241,7 +202,7 @@ public class MainScreen extends AbstractScreen {
 	 * @param filter - the criteria category filter to match search results on.
 	 */
 	private void onSearchLoans(String key, String filter) {
-		List<LoanSearchResult> results = LoanSearch.lookup(key, filter);
+		List<LoanSearchResult> results = LoanSearchHandler.lookup(key, filter);
 		this.loan_result_table.getItems().clear();
 		this.loan_result_table.getItems().addAll(results);
 	}
@@ -254,9 +215,8 @@ public class MainScreen extends AbstractScreen {
 	 * @param filter - the criteria category filter to match search results on.
 	 */
 	private void onSearchBooks(String key, String filter) {
-		List<BookSearchResult> results = BookSearch.lookup(key, filter);
+		List<BookSearchResult> results = BookSearchHandler.lookup(key, filter);
 		this.book_result_table.getItems().clear();
-		this.book_result_table.setRowFactory(null);
 		this.book_result_table.getItems().addAll(results);
 	}
 }

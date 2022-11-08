@@ -1,10 +1,8 @@
 package src.application;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import src.application.client.SceneManager;
-import src.application.client.Scenes;
+import javafx.stage.*;
+import src.application.client.scenes.*;
 
 /**
  * The main entry point for the library application. Includes a
@@ -28,6 +26,6 @@ public class MainApplication extends Application {
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		SceneManager.initialize(stage);
-		SceneManager.getSingleton().loadScene(Scenes.HOME_SCREEN, SceneManager.STYLE, 1200, 800);
+		SceneManager.getSingleton().loadScene(Scenes.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
 	}
 }

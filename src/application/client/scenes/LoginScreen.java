@@ -1,9 +1,8 @@
-package src.application.client;
+package src.application.client.scenes;
 
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-
 import src.application.server.network.LoginHandler;
 
 public class LoginScreen extends AbstractScreen {
