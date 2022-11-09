@@ -73,7 +73,14 @@ public class MainScreen extends AbstractScreen {
 		bindVisibilty();
 		setPlaceholderCanvases();
 		initTableColumns();
-		this.isAvailableCol.setCellFactory(column -> new StylizedCell());
+		
+		// initialize the cell factory to create highlighted, disabled cells
+		// when the book availabilty property is false (unavailable)
+		this.isAvailableCol.setCellFactory(
+			tableCell -> new StylizedCell<BookSearchResult, Boolean>
+				((availability) -> availability)
+		);
+		
 		this.date.setText(LocalDate.now().toString());
 		onHomeClicked();
 	}

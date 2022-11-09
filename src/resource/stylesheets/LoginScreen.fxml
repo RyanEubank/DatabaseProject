@@ -67,7 +67,7 @@
    <top>
       <ToolBar prefHeight="21.0" prefWidth="1186.0" style="-fx-background-color: #c1cad4;" BorderPane.alignment="CENTER">
         <items>
-            <HBox prefHeight="24.0" prefWidth="1159.0" />
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="1160.0" />
           <Button fx:id="exit_button" alignment="TOP_RIGHT" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" text="X" />
         </items>
       </ToolBar>
