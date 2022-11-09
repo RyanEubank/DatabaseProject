@@ -116,6 +116,45 @@
 	-fx-border-color: -clicked-grey;	
 }
 
+#checkout_checkin_button {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 16;
+	-fx-background-color: -border-blue;
+	-fx-background-radius: 7px;
+}
+
+#checkout_checkin_button:hover {
+	-fx-background-color: -select-blue; 
+	-fx-border-color: #000000; 
+	-fx-border-radius: 7px
+}
+
+#checkout_checkin_button:armed {
+	-fx-background-color: #767676;
+}
+
+#borrower_canvas .button {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 24;
+	-fx-background-color: -border-blue;
+	-fx-background-radius: 7px;
+}
+
+#borrower_canvas .button:hover {
+	-fx-background-color: -select-blue; 
+	-fx-border-color: #000000; 
+	-fx-border-radius: 7px
+}
+
+#borrower_canvas .button:armed {
+	-fx-background-color: #767676;
+}
+
+#checkout_error {
+	-fx-font-family: "System";
+	-fx-font-size: 12;
+}
+
 #settings_button {
 	-fx-background-color: -background-blue;
 }
@@ -137,10 +176,20 @@
 }
 
 #search_bar_container .label {
-	-fx-font-size: 12;
+	-fx-font-size: 14;
 }
 
 #date {
 	-fx-font-family: "Lucidia Console";
 	-fx-font-size: 14;
+}
+
+#borrower_canvas .label {
+	-fx-font-size: 20;
+}
+
+#borrower_title {
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 40;
+	
 }

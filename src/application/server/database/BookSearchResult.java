@@ -78,13 +78,4 @@ public class BookSearchResult {
 	public boolean getIsAvailable() {
 		return this.m_isAvailable.get();
 	}
-	
-	/**
-	 * Returns the availability property for the book search result.
-	 * @return
-	 *  The simple boolean property bounds to the book's availability status.
-	 */
-	public SimpleBooleanProperty AvailabilityProperty() {
-		return this.m_isAvailable;
-	}
 }

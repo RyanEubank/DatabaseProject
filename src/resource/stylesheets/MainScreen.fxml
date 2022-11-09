@@ -44,7 +44,7 @@
                            <children>
                               <Label text="Search For">
                                  <padding>
-                                    <Insets right="20.0" />
+                                    <Insets right="10.0" />
                                  </padding>
                               </Label>
                               <TextField fx:id="search_bar" alignment="TOP_LEFT" onAction="#onSearch" prefHeight="25.0" prefWidth="734.0" />
@@ -85,20 +85,20 @@
          <children>
             <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
                <left>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
                </left>
                <right>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
                </right>
                <bottom>
                   <Pane prefHeight="64.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
                </bottom>
                <center>
-                  <GridPane BorderPane.alignment="CENTER">
+                  <GridPane BorderPane.alignment="BOTTOM_CENTER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="484.0" minWidth="10.0" prefWidth="378.6666666666667" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="215.3333740234375" minWidth="0.0" prefWidth="42.666666666666686" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="396.0" minWidth="10.0" prefWidth="379.33329264322913" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="0.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints maxHeight="488.0000305175781" minHeight="10.0" prefHeight="353.33326212565106" vgrow="ALWAYS" />
@@ -114,7 +114,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#onBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#onBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -124,12 +124,22 @@
                            </graphic>
                         </Button>
                         <Label text="Books" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Label text="Borrowers" textFill="#00000073" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label text="Borrowers" textFill="#00000073" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Button fx:id="loan_button" mnemonicParsing="false" onAction="#onLoanClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/money.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label text="Loans" textFill="#00000073" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </center>
             </BorderPane>
-            <BorderPane fx:id="book_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
+            <BorderPane fx:id="book_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
                <center>
                   <TableView fx:id="book_result_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                     <columns>
@@ -150,7 +160,7 @@
                   <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <BorderPane fx:id="borrower_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
+            <BorderPane fx:id="loan_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
                <top>
                   <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
                </top>
@@ -168,7 +178,7 @@
                     <columns>
                         <TableColumn prefWidth="85.0" text="Loan ID" />
                       <TableColumn prefWidth="85.0" text="Borrower ID" />
-                      <TableColumn prefWidth="330.0" text="Name" />
+                      <TableColumn prefWidth="335.0" text="Name" />
                         <TableColumn minWidth="0.0" prefWidth="200.0" text="ISBN" />
                         <TableColumn prefWidth="120.0" text="Check Out Date" />
                         <TableColumn prefWidth="120.0" text="Due Date" />
@@ -176,11 +186,60 @@
                     </columns>
                   </TableView>
                </center></BorderPane>
+            <BorderPane fx:id="borrower_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
+               <left>
+                  <Pane prefHeight="430.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </left>
+               <bottom>
+                  <Pane prefHeight="125.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+               </bottom>
+               <right>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <AnchorPane prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="user_ssn_field" layoutX="250.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
+                        <Label layoutX="65.0" layoutY="25.0" text="SSN" textFill="#00000073" />
+                        <Label layoutX="65.0" layoutY="75.0" text="First Name" textFill="#00000073" />
+                        <Label layoutX="65.0" layoutY="125.0" text="Last Name" textFill="#00000073" />
+                        <Label layoutX="65.0" layoutY="175.0" text="Address" textFill="#00000073" />
+                        <Label layoutX="65.0" layoutY="225.0" text="Phone Number" textFill="#00000073" />
+                        <TextField fx:id="user_fname_field" layoutX="250.0" layoutY="71.0" prefWidth="300.0" />
+                        <TextField fx:id="user_lname_field" layoutX="250.0" layoutY="121.0" prefWidth="300.0" />
+                        <TextField fx:id="user_address_field" layoutX="250.0" layoutY="171.0" prefWidth="300.0" />
+                        <TextField fx:id="user_phone_field" layoutX="250.0" layoutY="221.0" prefWidth="300.0" />
+                        <StackPane layoutY="288.0" prefHeight="86.0" prefWidth="800.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onCreateUser" prefHeight="86.0" prefWidth="193.0" text="Create User" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+               <top>
+                  <StackPane prefHeight="125.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text fx:id="borrower_title" fill="#00000073" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrower Management" />
+                     </children>
+                  </StackPane>
+               </top>
+            </BorderPane>
          </children>
       </StackPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
          <children>
             <Text fx:id="date" layoutX="589.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <HBox alignment="CENTER_RIGHT" layoutX="618.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
+               <children>
+                  <Label fx:id="checkout_error" text="Label" textFill="RED">
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="checkout_checkin_button" mnemonicParsing="false" onAction="#onCheckInOrOutClicked" prefHeight="32.0" prefWidth="116.0" text="Button" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>
