@@ -1,13 +1,19 @@
 package src.application.server.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
 import javafx.beans.property.*;
+import src.application.server.sql.IResultFactory;
 
 public class BookSearchResult {
 
 	private final SimpleStringProperty m_isbn;
 	private final SimpleStringProperty m_title;
-	private final SimpleStringProperty m_authors;
+	private final SimpleStringProperty m_authorList;
 	private final SimpleBooleanProperty m_isAvailable;
+	private final Set<String> m_authors;
 	
 	/**
 	 * Constructs a new book search result to populate the search table
@@ -18,20 +24,21 @@ public class BookSearchResult {
 	 * @param isAvailable - whether the book is avaiable to check out or alredy loaned.
 	 * @param authors - a string array of the authors that wrote the book.
 	 */
-	public BookSearchResult(String isbn, String title, boolean isAvailable, String...authors) {
+	public BookSearchResult(
+		String isbn, String title, boolean isAvailable, String...authors
+	) {
 		this.m_isbn = new SimpleStringProperty(isbn);
 		this.m_title = new SimpleStringProperty(title);
 		this.m_isAvailable = new SimpleBooleanProperty(isAvailable);
 		
-		// read each author and construct a comma seperated list to populate the authors column
-		String authorsList = "";
-		for (int i = 0; i < authors.length; i++) {
-			authorsList += authors[i];
-			if (i < authors.length - 1)
-				authorsList += ", ";
-		}
+		// get each unique author passed in and store them as
+		// a comma seperated list
+		this.m_authors = new HashSet<>();
+		for (String author : authors) 
+			this.m_authors.add(author);
 		
-		this.m_authors = new SimpleStringProperty(authorsList);
+		String authorsList = String.join(",", this.m_authors);
+		this.m_authorList = new SimpleStringProperty(authorsList);
 	}
 	
 	/**
@@ -64,7 +71,20 @@ public class BookSearchResult {
 	 * Returns a comma seperated list of the authors as a string.
 	 */
 	public String getAuthors() { 
-		return this.m_authors.get();
+		return this.m_authorList.get();
+	}
+	
+	/**
+	 * Returns whether another BookSearchResult has the same isbn.
+	 * 
+	 * @return
+	 * 	True if the other BookSearchResult has the same isbn as this one.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof BookSearchResult))
+			return false;
+		return ((BookSearchResult) o).getIsbn().equals(this.getIsbn());
 	}
 	
 	/**
@@ -77,5 +97,26 @@ public class BookSearchResult {
 	 */
 	public boolean getIsAvailable() {
 		return this.m_isAvailable.get();
+	}
+	
+	public static class Builder 
+		implements IResultFactory<BookSearchResult> {
+
+		@Override
+		public BookSearchResult createInstance(
+			ResultSet results) throws SQLException 
+		{
+			String isbn = results.getString("isbn");
+			String title = results.getString("title");
+			boolean isAvailable = results.getBoolean("isAvailable");
+			String author = results.getString("author");
+			return new BookSearchResult(isbn, title, isAvailable, author);
+		}
+
+		@Override
+		public void aggregate(BookSearchResult duplicate, BookSearchResult record) {
+			duplicate.m_authors.addAll(record.m_authors);
+		}
+		
 	}
 }
