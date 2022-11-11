@@ -24,7 +24,7 @@ def readFile(file, delim, output, extract):
 def insertBooks(isbn, title, output):
     output.write(
         "INSERT INTO Library.Book VALUES (" 
-        + isbn + ", " + title + ")\n"
+        + isbn + ", " + title + ");\n"
     )
 
 # constructs insert statements to populate library.authors
@@ -88,5 +88,11 @@ def constructBorrowerAndLoanInserts(record, output):
     name = record[2] + " " + record[3]
     address = record[5] + ", " + record[6] + ", " + record[7]
     phone = record[8]
+
+    output.write(
+        "INSERT INTO Library.Borrower VALUES ("
+        + str(borrower_id) + ", " + ssn + ", " + name
+        + ", " + address + ", " + phone + ");\n"
+    )
 
 main()
