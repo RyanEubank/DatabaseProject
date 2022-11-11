@@ -1,7 +1,6 @@
 import sys
 
 author_id = 0
-max_title = 0
 
 def main():
     books = open(sys.argv[1], "r", encoding="utf-8")
@@ -66,8 +65,7 @@ def constructBookAndAuthorInserts(record, output):
         print("Rejected (no title): " + str(record))
         return
     title = "\"" + record[2] + "\""
-    global max_title
-    max_title = max(max_title, len(record[2]))
+
     # author must also be non null
     if (len(record[3]) == 0):
         print("Rejected (no author): " + str(record))
@@ -92,4 +90,3 @@ def constructBorrowerAndLoanInserts(record, output):
     phone = record[8]
 
 main()
-print("maximum title length is: " + str(max_title))
