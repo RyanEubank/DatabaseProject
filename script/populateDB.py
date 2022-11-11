@@ -87,7 +87,7 @@ def constructBorrowerAndLoanInserts(record, output):
     ssn = "\"" + record[1][0:2] + record[1][4:5] + record[1][7:10] + "\""
     name = "\"" + record[2] + " " + record[3] + "\""
     address = "\"" + record[5] + ", " + record[6] + ", " + record[7] + "\""
-    phone = "\"" + record[8] + "\""
+    phone = "\"" + record[8][:len(record[8]) - 1] + "\""
 
     output.write(
         "INSERT INTO Library.Borrower VALUES ("
