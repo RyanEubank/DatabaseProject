@@ -1,7 +1,6 @@
 import sys
 
 author_id = 0
-max_title = 0
 
 def main():
     books = open(sys.argv[1], "r", encoding="utf-8")
@@ -25,7 +24,7 @@ def readFile(file, delim, output, extract):
 def insertBooks(isbn, title, output):
     output.write(
         "INSERT INTO Library.Book VALUES (" 
-        + isbn + ", " + title + ")\n"
+        + isbn + ", " + title + ");\n"
     )
 
 # constructs insert statements to populate library.authors
@@ -66,8 +65,7 @@ def constructBookAndAuthorInserts(record, output):
         print("Rejected (no title): " + str(record))
         return
     title = "\"" + record[2] + "\""
-    global max_title
-    max_title = max(max_title, len(record[2]))
+
     # author must also be non null
     if (len(record[3]) == 0):
         print("Rejected (no author): " + str(record))
@@ -91,5 +89,10 @@ def constructBorrowerAndLoanInserts(record, output):
     address = record[5] + ", " + record[6] + ", " + record[7]
     phone = record[8]
 
+    output.write(
+        "INSERT INTO Library.Borrower VALUES ("
+        + str(borrower_id) + ", " + ssn + ", " + name
+        + ", " + address + ", " + phone + ");\n"
+    )
+
 main()
-print("maximum title length is: " + str(max_title))
