@@ -6,20 +6,20 @@ DROP TABLE IF EXISTS Library.Book;
 DROP TABLE IF EXISTS Library.Borrower;
 
 CREATE TABLE Library.Book(
-	isbn		CHAR(13),
-	title		VARCHAR(100)	NOT NULL,
+	isbn		CHAR(17),
+	title		NVARCHAR(200)	NOT NULL,
 	CONSTRAINT pk_book PRIMARY KEY (isbn)
 );
 
 CREATE TABLE Library.Authors(
 	author_id	INT,
-	name		VARCHAR(50)	NOT NULL,
+	name		NVARCHAR(50)	NOT NULL,
 	CONSTRAINT pk_author PRIMARY KEY (author_id)
 );
 
 CREATE TABLE Library.Book_Authors(
 	author_id	INT,
-	isbn		CHAR(13),
+	isbn		CHAR(17),
 	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn),
 	CONSTRAINT fk_authorid_authors FOREIGN KEY (author_id) REFERENCES Library.Authors(author_id),
 	CONSTRAINT fk_isbn_bookauthors FOREIGN KEY (isbn) REFERENCES Library.Book(isbn)
@@ -27,16 +27,16 @@ CREATE TABLE Library.Book_Authors(
 
 CREATE TABLE Library.Borrower(
 	card_id		INT,
-	ssn		CHAR(9)		NOT NULL,
-	bname		VARCHAR(50)	NOT NULL,
-	address		VARCHAR(100),
-	phone		CHAR(10),
+	ssn		CHAR(11)	NOT NULL,
+	bname		NVARCHAR(50)	NOT NULL,
+	address		NVARCHAR(100),
+	phone		CHAR(14),
 	CONSTRAINT pk_borrower PRIMARY KEY (card_id)
 );
 
 CREATE TABLE Library.Book_Loans(
 	loan_id		INT,
-	isbn		CHAR(13),
+	isbn		CHAR(17),
 	card_id		INT,
 	date_out	DATE		NOT NULL,
 	due_date	DATE		NOT NULL,
