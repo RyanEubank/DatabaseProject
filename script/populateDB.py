@@ -83,11 +83,11 @@ def constructBookAndAuthorInserts(record, output):
 # constructs insert statements for borrowers, loans and 
 # fines in the library database
 def constructBorrowerAndLoanInserts(record, output):
-    borrower_id = record[0][2:7]
-    ssn = record[1][0:2] + record[1][4:5] + record[1][7:10]
-    name = record[2] + " " + record[3]
-    address = record[5] + ", " + record[6] + ", " + record[7]
-    phone = record[8]
+    borrower_id = record[0][2:8]
+    ssn = "\"" + record[1][0:2] + record[1][4:5] + record[1][7:10] + "\""
+    name = "\"" + record[2] + " " + record[3] + "\""
+    address = "\"" + record[5] + ", " + record[6] + ", " + record[7] + "\""
+    phone = "\"" + record[8] + "\""
 
     output.write(
         "INSERT INTO Library.Borrower VALUES ("
