@@ -1,6 +1,7 @@
 /bin/
-.project
-.classpath
+*.project
+*.classpath
+*.vs
 *.class
-config.ini
+*.ini
 /script/populate.sql
