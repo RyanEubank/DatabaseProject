@@ -21,7 +21,7 @@ public class QueryHandler {
 	 * @return
 	 * Returns a list of the records retrieved from the database.
 	 */
-	static <T> List<T> queryDB(
+	public static <T> List<T> queryDB(
 		String sqlStatement, IResultFactory<T> factory, String... subqueries
 	) {
 		List<T> extractedValues = null;
@@ -37,7 +37,7 @@ public class QueryHandler {
 			e.printStackTrace();
 		}
 		
-		return Optional.of(extractedValues).orElse(Collections.emptyList());
+		return Optional.ofNullable(extractedValues).orElse(Collections.emptyList());
 	}
 
 	/**
@@ -55,9 +55,10 @@ public class QueryHandler {
 	) throws SQLException {
 		// sanitize and insert subqueries into the sql statement to 
 		// prevent injection
-		for (int i = 0; i < subqueries.length; i++)
-			statement.setString(i, subqueries[i]);
-		
+		if (subqueries.length > 0) {
+			for (int i = 0; i < subqueries.length; i++)
+				statement.setString(i, subqueries[i]);
+		}
 		// execute the query and return the results list
 		ResultSet results = statement.executeQuery();
 		return extractResultsToList(results, factory);

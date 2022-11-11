@@ -109,7 +109,7 @@ public class BookSearchResult {
 			String isbn = results.getString("isbn");
 			String title = results.getString("title");
 			boolean isAvailable = results.getBoolean("isAvailable");
-			String author = results.getString("author");
+			String author = results.getString("name");
 			return new BookSearchResult(isbn, title, isAvailable, author);
 		}
 
