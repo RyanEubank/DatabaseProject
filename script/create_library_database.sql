@@ -18,6 +18,11 @@ CREATE TABLE Library.Authors(
 	author_id	INT	AUTO_INCREMENT,
 	name		VARCHAR(50) CHARACTER SET UTF8MB4	NOT NULL,
 	CONSTRAINT pk_author PRIMARY KEY (author_id)
+
+	-- Cannot have a unique key for author in case 2 authors 
+	-- have the same name, this will result in multiple entries 
+	-- for authors who write multiple books but no way of knowing 
+	-- from csv whether duplicate is actually the same person
 );
 
 CREATE TABLE Library.Book_Authors(
@@ -34,7 +39,9 @@ CREATE TABLE Library.Borrower(
 	bname		VARCHAR(50) CHARACTER SET UTF8MB4	NOT NULL,
 	address		VARCHAR(100) CHARACTER SET UTF8MB4,
 	phone		CHAR(14) CHARACTER SET UTF8MB4,
-	CONSTRAINT pk_borrower PRIMARY KEY (card_id)
+	CONSTRAINT pk_borrower PRIMARY KEY (card_id),
+	CONSTRAINT uk_borrower_ssn UNIQUE KEY (ssn),
+	CONSTRAINT uk_borrower_name_addr_phone UNIQUE KEY (bname, address, phone)
 );
 
 CREATE TABLE Library.Book_Loans(
@@ -45,6 +52,7 @@ CREATE TABLE Library.Book_Loans(
 	due_date	DATE		NOT NULL,
 	date_in		DATE,
 	CONSTRAINT pk_book_loans PRIMARY KEY (loan_id),
+	CONSTRAINT uk_loans UNIQUE KEY (isbn),
 	CONSTRAINT fk_isbn_bookloans FOREIGN KEY (isbn) REFERENCES Library.Book(isbn),
 	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id)
 );

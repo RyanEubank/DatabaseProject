@@ -106,6 +106,15 @@ public class BookSearchResult {
 		return this.m_isAvailable.get();
 	}
 	
+	/**
+	 * Sets the availabilty flag of the book to the given boolean value.
+	 * 
+	 * @param value - the book's new availability
+	 */
+	public void setIsAvailable(boolean value) {
+		this.m_isAvailable.set(value);
+	}
+	
 	public static class Builder 
 		implements IResultFactory<BookSearchResult> {
 

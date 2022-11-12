@@ -17,7 +17,7 @@ public class CheckoutHandler {
 	 */
 	public static boolean checkoutBook(String isbn, int borrowerID) {
 		ConnectionManager connMgr = ConnectionManager.getSingleton();
-		String insertLoanStatement = "INSERT INTO Library.Book_Loans VALUES (?, ?, ?, ?, ?, ?);";
+		String insertLoanStatement = "INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) VALUES (?, ?, ?, ?);";
 		
 		try (
 			Connection conn = connMgr.getConnection();
@@ -25,7 +25,6 @@ public class CheckoutHandler {
 		) {
 			insertValuesIntoStatement(conn, ps, isbn, borrowerID);
 			int rowCount = ps.executeUpdate();
-			System.out.println(rowCount);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -63,11 +62,11 @@ public class CheckoutHandler {
 		int borrowerID, Date checkout, Date due
 	) throws SQLException {
 		// card_id is auto-incremented, do not need to specify in insert
-		ps.setString(0, isbn);
-		ps.setInt(1, borrowerID);
-		ps.setDate(2, checkout);
-		ps.setDate(3, due);
-		ps.setDate(4, null);
+		ps.setString(1, isbn);
+		ps.setInt(2, borrowerID);
+		ps.setDate(3, checkout);
+		ps.setDate(4, due);
+		// date in is null for new loans
 	}
 
 	/**

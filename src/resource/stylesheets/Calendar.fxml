@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <buttonTypes>
       <ButtonType fx:constant="OK" />
@@ -15,8 +14,8 @@
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <DatePicker fx:id="calendar" layoutX="41.0" layoutY="30.0" onAction="#OnSelectDate" prefHeight="25.0" prefWidth="217.0" />
-            <Text layoutX="60.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type (mm/dd/yyyy) or Select Date" />
+            <DatePicker fx:id="calendar" layoutX="41.0" layoutY="30.0" prefHeight="25.0" prefWidth="217.0" />
+            <Text layoutX="60.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type mm/dd/yyyy or Select Date" />
          </children>
       </AnchorPane>
    </content>

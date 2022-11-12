@@ -1,5 +1,6 @@
 package src.application.server.database;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -42,7 +43,7 @@ public class LoanSearchResult {
 		return this.m_name.get();
 	}
 	
-	public String getISBN() {
+	public String getIsbn() {
 		return this.m_isbn.get();
 	}
 	
@@ -75,7 +76,12 @@ public class LoanSearchResult {
 			String isbn = results.getString("isbn");
 			LocalDate checkedOut = results.getDate("date_out").toLocalDate();
 			LocalDate due = results.getDate("due_date").toLocalDate();
-			LocalDate checkedIn = results.getDate("date_in").toLocalDate();
+			
+			LocalDate checkedIn = null;
+			Date d = results.getDate("date_in");
+			if (d != null)
+				checkedIn = d.toLocalDate();
+			
 			return new LoanSearchResult(loanID, borrowerID, name, isbn, checkedOut, due, checkedIn);
 		}
 

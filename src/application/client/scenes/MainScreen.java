@@ -49,7 +49,7 @@ public class MainScreen extends AbstractScreen {
 	@FXML
 	private TableView<BookSearchResult> book_result_table;
 	@FXML
-	private TableColumn<BookSearchResult, String> isbnCol;
+	private TableColumn<BookSearchResult, String> bookIsbnCol;
 	@FXML
 	private TableColumn<BookSearchResult, String> titleCol;
 	@FXML
@@ -61,13 +61,6 @@ public class MainScreen extends AbstractScreen {
 	// the borrower button on the home canvas
 	@FXML
 	private BorderPane borrower_canvas;
-	
-	// GUI components for the loan search canvas opened by clicking the loan
-	// button on the home canvas
-	@FXML
-	private BorderPane loan_canvas;
-	@FXML
-	private TableView<LoanSearchResult> loan_result_table;
 	@FXML
 	private TextField user_ssn_field;
 	@FXML
@@ -78,7 +71,28 @@ public class MainScreen extends AbstractScreen {
 	private TextField user_address_field;
 	@FXML
 	private TextField user_phone_field;
-
+	
+	// GUI components for the loan search canvas opened by clicking the loan
+	// button on the home canvas
+	@FXML
+	private BorderPane loan_canvas;
+	@FXML
+	private TableView<LoanSearchResult> loan_result_table;
+	@FXML
+	private TableColumn<LoanSearchResult, Integer> loanIDCol;
+	@FXML
+	private TableColumn<LoanSearchResult, Integer> cardIDCol;
+	@FXML
+	private TableColumn<LoanSearchResult, String> borrowerCol;
+	@FXML
+	private TableColumn<LoanSearchResult, String> loanIsbnCol;
+	@FXML
+	private TableColumn<LoanSearchResult, LocalDate> checkoutCol;
+	@FXML
+	private TableColumn<LoanSearchResult, LocalDate> dueDateCol;
+	@FXML
+	private TableColumn<LoanSearchResult, LocalDate> checkinCol;
+	
 	// table placeholders
 	private Text book_search_progress;
 	private Text loan_search_progress;
@@ -93,7 +107,8 @@ public class MainScreen extends AbstractScreen {
 		super.initialize();
 		bindVisibilty();
 		setPlaceholderCanvases();
-		initTableColumns();
+		initBookTableColumns();
+		initLoanTableColumns();
 		
 		// initialize the cell factory to style rows based on the book availabilty
 		// value set in the isAvailable column
@@ -115,7 +130,8 @@ public class MainScreen extends AbstractScreen {
 		this.home_canvas.managedProperty().bind(this.home_canvas.visibleProperty());
 		this.book_canvas.managedProperty().bind(this.book_canvas.visibleProperty());
 		this.loan_canvas.managedProperty().bind(this.loan_canvas.visibleProperty());
-		this.borrower_canvas.managedProperty().bind(this.borrower_canvas.visibleProperty());
+		this.borrower_canvas.managedProperty()
+			.bind(this.borrower_canvas.visibleProperty());
 	}
 	
 	/**
@@ -130,18 +146,29 @@ public class MainScreen extends AbstractScreen {
 	
 	/**
 	 * Sets the binding between columns and the respective properties
-	 * defined in the BookSearchResuly populating the table.
+	 * defined in the BookSearchResult objects used to populate the book table.
 	 */
-	private void initTableColumns() {
-		this.isbnCol.setCellValueFactory(
-			new PropertyValueFactory<BookSearchResult, String>("isbn"));
-		this.titleCol.setCellValueFactory(
-			new PropertyValueFactory<BookSearchResult, String>("title"));
-		this.authorCol.setCellValueFactory(
-			new PropertyValueFactory<BookSearchResult, String>("authors"));
-		this.isAvailableCol.setCellValueFactory(
-			new PropertyValueFactory<BookSearchResult, Boolean>("isAvailable"));
-	}	
+	private void initBookTableColumns() {
+		this.bookIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		this.titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+		this.authorCol.setCellValueFactory(new PropertyValueFactory<>("authors"));
+		this.isAvailableCol.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
+	}
+	
+	/**
+	 * Sets the binding between columns and the respective properties
+	 * defined in the LoanSearchResult objects used to populate the loan
+	 * table.
+	 */
+	private void initLoanTableColumns() {
+		this.loanIDCol.setCellValueFactory(new PropertyValueFactory<>("loanID"));
+		this.cardIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
+		this.borrowerCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		this.loanIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		this.checkoutCol.setCellValueFactory(new PropertyValueFactory<>("checkoutDate"));
+		this.dueDateCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+		this.checkinCol.setCellValueFactory(new PropertyValueFactory<>("checkinDate"));
+	}
 	
 	/**
 	 * Sets the home canvas as the active screen and hides the 
@@ -203,7 +230,8 @@ public class MainScreen extends AbstractScreen {
 	 * and overdue fees.
 	 */
 	public void onCalendarClicked() {
-		Dialog<LocalDate> dialog = new CalendarDialog();
+		Dialog<LocalDate> dialog = new CalendarDialog(
+			"/src/resource/stylesheets/Calendar.fxml");
 		Optional<LocalDate> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			DatabaseUpdater.setDate(result.get());
@@ -265,8 +293,26 @@ public class MainScreen extends AbstractScreen {
 			this.checkout_error.setText("No book is selected.");
 		else if (!selection.getIsAvailable())
 			this.checkout_error.setText("Book is unavailable!");
-		else
-			CheckoutHandler.checkoutBook(selection.getIsbn());
+		else 
+			checkoutBook(selection);
+	}
+	
+	/**
+	 * 
+	 * @param book
+	 */
+	private void checkoutBook(BookSearchResult book) {
+		Dialog<Integer> dialog = new CheckoutDialog(
+			"/src/resource/stylesheets/Checkout.fxml");
+		Optional<Integer> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			if (!CheckoutHandler.checkoutBook(book.getIsbn(), result.get())) {
+				this.checkout_error.setText(
+					"Borrower ID: (" + result.get() + ") not found!");
+			}
+			book.setIsAvailable(false);
+			this.book_result_table.refresh();
+		}
 	}
 	
 	/**
