@@ -1,3 +1,6 @@
+DROP SCHEMA IF EXISTS Library;
+CREATE SCHEMA Library;
+
 DROP TABLE IF EXISTS Library.Book_Authors;
 DROP TABLE IF EXISTS Library.Authors;
 DROP TABLE IF EXISTS Library.Fines;
@@ -12,7 +15,7 @@ CREATE TABLE Library.Book(
 );
 
 CREATE TABLE Library.Authors(
-	author_id	INT,
+	author_id	INT	AUTO_INCREMENT,
 	name		VARCHAR(50) CHARACTER SET UTF8MB4	NOT NULL,
 	CONSTRAINT pk_author PRIMARY KEY (author_id)
 );
@@ -20,13 +23,13 @@ CREATE TABLE Library.Authors(
 CREATE TABLE Library.Book_Authors(
 	author_id	INT,
 	isbn		CHAR(17) CHARACTER SET UTF8MB4,
-	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn) AUTO INCREMENT,
+	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn),
 	CONSTRAINT fk_authorid_authors FOREIGN KEY (author_id) REFERENCES Library.Authors(author_id),
 	CONSTRAINT fk_isbn_bookauthors FOREIGN KEY (isbn) REFERENCES Library.Book(isbn)
 );
 
 CREATE TABLE Library.Borrower(
-	card_id		INT,
+	card_id		INT	AUTO_INCREMENT,
 	ssn		CHAR(11) CHARACTER SET UTF8MB4	NOT NULL,
 	bname		VARCHAR(50) CHARACTER SET UTF8MB4	NOT NULL,
 	address		VARCHAR(100) CHARACTER SET UTF8MB4,
@@ -35,7 +38,7 @@ CREATE TABLE Library.Borrower(
 );
 
 CREATE TABLE Library.Book_Loans(
-	loan_id		INT,
+	loan_id		INT	AUTO_INCREMENT,
 	isbn		CHAR(17) CHARACTER SET UTF8MB4,
 	card_id		INT,
 	date_out	DATE		NOT NULL,
