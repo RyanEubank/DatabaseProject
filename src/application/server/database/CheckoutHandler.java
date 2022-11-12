@@ -9,6 +9,12 @@ import src.application.server.network.ConnectionManager;
 
 public class CheckoutHandler {
 
+	/**
+	 * 
+	 * @param isbn
+	 * @param borrowerID
+	 * @return
+	 */
 	public static boolean checkoutBook(String isbn, int borrowerID) {
 		ConnectionManager connMgr = ConnectionManager.getSingleton();
 		String insertLoanStatement = "INSERT INTO Library.Book_Loans VALUES (?, ?, ?, ?, ?, ?);";

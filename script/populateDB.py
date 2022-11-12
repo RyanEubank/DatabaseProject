@@ -64,9 +64,16 @@ def constructBookAndAuthorInserts(record, output):
     if (len(record[2]) == 0):
         print("Rejected (no title): " + str(record))
         return
+    # check for irregularities like quotes and escapsed '&' -> &amp;
+    record[2] = record[2].replace("&amp;", "&")
+    if record[2].startswith("\"") and record[2].endswith("\""):
+        record[2] = record[2][1:-1]
+        record[2] = record[2].replace("\"\"", "\\\"")
+
     title = "\"" + record[2] + "\""
 
     # author must also be non null
+    record[3] = record[3].replace("&amp;", "&")
     if (len(record[3]) == 0):
         print("Rejected (no author): " + str(record))
         return
