@@ -57,6 +57,12 @@ CREATE TABLE Library.Book_Loans(
 	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id)
 );
 
+CREATE ASSERTION Loan_Maximum CHECK (NOT EXISTS (
+	SELECT COUNT(*) as num_loans FROM Library.Book_Loans AS bl 
+	GROUP BY bl.card_id HAVING num_loans > 3)
+);
+
+
 CREATE TABLE Library.Fines(
 	loan_id		INT,
 	fine_amt	DECIMAL(10, 2)	NOT NULL,
