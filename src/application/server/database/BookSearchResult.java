@@ -11,9 +11,9 @@ public class BookSearchResult {
 
 	private final SimpleStringProperty m_isbn;
 	private final SimpleStringProperty m_title;
-	private final SimpleStringProperty m_authorList;
 	private final SimpleBooleanProperty m_isAvailable;
 	private final Set<String> m_authors;
+	private SimpleStringProperty m_authorList;
 	
 	/**
 	 * Constructs a new book search result to populate the search table
@@ -37,7 +37,14 @@ public class BookSearchResult {
 		for (String author : authors) 
 			this.m_authors.add(author);
 		
-		String authorsList = String.join(",", this.m_authors);
+		fillAuthorsColumn();
+	}
+
+	/**
+	 * 
+	 */
+	private void fillAuthorsColumn() {
+		String authorsList = String.join(", ", this.m_authors);
 		this.m_authorList = new SimpleStringProperty(authorsList);
 	}
 	
@@ -116,6 +123,7 @@ public class BookSearchResult {
 		@Override
 		public void aggregate(BookSearchResult duplicate, BookSearchResult record) {
 			duplicate.m_authors.addAll(record.m_authors);
+			duplicate.fillAuthorsColumn();
 		}
 		
 	}

@@ -8,7 +8,8 @@ public class StylizedCell<T, R> extends TableCell<T, R> {
 	
 	private static final String ROW_STYLE = "-fx-background-color: #f5e9ec";
 	private final Predicate<R> m_activation;
-	private final String m_text;
+	private final String m_activeText;
+	private final String m_inactiveText;
 	
 	/**
 	 * Constructs a StylizedCell with the specified activation
@@ -19,9 +20,10 @@ public class StylizedCell<T, R> extends TableCell<T, R> {
 	 * determine the style and if the cell's row is active or disabled.
 	 * @param text - the text to display if the row is disabled.
 	 */
-	public StylizedCell(Predicate<R> activateRow, String text) {
+	public StylizedCell(Predicate<R> activateRow, String activeText, String inactiveText) {
 		this.m_activation = activateRow;
-		this.m_text = text;
+		this.m_activeText = activeText;
+		this.m_inactiveText = inactiveText;
 	}
 	
 	/**
@@ -49,7 +51,7 @@ public class StylizedCell<T, R> extends TableCell<T, R> {
 	 */
 	private void setStyleInactive(TableRow<T> row) {
 		row.setStyle(ROW_STYLE);
-		this.setText(m_text);
+		this.setText(m_inactiveText);
 		row.setDisable(true);
 	}
 
@@ -61,7 +63,7 @@ public class StylizedCell<T, R> extends TableCell<T, R> {
 	 */
 	private void setStyleActive(TableRow<T> row) {
 		row.setStyle("");
-		this.setText("");
+		this.setText(m_activeText);
 		row.setDisable(false);
 	}
 }

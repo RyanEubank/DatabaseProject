@@ -53,14 +53,14 @@
                   <Image url="@../img/lock.png" />
                </image>
             </ImageView>
-            <TextField fx:id="username" layoutX="200.0" layoutY="306.0" prefHeight="35.0" prefWidth="300.0" promptText="username" />
+            <TextField fx:id="username" layoutX="200.0" layoutY="306.0" onAction="#onLoginClicked" prefHeight="35.0" prefWidth="300.0" promptText="username" />
             <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="72.0" prefWidth="175.0" text="Login" textFill="#0000007f">
                <font>
                   <Font name="Arial" size="46.0" />
                </font>
             </Button>
             <Label fx:id="incorrect_login_label" layoutX="199.0" layoutY="271.0" textFill="#bc0b0b" />
-            <PasswordField fx:id="password" layoutX="200.0" layoutY="406.0" prefHeight="35.0" prefWidth="300.0" promptText="password" />
+            <PasswordField fx:id="password" layoutX="200.0" layoutY="406.0" onAction="#onLoginClicked" prefHeight="35.0" prefWidth="300.0" promptText="password" />
          </children>
       </AnchorPane>
    </center>

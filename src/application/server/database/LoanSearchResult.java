@@ -1,8 +1,11 @@
 package src.application.server.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javafx.beans.property.*;
+import src.application.server.sql.IResultFactory;
 
 public class LoanSearchResult {
 
@@ -53,5 +56,35 @@ public class LoanSearchResult {
 	
 	public LocalDate getCheckinDate() {
 		return this.m_checkinDate.get();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof LoanSearchResult))
+			return false;
+		return this.getLoanID() == ((LoanSearchResult) o).getLoanID();
+	}
+	
+	public static class Builder implements IResultFactory<LoanSearchResult> {
+
+		@Override
+		public LoanSearchResult createInstance(ResultSet results) throws SQLException {
+			int loanID = results.getInt("loan_id");
+			int borrowerID = results.getInt("card_id");
+			String name = results.getString("bname");
+			String isbn = results.getString("isbn");
+			LocalDate checkedOut = results.getDate("date_out").toLocalDate();
+			LocalDate due = results.getDate("due_date").toLocalDate();
+			LocalDate checkedIn = results.getDate("date_in").toLocalDate();
+			return new LoanSearchResult(loanID, borrowerID, name, isbn, checkedOut, due, checkedIn);
+		}
+
+		@Override
+		public void aggregate(LoanSearchResult duplicate, LoanSearchResult record) {
+			// unlike books, there are no multivalued attributes in loans so no 
+			// duplicates should appear in query
+			throw new RuntimeException("Duplicate loan returned from search.");
+		}
+		
 	}
 }

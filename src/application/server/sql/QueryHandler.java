@@ -41,12 +41,22 @@ public class QueryHandler {
 	}
 
 	/**
-	 * @param <T>
-	 * @param factory
-	 * @param statement
-	 * @param subqueries
+	 * Initializes the full query string safely with user subqueries and executes
+	 * the qeury to obtain a result set that is collected and returned as a list 
+	 * of records.
+	 * 
+	 * @param <T> - the type of record the sql statement returns.
+	 * 
+	 * @param factory - the factory used to construct record
+	 *  objects and populate their fields with the query result.
+	 * @param statement - the prepared statement that subqueries will fill in.
+	 * @param subqueries - the list of user subqueries to insert.
+	 * 
 	 * @return
+	 *  Returns a list of records from search results.
+	 * 
 	 * @throws SQLException
+	 *  Throws an exception if there is an error with querying the database.
 	 */
 	private static <T> List<T> getQueryResult(
 		IResultFactory<T> factory, 

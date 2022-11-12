@@ -39,7 +39,7 @@ public class MainScreen extends AbstractScreen {
 	private Text date;
 	@FXML
 	private Button checkout_checkin_button;
-	
+
 	// GUI components for the book search canvas opened by clicking the books
 	// button on the home canvas
 	@FXML
@@ -79,6 +79,10 @@ public class MainScreen extends AbstractScreen {
 	@FXML
 	private TextField user_phone_field;
 
+	// table placeholders
+	private Text book_search_progress;
+	private Text loan_search_progress;
+	
 	/**
 	 * Sets up the initial layout and displayed fields and binds the 
 	 * visibility of the book search and loan search containers to 
@@ -95,7 +99,7 @@ public class MainScreen extends AbstractScreen {
 		// value set in the isAvailable column
 		this.isAvailableCol.setCellFactory(
 			tableCell -> new StylizedCell<BookSearchResult, Boolean>
-				((availability) -> availability, "UNAVAILABLE")
+				((availability) -> availability, "AVAILABLE", "UNAVAILABLE")
 		);
 		
 		this.date.setText(LocalDate.now().toString());
@@ -118,10 +122,10 @@ public class MainScreen extends AbstractScreen {
 	 * Sets a default node to display when search tables are empty.
 	 */
 	private void setPlaceholderCanvases() {
-		this.book_result_table.setPlaceholder(
-			new Text("No books found in search results."));
-		this.loan_result_table.setPlaceholder(
-			new Text("No loans found in search results."));
+		this.book_search_progress = new Text("Search for a book.");
+		this.loan_search_progress = new Text("Search for a loan.");
+		this.book_result_table.setPlaceholder(book_search_progress);
+		this.loan_result_table.setPlaceholder(loan_search_progress);
 	}
 	
 	/**
@@ -291,9 +295,15 @@ public class MainScreen extends AbstractScreen {
 	 * @param filter - the criteria category filter to match search results on.
 	 */
 	private void onSearchLoans(String key, String filter) {
-		List<LoanSearchResult> results = LoanSearchHandler.lookup(key, filter);
-		this.loan_result_table.getItems().clear();
-		this.loan_result_table.getItems().addAll(results);
+		this.loan_search_progress.setText("Searching loans... please wait");
+		Runnable loanSearchTask = () -> {
+			List<LoanSearchResult> results = LoanSearchHandler.lookup(key, filter);
+			this.loan_result_table.getItems().clear();
+			this.loan_result_table.getItems().addAll(results);
+			if (results.isEmpty())
+				this.loan_search_progress.setText("No loans found");
+		};
+		new Thread(loanSearchTask).start();
 	}
 
 	/**
@@ -304,10 +314,16 @@ public class MainScreen extends AbstractScreen {
 	 * @param filter - the criteria category filter to match search results on.
 	 */
 	private void onSearchBooks(String key, String filter) {
-		List<BookSearchResult> results = BookSearchHandler.lookup(key, filter);
-		this.checkout_error.setText("");
-		this.book_result_table.getItems().clear();
-		this.book_result_table.getItems().addAll(results);
+		this.book_search_progress.setText("Searching books... please wait");
+		Runnable bookSearchTask = () -> {
+			List<BookSearchResult> results = BookSearchHandler.lookup(key, filter);
+			this.checkout_error.setText("");
+			this.book_result_table.getItems().clear();
+			this.book_result_table.getItems().addAll(results);
+			if (results.isEmpty())
+				this.book_search_progress.setText("No books found");
+		};
+		new Thread(bookSearchTask).start();
 	}
 	
 	public void onCreateUser() {

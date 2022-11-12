@@ -20,7 +20,7 @@ CREATE TABLE Library.Authors(
 CREATE TABLE Library.Book_Authors(
 	author_id	INT,
 	isbn		CHAR(17) CHARACTER SET UTF8MB4,
-	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn),
+	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn) AUTO INCREMENT,
 	CONSTRAINT fk_authorid_authors FOREIGN KEY (author_id) REFERENCES Library.Authors(author_id),
 	CONSTRAINT fk_isbn_bookauthors FOREIGN KEY (isbn) REFERENCES Library.Book(isbn)
 );

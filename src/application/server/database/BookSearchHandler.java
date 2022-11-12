@@ -13,7 +13,10 @@ public class BookSearchHandler {
 				+ "JOIN Library.Authors as a ON ba.author_id = a.author_id) "
 				+ "LEFT JOIN Library.Book_loans AS bl ON b.isbn = bl.isbn";
 		
-		String searchTerms[] = key.isBlank() ? new String[0] : new String[] {key};
+		// search terms used as subqueries should be empty list if not present, NOT a list
+		// containing a single element: empty string
+		String searchTerms[] = (key == null || key.isBlank())
+				? new String[0] : new String[] {key};
 				
 		List<BookSearchResult> results = QueryHandler.queryDB(
 			bookSearchQuery, new BookSearchResult.Builder(), searchTerms
