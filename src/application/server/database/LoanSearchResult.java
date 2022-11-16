@@ -59,6 +59,11 @@ public class LoanSearchResult {
 		return this.m_checkinDate.get();
 	}
 	
+
+	public void setCheckinDate(LocalDate dayIn) {
+		this.m_checkinDate.set(dayIn);
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof LoanSearchResult))

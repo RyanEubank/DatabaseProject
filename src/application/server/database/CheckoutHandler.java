@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 
+import src.application.server.database.exceptions.MaximumLoanException;
+import src.application.server.database.exceptions.UnknownBorrowerException;
 import src.application.server.network.ConnectionManager;
+import src.application.server.sql.SQLExceptionTypes;
 
 public class CheckoutHandler {
 
@@ -13,11 +16,18 @@ public class CheckoutHandler {
 	 * 
 	 * @param isbn
 	 * @param borrowerID
-	 * @return
+	 * 
+	 * @throws UnknownBorrowerException 
+	 * @throws MaximumLoanException 
+	 * @throws SQLException 
 	 */
-	public static boolean checkoutBook(String isbn, int borrowerID) {
+	public static void checkoutBook(String isbn, int borrowerID) 
+		throws UnknownBorrowerException, MaximumLoanException, SQLException 
+	{
 		ConnectionManager connMgr = ConnectionManager.getSingleton();
-		String insertLoanStatement = "INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) VALUES (?, ?, ?, ?);";
+		String insertLoanStatement = 
+			"INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) " 
+			+ "VALUES (?, ?, ?, ?);";
 		
 		try (
 			Connection conn = connMgr.getConnection();
@@ -27,9 +37,26 @@ public class CheckoutHandler {
 			int rowCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			handleError(e);
 		}
-		return true;
+	}
+
+	/**
+	 * @param e
+	 * @throws UnknownBorrowerException
+	 * @throws MaximumLoanException
+	 * @throws SQLException 
+	 */
+	private static void handleError(SQLException e) 
+		throws UnknownBorrowerException, MaximumLoanException, SQLException 
+	{
+		if (e.getSQLState().equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION)) {
+			if (e.getErrorCode() == 1452)
+				throw new UnknownBorrowerException();
+			else if (e.getErrorCode() == 1048)
+				throw new MaximumLoanException();
+		}
+		throw e; // a different unhandled error has occured
 	}
 
 	/**

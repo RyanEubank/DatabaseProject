@@ -11,4 +11,5 @@ public class SQLExceptionTypes {
 	public static final String ACCESS_DENIED = "28000";
 	public static final String SYNTAX_ERROR = "42S02";
 	public static final String PERMISSION_DENIED = "42000";
+	public static final String INTEGRITY_CONSTRAINT_VIOLATION = "23000";
 }
