@@ -8,7 +8,7 @@ public class BookSearchHandler {
 
 	public static List<BookSearchResult> lookup(String key, String filter) {
 		String bookSearchQuery = 
-				"SELECT b.isbn, b.title, a.name, IF(bl.isbn IS NULL, TRUE, FALSE) as isAvailable "
+				"SELECT b.isbn, b.title, a.name, IF(bl.isbn IS NULL OR bl.date_in IS NOT NULL, TRUE, FALSE) as isAvailable "
 				+ "FROM ((Library.Book AS b JOIN Library.Book_Authors AS ba ON b.isbn = ba.isbn) "
 				+ "JOIN Library.Authors as a ON ba.author_id = a.author_id) "
 				+ "LEFT JOIN Library.Book_loans AS bl ON b.isbn = bl.isbn";

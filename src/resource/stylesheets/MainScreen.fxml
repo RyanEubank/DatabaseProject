@@ -83,26 +83,27 @@
       </StackPane>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0">
          <children>
-            <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
+            <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
                <left>
-                  <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </left>
                <right>
-                  <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </right>
                <bottom>
-                  <Pane prefHeight="64.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="0.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
                </bottom>
                <center>
                   <GridPane BorderPane.alignment="BOTTOM_CENTER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="0.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="335.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="500.0" minWidth="0.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="500.0" minWidth="0.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints maxHeight="488.0000305175781" minHeight="10.0" prefHeight="353.33326212565106" vgrow="ALWAYS" />
-                      <RowConstraints maxHeight="251.33338419596356" minHeight="3.999969482421875" prefHeight="164.33340454101568" vgrow="ALWAYS" />
+                      <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="300.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="250.0" minHeight="3.999969482421875" prefHeight="60.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="300.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="488.0000305175781" minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Button fx:id="book_button" mnemonicParsing="false" onAction="#onBookClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
@@ -125,7 +126,7 @@
                         </Button>
                         <Label text="Books" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                         <Label text="Borrowers" textFill="#00000073" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Button fx:id="loan_button" mnemonicParsing="false" onAction="#onLoanClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Button fx:id="fines_button" mnemonicParsing="false" onAction="#onFinesClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -134,12 +135,25 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label text="Loans" textFill="#00000073" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label text="Loans" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <Button fx:id="loan_button" mnemonicParsing="false" onAction="#onLoanClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/calendar.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label text="Fines" textFill="#00000073" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                </center>
+               <top>
+                  <Pane prefHeight="20.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+               </top>
             </BorderPane>
-            <BorderPane fx:id="book_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
+            <BorderPane fx:id="book_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
                <center>
                   <TableView fx:id="book_result_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                     <columns>
@@ -225,6 +239,7 @@
                   </StackPane>
                </top>
             </BorderPane>
+            <BorderPane fx:id="fines_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;" visible="false" />
          </children>
       </StackPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
@@ -232,12 +247,12 @@
             <Text fx:id="date" layoutX="589.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <HBox alignment="CENTER_RIGHT" layoutX="618.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
                <children>
-                  <Label fx:id="checkout_error" text="Label" textFill="RED">
+                  <Label fx:id="loan_error" text="Label" textFill="RED">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="checkout_checkin_button" mnemonicParsing="false" onAction="#onCheckInOrOutClicked" prefHeight="32.0" prefWidth="116.0" text="Button" />
+                  <Button fx:id="action_button" mnemonicParsing="false" onAction="#onActionButtonClicked" prefHeight="32.0" prefWidth="116.0" text="Button" />
                </children>
             </HBox>
          </children>

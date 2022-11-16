@@ -1,5 +1,6 @@
 package src.application.client.scenes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -11,6 +12,7 @@ import javafx.scene.text.Text;
 
 import src.application.client.style.StylizedCell;
 import src.application.server.database.*;
+import src.application.server.database.exceptions.*;
 import src.application.server.network.ConnectionManager;
 
 public class MainScreen extends AbstractScreen {
@@ -38,14 +40,14 @@ public class MainScreen extends AbstractScreen {
 	@FXML
 	private Text date;
 	@FXML
-	private Button checkout_checkin_button;
+	private Button action_button;
 
 	// GUI components for the book search canvas opened by clicking the books
 	// button on the home canvas
 	@FXML
 	private BorderPane book_canvas;
 	@FXML
-	private Label checkout_error;
+	private Label loan_error;
 	@FXML
 	private TableView<BookSearchResult> book_result_table;
 	@FXML
@@ -92,6 +94,12 @@ public class MainScreen extends AbstractScreen {
 	private TableColumn<LoanSearchResult, LocalDate> dueDateCol;
 	@FXML
 	private TableColumn<LoanSearchResult, LocalDate> checkinCol;
+	
+	
+	// GUI components for the fines display canvas opened by clicking the fines
+	// button on the home canvas
+	@FXML
+	private BorderPane fines_canvas;
 	
 	// table placeholders
 	private Text book_search_progress;
@@ -178,16 +186,16 @@ public class MainScreen extends AbstractScreen {
 		this.book_canvas.setVisible(false);
 		this.borrower_canvas.setVisible(false);
 		this.loan_canvas.setVisible(false);
+		this.fines_canvas.setVisible(false);
 		this.search_bar_container.setVisible(false);
 		this.search_bar.clear();
-		this.checkout_checkin_button.setVisible(false);
-		this.checkout_error.setText("");
+		this.action_button.setVisible(false);
+		this.loan_error.setText("");
 		this.home_canvas.setVisible(true);
 	}
 	
 	/**
-	 * Sets the Book menu as the active container and hides the home, loan, 
-	 * and borrower menus.
+	 * Sets the Book menu as the active container and hides the other canvases.
 	 */
 	public void onBookClicked() {
 		this.home_canvas.setVisible(false);
@@ -195,14 +203,13 @@ public class MainScreen extends AbstractScreen {
 		this.search_type.getItems().clear();
 		this.search_type.getItems().addAll(book_search_options);
 		this.search_type.setValue(book_search_options[0]);
-		this.checkout_checkin_button.setText("Checkout");
-		this.checkout_checkin_button.setVisible(true);
+		this.action_button.setText("Checkout");
+		this.action_button.setVisible(true);
 		this.search_bar_container.setVisible(true);
 	}
 	
 	/**
-	 * Sets the loan menu as the active container and hides the home, borrower, 
-	 * and book menus.
+	 * Sets the loan menu as the active container and hides the other canvases.
 	 */
 	public void onLoanClicked() {
 		this.home_canvas.setVisible(false);
@@ -210,9 +217,20 @@ public class MainScreen extends AbstractScreen {
 		this.search_type.getItems().clear();
 		this.search_type.getItems().addAll(loan_search_options);
 		this.search_type.setValue(loan_search_options[0]);
-		this.checkout_checkin_button.setText("Check In");
-		this.checkout_checkin_button.setVisible(true);
+		this.action_button.setText("Check In");
+		this.action_button.setVisible(true);
 		this.search_bar_container.setVisible(true);
+	}
+	
+	/**
+	 * Sets the fines menu as the active container and hides the other
+	 * canvases.
+	 */
+	public void onFinesClicked() {
+		this.home_canvas.setVisible(false);
+		this.fines_canvas.setVisible(true);
+		this.action_button.setText("Pay Fine");
+		this.action_button.setVisible(true);
 	}
 	
 	/**
@@ -250,19 +268,31 @@ public class MainScreen extends AbstractScreen {
 	}
 	
 	/**
-	 * Called when the user selects a search result and clicks the
-	 * checkout/check in button.
+	 * Called when the user selects a search result in one of the menus
+	 * and clicks the action button to either checkout/checkin a book or
+	 * mark a fine as paid.
 	 */
-	public void onCheckInOrOutClicked() {
+	public void onActionButtonClicked() {
 		if (this.book_canvas.isVisible()) 
 			onCheckout();
 		else if (this.loan_canvas.isVisible()) 
 			onCheckIn();
+		else if (this.fines_canvas.isVisible())
+			onPayFine();
 		else
 			throw new RuntimeException(
-				"User searched null field. No table selected.");
+				"Null field. No table selected.");
 	}
 	
+	/**
+	 * Gets the slected fine and attempts to update and mark it as paid
+	 * in the database.
+	 */
+	private void onPayFine() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * Reads the currently selected row in the loans tables and
 	 * calls the check in handler. Sets an error messsage if nothing
@@ -274,11 +304,36 @@ public class MainScreen extends AbstractScreen {
 		LoanSearchResult selection = selectionHandler.getSelectedItem();
 	
 		if (selection == null)
-			this.checkout_error.setText("No loan is selected.");
-		else
-			CheckinHandler.checkinBook(selection.getLoanID());
+			this.loan_error.setText("No loan is selected.");
+		else 
+			checkinBook(selection);
 	}
 
+	/**
+	 * Gets the current date and attempts to check the selected book in
+	 * with the current date as its check in date.
+	 * 
+	 * @param loan - the selected book loan to check in.
+	 */
+	private void checkinBook(LoanSearchResult loan) {
+		LocalDate dayIn = LocalDate.now();
+		if (CheckinHandler.checkinBook(loan.getLoanID(), dayIn)) {
+			loan.setCheckinDate(dayIn);
+			
+			this.book_result_table.getItems().stream().filter(
+				(book) -> book.getIsbn().equals(loan.getIsbn())
+			).findAny().ifPresent((book) -> {
+				book.setIsAvailable(true);
+				System.out.println(book.getIsbn());
+			});
+			
+			this.loan_result_table.refresh();
+			this.book_result_table.refresh();
+		} else
+			this.loan_error.setText(
+				"Loan ID: (" + loan.getBorrowerID() + ") not found!");
+	}
+	
 	/**
 	 * Reads the currently selected row in the books table and calls
 	 * the checkout handler if the book is available. Sets an error message
@@ -288,30 +343,42 @@ public class MainScreen extends AbstractScreen {
 		SelectionModel<BookSearchResult> selectionHandler 
 			= this.book_result_table.getSelectionModel();
 		BookSearchResult selection = selectionHandler.getSelectedItem();
+		this.loan_error.setText("");
 		
 		if (selection == null)
-			this.checkout_error.setText("No book is selected.");
+			this.loan_error.setText("No book is selected.");
 		else if (!selection.getIsAvailable())
-			this.checkout_error.setText("Book is unavailable!");
+			this.loan_error.setText("Book is unavailable!");
 		else 
 			checkoutBook(selection);
 	}
 	
 	/**
+	 * Opens a dialog for the user to enter a borrower card number
+	 * and attempts to insert a new loan in the library database for
+	 * the selected book and borrower.
 	 * 
-	 * @param book
+	 * @param book - the table row selected for checkout.
 	 */
 	private void checkoutBook(BookSearchResult book) {
 		Dialog<Integer> dialog = new CheckoutDialog(
 			"/src/resource/stylesheets/Checkout.fxml");
 		Optional<Integer> result = dialog.showAndWait();
+		
 		if (result.isPresent()) {
-			if (!CheckoutHandler.checkoutBook(book.getIsbn(), result.get())) {
-				this.checkout_error.setText(
+			try {
+				CheckoutHandler.checkoutBook(book.getIsbn(), result.get());
+				book.setIsAvailable(false);
+				this.book_result_table.refresh();
+			} catch (UnknownBorrowerException e) {
+				this.loan_error.setText(
 					"Borrower ID: (" + result.get() + ") not found!");
+			} catch (MaximumLoanException e) {
+				this.loan_error.setText(
+					"Borrower ID: (" + result.get() + ") has exceeded maximum allowed checkouts");
+			} catch (SQLException e) {
+				this.loan_error.setText("An unknown error has occured.");
 			}
-			book.setIsAvailable(false);
-			this.book_result_table.refresh();
 		}
 	}
 	
@@ -342,12 +409,13 @@ public class MainScreen extends AbstractScreen {
 	 */
 	private void onSearchLoans(String key, String filter) {
 		this.loan_search_progress.setText("Searching loans... please wait");
+		this.loan_result_table.getItems().clear();
+		
 		Runnable loanSearchTask = () -> {
 			List<LoanSearchResult> results = LoanSearchHandler.lookup(key, filter);
-			this.loan_result_table.getItems().clear();
-			this.loan_result_table.getItems().addAll(results);
 			if (results.isEmpty())
 				this.loan_search_progress.setText("No loans found");
+			this.loan_result_table.getItems().addAll(results);
 		};
 		new Thread(loanSearchTask).start();
 	}
@@ -361,13 +429,14 @@ public class MainScreen extends AbstractScreen {
 	 */
 	private void onSearchBooks(String key, String filter) {
 		this.book_search_progress.setText("Searching books... please wait");
+		this.book_result_table.getItems().clear();
+		this.loan_error.setText("");
+		
 		Runnable bookSearchTask = () -> {
 			List<BookSearchResult> results = BookSearchHandler.lookup(key, filter);
-			this.checkout_error.setText("");
-			this.book_result_table.getItems().clear();
-			this.book_result_table.getItems().addAll(results);
 			if (results.isEmpty())
 				this.book_search_progress.setText("No books found");
+			this.book_result_table.getItems().addAll(results);
 		};
 		new Thread(bookSearchTask).start();
 	}
