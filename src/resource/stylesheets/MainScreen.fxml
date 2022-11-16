@@ -83,7 +83,7 @@
       </StackPane>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0">
          <children>
-            <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
+            <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
                <left>
                   <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </left>
@@ -239,7 +239,26 @@
                   </StackPane>
                </top>
             </BorderPane>
-            <BorderPane fx:id="fines_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;" visible="false" />
+            <BorderPane fx:id="fines_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
+               <top>
+                  <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+               </top>
+               <left>
+                  <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <TableView fx:id="fine_result_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="fineBorrowerIDCol" prefWidth="200.0" text="Card ID" />
+                        <TableColumn fx:id="fineNameCol" prefWidth="580.0" text="Name" />
+                        <TableColumn fx:id="fineAmountCol" minWidth="0.0" prefWidth="150.0" text="Amount" />
+                        <TableColumn fx:id="finePaidCol" minWidth="0.0" prefWidth="150.0" text="Paid" />
+                    </columns>
+                  </TableView>
+               </center></BorderPane>
          </children>
       </StackPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
@@ -247,7 +266,7 @@
             <Text fx:id="date" layoutX="589.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <HBox alignment="CENTER_RIGHT" layoutX="618.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
                <children>
-                  <Label fx:id="loan_error" text="Label" textFill="RED">
+                  <Label fx:id="error_label" text="Label" textFill="RED">
                      <padding>
                         <Insets right="20.0" />
                      </padding>

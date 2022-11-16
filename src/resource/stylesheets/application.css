@@ -116,7 +116,7 @@
 	-fx-border-color: -clicked-grey;	
 }
 
-#checkout_checkin_button {
+#action_button {
 	-fx-font-family: "Kenyan Coffee Rg";
 	-fx-font-size: 16;
 	-fx-background-color: -border-blue;
@@ -150,7 +150,7 @@
 	-fx-background-color: #767676;
 }
 
-#loan_error {
+#error_label {
 	-fx-font-family: "System";
 	-fx-font-size: 12;
 }

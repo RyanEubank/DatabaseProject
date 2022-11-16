@@ -29,8 +29,8 @@ CREATE TABLE Library.Book_Authors(
 	author_id	INT,
 	isbn		CHAR(17) CHARACTER SET UTF8MB4,
 	CONSTRAINT pk_book_author PRIMARY KEY (author_id, isbn),
-	CONSTRAINT fk_authorid_authors FOREIGN KEY (author_id) REFERENCES Library.Authors(author_id),
-	CONSTRAINT fk_isbn_bookauthors FOREIGN KEY (isbn) REFERENCES Library.Book(isbn)
+	CONSTRAINT fk_authorid_authors FOREIGN KEY (author_id) REFERENCES Library.Authors(author_id) ON DELETE CASCADE,
+	CONSTRAINT fk_isbn_bookauthors FOREIGN KEY (isbn) REFERENCES Library.Book(isbn) ON DELETE CASCADE
 );
 
 CREATE TABLE Library.Borrower(
@@ -53,8 +53,8 @@ CREATE TABLE Library.Book_Loans(
 	date_in		DATE,
 	CONSTRAINT pk_book_loans PRIMARY KEY (loan_id),
 	CONSTRAINT uk_loans UNIQUE KEY (isbn),
-	CONSTRAINT fk_isbn_bookloans FOREIGN KEY (isbn) REFERENCES Library.Book(isbn),
-	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id)
+	CONSTRAINT fk_isbn_bookloans FOREIGN KEY (isbn) REFERENCES Library.Book(isbn) ON DELETE CASCADE,
+	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id) ON DELETE CASCADE
 );
 
 CREATE ASSERTION Loan_Maximum CHECK (NOT EXISTS (
@@ -68,5 +68,5 @@ CREATE TABLE Library.Fines(
 	fine_amt	DECIMAL(10, 2)	NOT NULL,
 	paid		BOOL,
 	CONSTRAINT pk_fines PRIMARY KEY (loan_id),
-	CONSTRAINT fk_loanid_book_loans FOREIGN KEY (loan_id) REFERENCES Library.Book_Loans(loan_id)
+	CONSTRAINT fk_loanid_book_loans FOREIGN KEY (loan_id) REFERENCES Library.Book_Loans(loan_id) ON DELETE CASCADE
 );
