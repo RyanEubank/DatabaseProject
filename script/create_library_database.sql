@@ -15,7 +15,7 @@ CREATE TABLE Library.Book(
 );
 
 CREATE TABLE Library.Authors(
-	author_id	INT	AUTO_INCREMENT,
+	author_id	INT	AUTO_INCREMENT	NOT NULL,
 	name		VARCHAR(50) CHARACTER SET UTF8MB4	NOT NULL,
 	CONSTRAINT pk_author PRIMARY KEY (author_id)
 
@@ -46,8 +46,8 @@ CREATE TABLE Library.Borrower(
 
 CREATE TABLE Library.Book_Loans(
 	loan_id		INT	AUTO_INCREMENT,
-	isbn		CHAR(17) CHARACTER SET UTF8MB4,
-	card_id		INT,
+	isbn		CHAR(17) CHARACTER SET UTF8MB4	NOT NULL,
+	card_id		INT		NOT NULL,
 	date_out	DATE		NOT NULL,
 	due_date	DATE		NOT NULL,
 	date_in		DATE,
@@ -57,12 +57,6 @@ CREATE TABLE Library.Book_Loans(
 	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id)
 );
 
-CREATE ASSERTION Loan_Maximum CHECK (NOT EXISTS (
-	SELECT COUNT(*) as num_loans FROM Library.Book_Loans AS bl 
-	GROUP BY bl.card_id HAVING num_loans > 3)
-);
-
-
 CREATE TABLE Library.Fines(
 	loan_id		INT,
 	fine_amt	DECIMAL(10, 2)	NOT NULL,
@@ -70,3 +64,17 @@ CREATE TABLE Library.Fines(
 	CONSTRAINT pk_fines PRIMARY KEY (loan_id),
 	CONSTRAINT fk_loanid_book_loans FOREIGN KEY (loan_id) REFERENCES Library.Book_Loans(loan_id)
 );
+
+
+DROP TRIGGER IF EXISTS Library.Loan_Maximum;
+DELIMITER $$
+CREATE TRIGGER Library.Loan_Maximum BEFORE INSERT ON Library.Book_Loans FOR EACH ROW 
+BEGIN
+	IF NEW.card_id IN (
+		SELECT temp.card_id FROM (SELECT bl.card_id, COUNT(*) as num_loans FROM Library.Book_Loans as bl
+		GROUP BY bl.card_id HAVING num_loans >= 3) AS temp
+	) THEN SET NEW.card_id = NULL;
+	-- intentionally violate not null constraint to deny insert.
+	END IF;
+END$$
+DELIMITER ;

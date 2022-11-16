@@ -5,3 +5,4 @@
 *.class
 *.ini
 /script/populate.sql
+/script/test_script.sql
