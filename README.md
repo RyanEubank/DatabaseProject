@@ -53,3 +53,6 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 
 ## Database Requirements
 - Database is to match the cleaned up database that one of the team members has plans for
+- In mysql shell run setup_user.sql, create_library_database.sql. 
+- Then run populateDB.py with command line arguments books.csv and borrowers.csv. 
+- This previous step will create a new file populate.sql. Run that, give it a few minutes to finish
