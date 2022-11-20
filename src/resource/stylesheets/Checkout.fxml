@@ -13,7 +13,7 @@
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="250.0">
          <children>
-            <TextField fx:id="borrower_id_box" layoutX="25.0" layoutY="13.0" prefHeight="25.0" prefWidth="200.0" promptText="Enter Library Card No." />
+            <TextField fx:id="borrower_id_field" layoutX="25.0" layoutY="13.0" prefHeight="25.0" prefWidth="200.0" promptText="Enter Library Card No." />
          </children>
       </AnchorPane>
    </content>

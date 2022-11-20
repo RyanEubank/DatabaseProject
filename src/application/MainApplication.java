@@ -15,7 +15,7 @@ public class MainApplication extends Application {
 	}
 	
 	/**
-	 * Starts the main window for the application.
+	 * Sets window properties and starts the main window for the application.
 	 * 
 	 * @param primaryStage
 	 * 	- the initial window stage setup by javaFX.
@@ -26,6 +26,7 @@ public class MainApplication extends Application {
 		stage.setResizable(false);
 		stage.initStyle(StageStyle.UNDECORATED);
 		SceneManager.initialize(stage);
-		SceneManager.getSingleton().loadScene(Scenes.LOGIN_SCREEN, SceneManager.STYLE, 1200, 800);
+		SceneManager.getSingleton().setMainStage(
+			Scenes.LOGIN_SCREEN, Scenes.DEFAULT_STYLESHEET, 1200, 800);
 	}
 }

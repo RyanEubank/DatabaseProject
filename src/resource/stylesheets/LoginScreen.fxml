@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.application.client.scenes.LoginScreen">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <AnchorPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -22,12 +22,12 @@
                   <Image url="@../img/book.png" />
                </image>
             </ImageView>
-            <Text fx:id="screen_title_bottom" fill="#00000073" layoutX="218.0" layoutY="721.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
+            <Text fill="#00000073" layoutX="218.0" layoutY="727.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
             </Text>
-            <Text fx:id="screen_title_top" fill="#00000073" layoutX="95.0" layoutY="36.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
+            <Text fill="#00000073" layoutX="95.0" layoutY="36.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
@@ -53,19 +53,19 @@
                   <Image url="@../img/lock.png" />
                </image>
             </ImageView>
-            <TextField fx:id="username" layoutX="200.0" layoutY="306.0" onAction="#onLoginClicked" prefHeight="35.0" prefWidth="300.0" promptText="username" />
-            <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="72.0" prefWidth="175.0" text="Login" textFill="#0000007f">
+            <TextField fx:id="username_field" layoutX="200.0" layoutY="306.0" prefHeight="35.0" prefWidth="300.0" />
+            <Label fx:id="login_warning_label" layoutX="199.0" layoutY="271.0" textFill="#bc0b0b" />
+            <PasswordField fx:id="password_field" layoutX="200.0" layoutY="406.0" prefHeight="35.0" prefWidth="300.0" />
+            <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="175.0" text="Login" textFill="#0000007f">
                <font>
                   <Font name="Arial" size="46.0" />
                </font>
             </Button>
-            <Label fx:id="incorrect_login_label" layoutX="199.0" layoutY="271.0" textFill="#bc0b0b" />
-            <PasswordField fx:id="password" layoutX="200.0" layoutY="406.0" onAction="#onLoginClicked" prefHeight="35.0" prefWidth="300.0" promptText="password" />
          </children>
       </AnchorPane>
    </center>
    <top>
-      <ToolBar prefHeight="21.0" prefWidth="1186.0" style="-fx-background-color: #c1cad4;" BorderPane.alignment="CENTER">
+      <ToolBar prefHeight="21.0" prefWidth="1186.0" BorderPane.alignment="CENTER">
         <items>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="1155.0" />
           <Button fx:id="exit_button" alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" text="X" />

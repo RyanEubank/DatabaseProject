@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:id="primary_node" prefHeight="740.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <TableView fx:id="m_table" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="loanIDCol" prefWidth="85.0" text="Loan ID" />
+            <TableColumn fx:id="cardIDCol" prefWidth="85.0" text="Borrower ID" />
+            <TableColumn fx:id="borrowerCol" prefWidth="335.0" text="Name" />
+            <TableColumn fx:id="loanIsbnCol" minWidth="0.0" prefWidth="200.0" text="ISBN" />
+            <TableColumn fx:id="checkoutCol" prefWidth="120.0" text="Check Out Date" />
+            <TableColumn fx:id="dueDateCol" prefWidth="120.0" text="Due Date" />
+            <TableColumn fx:id="checkinCol" prefWidth="120.0" text="Check In Date" />
+         </columns>
+      </TableView>
+   </center>
+</BorderPane>

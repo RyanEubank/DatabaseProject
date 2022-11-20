@@ -52,7 +52,6 @@ CREATE TABLE Library.Book_Loans(
 	due_date	DATE		NOT NULL,
 	date_in		DATE,
 	CONSTRAINT pk_book_loans PRIMARY KEY (loan_id),
-	CONSTRAINT uk_loans UNIQUE KEY (isbn),
 	CONSTRAINT fk_isbn_bookloans FOREIGN KEY (isbn) REFERENCES Library.Book(isbn) ON DELETE CASCADE,
 	CONSTRAINT fk_cardid_borrower FOREIGN KEY (card_id) REFERENCES Library.Borrower(card_id) ON DELETE CASCADE
 );
@@ -73,8 +72,18 @@ BEGIN
 	IF NEW.card_id IN (
 		SELECT temp.card_id FROM (SELECT bl.card_id, COUNT(*) as num_loans FROM Library.Book_Loans as bl
 		GROUP BY bl.card_id HAVING num_loans >= 3) AS temp
-	) THEN SET NEW.card_id = NULL;
-	-- intentionally violate not null constraint to deny insert.
+	) THEN SIGNAL SQLSTATE 'MAX_LOAN' SET MESSAGE TEXT 'Maximum allowed loans exceeded';
+	END IF;
+END$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS Library.Check_Available;
+DELIMITER $$
+CREATE TRIGGER Library.Check_Available BEFORE INSERT ON Library.Book_Loans FOR EACH ROW 
+BEGIN
+	IF NEW.isbn IN (
+		SELECT temp.isbn FROM Library.Book_Loans as temp WHERE date_in IS NULL
+	) THEN SIGNAL SQLSTATE 'UNAVAILABLE' SET MESSAGE TEXT 'Book is checked out';
 	END IF;
 END$$
 DELIMITER ;

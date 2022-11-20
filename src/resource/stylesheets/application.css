@@ -16,8 +16,18 @@
 	-select-blue: #0384fc;
 	-clicked-grey: #00000076;
 	-highlight-red: #f5e9ec;
+	-fx-background-color: -background-blue; 
 }
 
+#exit_button {
+	-fx-background-color: -exit-red;
+}
+
+#exit_button:hover {
+	-fx-background-color: -exit-red-hover;
+}
+
+/* 
 #screen_title_top {
 	-fx-font-family: "Saturday Bright";
 	-fx-font-size: 40;
@@ -77,14 +87,6 @@
 
 #login_button:armed {
 	-fx-background-color: #767676;
-}
-
-#exit_button {
-	-fx-background-color: -exit-red;
-}
-
-#exit_button:hover {
-	-fx-background-color: -exit-red-hover;
 }
 
 #home_button {
@@ -193,3 +195,5 @@
 	-fx-font-size: 40;
 	
 }
+* */
+*/

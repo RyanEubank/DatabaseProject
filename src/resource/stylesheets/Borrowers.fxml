@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="primary_node" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <Pane prefHeight="430.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="125.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <AnchorPane prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="user_ssn_field" layoutX="250.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
+            <Label layoutX="65.0" layoutY="25.0" text="SSN" textFill="#00000073" />
+            <Label layoutX="65.0" layoutY="75.0" text="First Name" textFill="#00000073" />
+            <Label layoutX="65.0" layoutY="125.0" text="Last Name" textFill="#00000073" />
+            <Label layoutX="65.0" layoutY="175.0" text="Address" textFill="#00000073" />
+            <Label layoutX="65.0" layoutY="225.0" text="Phone Number" textFill="#00000073" />
+            <TextField fx:id="user_fname_field" layoutX="250.0" layoutY="71.0" prefWidth="300.0" />
+            <TextField fx:id="user_lname_field" layoutX="250.0" layoutY="121.0" prefWidth="300.0" />
+            <TextField fx:id="user_address_field" layoutX="250.0" layoutY="171.0" prefWidth="300.0" />
+            <TextField fx:id="user_phone_field" layoutX="250.0" layoutY="221.0" prefWidth="300.0" />
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <StackPane prefHeight="125.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="borrower_title" fill="#00000073" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrower Management" />
+         </children>
+      </StackPane>
+   </top>
+</BorderPane>

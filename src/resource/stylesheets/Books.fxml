@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:id="primary_node" prefHeight="740.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView fx:id="m_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="isbnCol" editable="false" prefWidth="123.3333740234375" text="ISBN" />
+            <TableColumn fx:id="titleCol" editable="false" minWidth="0.0" prefWidth="350.0" text="Title" />
+            <TableColumn fx:id="authorCol" editable="false" prefWidth="507.333251953125" text="Author(s)" />
+            <TableColumn fx:id="isAvailableCol" editable="false" prefWidth="84.0" text="Status" />
+         </columns>
+      </TableView>
+   </center>
+   <top>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

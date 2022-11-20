@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="primary_node" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="50.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="376.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fines" />
+            <Text layoutX="932.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Summary" />
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <TableView fx:id="m_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="fineLoanIDCol" prefWidth="85.0" text="Loan ID" />
+            <TableColumn fx:id="fineBorrowerIDCol" prefWidth="85.0" text="Card ID" />
+            <TableColumn fx:id="fineNameCol" prefWidth="310.0" text="Name" />
+            <TableColumn fx:id="fineAmountCol" minWidth="0.0" text="Amount" />
+            <TableColumn fx:id="finePaidCol" minWidth="0.0" text="Paid" />
+         </columns>
+      </TableView>
+   </center>
+   <right>
+      <BorderPane prefHeight="630.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <top>
+            <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+         <left>
+            <Pane prefHeight="200.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
+         </right>
+         <bottom>
+            <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <TableView fx:id="fine_summary_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <columns>
+                  <TableColumn fx:id="summaryLoanIDCol" prefWidth="75.0" text="Card ID" />
+                  <TableColumn fx:id="summaryBorrowerIDCol" prefWidth="185.0" text="Name" />
+                  <TableColumn fx:id="totalOwedCol" prefWidth="85.0" text="Total Owed" />
+                  <TableColumn fx:id="totalPaidCol" prefWidth="85.0" text="Total Paid" />
+               </columns>
+            </TableView>
+         </center>
+      </BorderPane>
+   </right>
+</BorderPane>
