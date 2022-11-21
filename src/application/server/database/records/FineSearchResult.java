@@ -42,6 +42,11 @@ public class FineSearchResult {
 		return this.m_isPaid.get();
 	}
 	
+
+	public void setIsPaid(boolean isPaid) {
+		this.m_isPaid.set(isPaid);
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof FineSearchResult))

@@ -1,5 +1,6 @@
 package src.application.client.scenes.controllers;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -7,8 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import src.application.server.database.query.LoanSearchHandler;
-import src.application.server.database.records.LoanSearchResult;
+import src.application.server.database.exceptions.LibraryRuleException;
+import src.application.server.database.query.*;
+import src.application.server.database.records.*;
 
 public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 
@@ -61,6 +63,16 @@ public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 		this.m_searchProgress = new Text("Search for a loan.");
 		this.m_table.setPlaceholder(this.m_searchProgress);
 	}
+
+	/**
+	 * Returns the name of the action performed by the loans
+	 * search pane: 'Check In' for checking int the book identified
+	 * by the selected loan.
+	 */
+	@Override
+	protected String getActionName() {
+		return "Check In Book";
+	}
 	
 	/**
 	 * Defines the runnable task to be executed when the user searches for loans 
@@ -78,20 +90,27 @@ public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 		this.m_table.getItems().addAll(results);
 	}
 
-	@Override
-	protected void onPerformAction() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
 	/**
-	 * Returns the name of the action performed by the loans
-	 * search pane: 'Check In' for checking int the book identified
-	 * by the selected loan.
+	 * Updates the given loan's checkin date in the database.
 	 */
 	@Override
-	protected String getActionName() {
-		return "Check In Book";
+	protected boolean updateDatabase(LoanSearchResult selection) 
+		throws LibraryRuleException, SQLException 
+	{
+		new CheckinHandler().onCheckin(selection.getLoanID());
+		return true;
+	}
+	
+	/**
+	 * Updates the given loan's checkin date to the current
+	 * date, resets the books availability in the books table and 
+	 * refreshes the tables' entries.
+	 */
+	@Override
+	protected void updateTable(LoanSearchResult selection) {
+		selection.setCheckinDate(LocalDate.now());
+		BookSearchPane bookPane = (BookSearchPane) this.m_parent.getBooksPane();
+		bookPane.updateAvailability(selection.getIsbn());
+		this.m_table.refresh();
 	}
 }

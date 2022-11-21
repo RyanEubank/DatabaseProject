@@ -10,10 +10,8 @@ import javafx.scene.text.Text;
 
 import src.application.client.scenes.*;
 import src.application.client.style.StylizedCell;
-import src.application.server.database.*;
 import src.application.server.database.exceptions.*;
-import src.application.server.database.query.BookSearchHandler;
-import src.application.server.database.query.CheckoutHandler;
+import src.application.server.database.query.*;
 import src.application.server.database.records.BookSearchResult;
 
 public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
@@ -24,9 +22,6 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	
 	private static final String PLACEHOLDER_TEXT = "Search for a book.";
 	private static final String VOID_RESULT = "No books found";
-	private static final String NULL_SELECTION = "No book is selected.";
-	private static final String UNAVAILABLE = "Book is unavailable!";
-	private static final String UNKNOWN_ERROR = "An unknown error has occured.";
 	
 	@FXML
 	private TableColumn<BookSearchResult, String> isbnCol;
@@ -119,37 +114,6 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	}
 	
 	/**
-	 * Reads the currently selected row in the books table and calls
-	 * the checkout handler if the book is available. Sets an error message
-	 * if nothing is selected or book is not available.
-	 */
-	@Override
-	protected void onPerformAction() {
-		BookSearchResult selection = getSelection();
-		this.m_parent.setActionError("");
-		
-		if (selection == null)
-			this.m_parent.setActionError(NULL_SELECTION);
-		else if (!selection.getIsAvailable())
-			this.m_parent.setActionError(UNAVAILABLE);
-		else 
-			checkoutBook(selection);
-	}
-	
-	/**
-	 * Opens a dialog for the user to enter a borrower card number
-	 * and attempts to insert a new loan in the library database for
-	 * the selected book and borrower.
-	 * 
-	 * @param book - the table row selected for checkout.
-	 */
-	private void checkoutBook(BookSearchResult book) {
-		Optional<Integer> id = promptForID();
-		if (id.isPresent()) 
-			handleCheckout(id.get(), book);
-	}
-	
-	/**
 	 * Opens a dialog and prompts the user to enter the borrower ID
 	 * of the borrower who is checking out a book from the library.
 	 * 
@@ -173,18 +137,24 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	 * Calss the checkout handler to update the database and set the selected
 	 * book as checked out.
 	 * 
-	 * @param borrowerID - the ID of the borrower checking out the book.
 	 * @param book - the book record selected to checkout.
+	 * 
+	 * @throws SQLException 
+	 *  Throws an SQLException if an unhandled error is encountered.
+	 *  
+	 * @throws LibraryRuleException
+	 *  Throws a LibraryRuleException if a constraint or trigger
+	 *  is violated.
 	 */
-	private void handleCheckout(int borrowerID, BookSearchResult book) {
-		try {
-			CheckoutHandler.checkoutBook(book.getIsbn(), borrowerID);
-			updateBookTable(book);
-		} catch (UnknownBorrowerException | MaximumLoanException e) {
-			this.m_parent.setActionError(e.getMessage());
-		} catch (SQLException e) {
-			this.m_parent.setActionError(UNKNOWN_ERROR);
+	protected boolean updateDatabase(BookSearchResult book) 
+		throws LibraryRuleException, SQLException 
+	{
+		Optional<Integer> id = promptForID();
+		if (id.isPresent()) {
+			new CheckoutHandler().onCheckout(book.getIsbn(), id.get());
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -193,8 +163,22 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	 * 
 	 * @param book - the book record that needs to be updated.
 	 */
-	private void updateBookTable(BookSearchResult book) {
+	protected void updateTable(BookSearchResult book) {
 		book.setIsAvailable(false);
 		this.m_table.refresh();
+	}
+
+	/**
+	 * Updates the book availability of the selected ISBN
+	 * if the table contains a matching record.
+	 * 
+	 * @param isbn - the isbn of the book to mark available again.
+	 */
+	public void updateAvailability(String isbn) {
+		this.m_table.getItems().stream().filter(
+				(book) -> book.getIsbn().equals(isbn)
+			).findAny().ifPresent(
+				(book) -> { book.setIsAvailable(true); }
+			);
 	}
 }

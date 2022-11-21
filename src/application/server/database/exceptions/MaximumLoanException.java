@@ -1,7 +1,7 @@
 package src.application.server.database.exceptions;
 
-public class MaximumLoanException extends Exception {
-	// required for serialization, but unused in this application
+public class MaximumLoanException extends LibraryRuleException {
+
 	private static final long serialVersionUID = 1L;
 	
 	private int m_borrowerID;

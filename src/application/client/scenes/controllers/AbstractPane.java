@@ -8,7 +8,7 @@ public abstract class AbstractPane implements IController {
 	@FXML
 	private Pane primary_node;
 	
-	protected MainScreenWIP m_parent;
+	protected MainScreen m_parent;
 	
 	/**
 	 * Binds the visibilty of the pane in the parent screen
@@ -47,7 +47,7 @@ public abstract class AbstractPane implements IController {
 	 * @param parent - the parent controller managing
 	 *  the pane.
 	 */
-	public void setParent(MainScreenWIP parent) {
+	public void setParent(MainScreen parent) {
 		this.m_parent = parent;
 		postInitialize();
 	}

@@ -1,100 +1,27 @@
 package src.application.server.database.query;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Calendar;
 
-import src.application.server.database.ConnectionManager;
-import src.application.server.database.exceptions.MaximumLoanException;
-import src.application.server.database.exceptions.SQLExceptionTypes;
-import src.application.server.database.exceptions.UnknownBorrowerException;
+import src.application.server.database.exceptions.*;
 
-public class CheckoutHandler {
+public class CheckoutHandler extends AbstractUpdateHandler {
 
-	/**
-	 * @param isbn
-	 * @param borrowerID
-	 * 
-	 * @throws UnknownBorrowerException 
-	 * @throws MaximumLoanException 
-	 * @throws SQLException 
-	 */
-	public static void checkoutBook(String isbn, int borrowerID) 
-		throws UnknownBorrowerException, MaximumLoanException, SQLException 
+	private int m_borrowerID;
+	private String m_isbn;
+	
+	public int onCheckout(String isbn, int borrowerID) 
+		throws LibraryRuleException, SQLException 
 	{
-		ConnectionManager connMgr = ConnectionManager.getSingleton();
-		String insertLoanStatement = 
-			"INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) " 
-			+ "VALUES (?, ?, ?, ?);";
+		this.m_borrowerID = borrowerID;
+		this.m_isbn = isbn;
 		
-		try (
-			Connection conn = connMgr.getConnection();
-			PreparedStatement ps = conn.prepareStatement(insertLoanStatement);
-		) {
-			insertValuesIntoStatement(conn, ps, isbn, borrowerID);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			handleError(e, borrowerID);
-		}
-	}
-
-	/**
-	 * @param e
-	 * @throws UnknownBorrowerException
-	 * @throws MaximumLoanException
-	 * @throws SQLException 
-	 */
-	private static void handleError(SQLException e, int borrowerID) 
-		throws UnknownBorrowerException, MaximumLoanException, SQLException 
-	{
-		if (e.getSQLState().equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION)) {
-			if (e.getErrorCode() == 1452) // primary key violation
-				throw new UnknownBorrowerException(borrowerID);
-			else if (e.getErrorCode() == 1048) // violation caused by trigger
-				throw new MaximumLoanException(borrowerID);
-		}
-		throw e; // a different unhandled error has occured
-	}
-
-	/**
-	 * 
-	 * @param conn
-	 * @param ps
-	 * @param isbn
-	 * @param borrowerID
-	 * @throws SQLException
-	 */
-	private static void insertValuesIntoStatement(
-		Connection conn, PreparedStatement ps, String isbn, int borrowerID
-	) throws SQLException {
 		Date checkout = Date.valueOf(LocalDate.now());
 		Date due = getDueDateFromCheckout(checkout);
-		setStatementSubqueries(ps, isbn, borrowerID, checkout, due);
+		return onExecuteWithException(isbn, borrowerID, checkout, due);
 	}
-
-	/**
-	 * 
-	 * @param ps
-	 * @param isbn
-	 * @param borrowerID
-	 * @param checkout
-	 * @param due
-	 * @throws SQLException
-	 */
-	private static void setStatementSubqueries(
-		PreparedStatement ps, String isbn, 
-		int borrowerID, Date checkout, Date due
-	) throws SQLException {
-		// card_id is auto-incremented, do not need to specify in insert
-		ps.setString(1, isbn);
-		ps.setInt(2, borrowerID);
-		ps.setDate(3, checkout);
-		ps.setDate(4, due);
-		// date in is null for new loans
-	}
-
+	
 	/**
 	 * Returns the due date based on the given checkout time.
 	 * 
@@ -112,5 +39,43 @@ public class CheckoutHandler {
 			.atZone(ZoneId.systemDefault()).toLocalDate();
 		Date due = Date.valueOf(dueLocal);
 	    return due;
+	}
+	
+	@Override
+	protected String getQuery() {
+		return "INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) " 
+			 + "VALUES (?, ?, ?, ?);";
+	}
+
+	@Override
+	protected void setSubqueries(
+		PreparedStatement statement, Object... subqueries) throws SQLException 
+	{
+		// card_id is auto-incremented, do not need to specify in insert
+		statement.setString(1, (String) subqueries[0]);
+		statement.setInt(2, (int) subqueries[1]);
+		statement.setDate(3, (Date) subqueries[2]);
+		statement.setDate(4, (Date) subqueries[3]);
+		// date in is null for new loans
+	}
+
+	/**
+	 * Logs the error to console when the update fails and
+	 * sets the error to be reinterpreted and rethrown when 
+	 * the handler has finished.
+	 */
+	@Override
+	protected void handleException(SQLException e) {
+		super.handleException(e);
+		String state = e.getSQLState();
+		
+		if (state.equals(SQLExceptionTypes.USER_TRIGGER)) {
+			if (e.getErrorCode() == SQLExceptionTypes.MAX_LOAN_ERROR_CODE)
+				this.m_error = new MaximumLoanException(m_borrowerID);
+			else
+				this.m_error = new BookUnavailableException(m_isbn);
+		}
+		if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
+			this.m_error = new UnknownBorrowerException(m_borrowerID);
 	}
 }

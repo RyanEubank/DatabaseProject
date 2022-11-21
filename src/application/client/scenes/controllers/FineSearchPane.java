@@ -1,16 +1,15 @@
 package src.application.client.scenes.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import src.application.server.database.query.FineSearchHandler;
-import src.application.server.database.records.FineSearchResult;
-import src.application.server.database.records.FineSummaryResult;
-import src.application.server.database.records.FinesAggregator;
+import src.application.server.database.exceptions.LibraryRuleException;
+import src.application.server.database.query.*;
+import src.application.server.database.records.*;
 
 public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 
@@ -81,10 +80,19 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 		this.m_summaryProgress = new Text("Search for fines.");
 		this.fine_summary_table.setPlaceholder(this.m_summaryProgress);
 	}
+
+	/**
+	 * Returns the name of the action performed by the fines
+	 * search pane: 'Pay Fine' for marking the selected fine as paid.
+	 */
+	@Override
+	protected String getActionName() {
+		return "Pay Fine";
+	}
 	
 	/**
-	 * Defines the runnable task to be executed when the user searches for fines 
-	 * that performs a query on the database to return records matching
+	 * Defines the runnable task to be executed when the user searches for 
+	 * fines that performs a query on the database to return records matching
 	 * the specified filter on the given search key.
 	 * 
 	 * @param key - the search term entered by the user.
@@ -92,7 +100,8 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 	 */
 	@Override
 	protected void searchTask(String key, String filter) {
-		List<FineSearchResult> results = new FineSearchHandler().onLookup(key, filter);
+		List<FineSearchResult> results = new FineSearchHandler()
+			.onLookup(key, filter);
 		if (results.isEmpty()) {
 			String error = "No loans/fines found";
 			this.m_searchProgress.setText(error);
@@ -103,19 +112,26 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 		this.fine_summary_table.getItems().addAll(summary);
 	}
 	
-
-	@Override
-	protected void onPerformAction() {
-		// TODO Auto-generated method stub
-	}
-	
-
 	/**
-	 * Returns the name of the action performed by the fines
-	 * search pane: 'Pay Fine' for marking the selected fine as paid.
+	 * Updates the given fine record in the database by attempting to
+	 * set its paid attribute to true.
 	 */
 	@Override
-	protected String getActionName() {
-		return "Pay Fine";
+	protected boolean updateDatabase(FineSearchResult fine) 
+		throws LibraryRuleException, SQLException 
+	{
+		new FinePaymentHandler().onPayFine(fine.getLoanID());
+		return true;
+	}
+	
+	/**
+	 * Sets the paid status of the given fine record to true
+	 * and refreshes the fines tables.
+	 * 
+	 * @param book - the book record that needs to be updated.
+	 */
+	protected void updateTable(FineSearchResult fine) {
+		fine.setIsPaid(true);
+		this.m_table.refresh();
 	}
 }

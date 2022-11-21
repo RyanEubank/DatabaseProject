@@ -58,7 +58,7 @@ public class LoginHandler extends AbstractQueryHandler<LoginHandler.LoginStatus>
 	 */
 	@Override
 	protected void setSubqueries(
-		PreparedStatement statement, String... subqueries
+		PreparedStatement statement, Object... subqueries
 	) {
 		return;
 	}
@@ -92,7 +92,9 @@ public class LoginHandler extends AbstractQueryHandler<LoginHandler.LoginStatus>
 	 * 	Throws an SQLException if there is an error executing the test statement.
 	 */
 	@Override
-	protected LoginStatus getQueryResult(PreparedStatement statement) throws SQLException {
+	protected LoginStatus getQueryResult(PreparedStatement statement) 
+		throws SQLException 
+	{
 		ResultSet results = statement.executeQuery();
 		System.out.println("Successful login test, returned tables: ");
 		while (results.next())

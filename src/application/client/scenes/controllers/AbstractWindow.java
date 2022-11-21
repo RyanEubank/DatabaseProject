@@ -2,7 +2,6 @@ package src.application.client.scenes.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 
 /**
  * AbstractWindow defines an fxml scene controller that has a node

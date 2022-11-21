@@ -24,7 +24,7 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 */
 	public List<T> onLookup(String key, String filter) {
 		setQuery(filter);
-		String searchTerms[] = getSearchTerms(key);
+		Object searchTerms[] = getSearchTerms(key);
 		return onExecute(searchTerms);
 	}
 	
@@ -42,11 +42,11 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 */
 	@Override
 	protected void setSubqueries(
-		PreparedStatement statement, String... subqueries
+		PreparedStatement statement, Object... subqueries
 	) throws SQLException {
 		if (subqueries.length > 0) {
 			for (int i = 0; i < subqueries.length; i++)
-				statement.setString(i, subqueries[0]);
+				statement.setString(i, (String) subqueries[0]);
 		}
 	}
 
@@ -81,7 +81,9 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 *  Throws an exception if there is an error with querying the database.
 	 */
 	@Override
-	protected List<T> getQueryResult(PreparedStatement statement) throws SQLException {
+	protected List<T> getQueryResult(PreparedStatement statement) 
+		throws SQLException 
+	{
 		ResultSet results = statement.executeQuery();
 		IResultFactory<T> factory = getResultFactory();
 		return extractResultsToList(results, factory);
@@ -93,14 +95,14 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 * 
 	 * @param <T> - the type of records returned from the query
 	 * 
-	 * @param results - the ResultSet object directly returned from executing
-	 *  the sql query.
-	 * @param factory - the factory object used to extract attributes from the
-	 *  ResultSet into record objects.
+	 * @param results - the ResultSet object directly returned from 
+	 *  executing the sql query.
+	 * @param factory - the factory object used to extract attributes 
+	 *  from the ResultSet into record objects.
 	 *  
 	 * @throws SQLException 
-	 *  Throws an exception if there is an issue extracting values from the query,
-	 *  like losing database connection.
+	 *  Throws an exception if there is an issue extracting values from 
+	 *  the query, like losing database connection.
 	 */
 	private List<T> extractResultsToList(
 		ResultSet queryResult, IResultFactory<T> factory

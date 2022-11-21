@@ -7,7 +7,7 @@ public class Scenes {
 	public static final String DEFAULT_STYLESHEET = "/src/resource/stylesheets/application.css";
 	
 	public static final String LOGIN_SCREEN = "/src/resource/stylesheets/LoginScreen.fxml";
-	public static final String MAIN_SCREEN = "/src/resource/stylesheets/MainScreenWIP.fxml";
+	public static final String MAIN_SCREEN = "/src/resource/stylesheets/MainScreen.fxml";
 	public static final String HOME_PANE = "/src/resource/stylesheets/Home.fxml";
 	public static final String BOOKS_PANE = "/src/resource/stylesheets/Books.fxml";
 	public static final String LOANS_PANE = "/src/resource/stylesheets/Loans.fxml";
@@ -35,7 +35,7 @@ public class Scenes {
 			case(LOGIN_SCREEN): 
 				return new LoginScreen();
 			case(MAIN_SCREEN): 
-				return new MainScreenWIP();
+				return new MainScreen();
 			case(HOME_PANE):
 				return new HomePane();
 			case(BOOKS_PANE):

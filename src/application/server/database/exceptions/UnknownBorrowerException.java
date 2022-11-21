@@ -1,6 +1,6 @@
 package src.application.server.database.exceptions;
 
-public class UnknownBorrowerException extends Exception {
+public class UnknownBorrowerException extends LibraryRuleException {
 	private static final long serialVersionUID = 1L;
 	
 	private int m_borrowerID;

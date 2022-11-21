@@ -17,7 +17,7 @@ public abstract class AbstractQueryHandler<T> {
 	 *  Returns the result of the handler's query or default result if
 	 *  an error occurs.
 	 */
-	public T onExecute(String... subqueries) {
+	protected T onExecute(Object... subqueries) {
 		String query = getQuery();
 		return executeQuery(query, subqueries);
 	}
@@ -32,7 +32,7 @@ public abstract class AbstractQueryHandler<T> {
 	 * @return
 	 * Returns the result of the query.
 	 */
-	protected T executeQuery(String query, String... subqueries) {
+	protected T executeQuery(String query, Object... subqueries) {
 		T result = null;
 		ConnectionManager connectionMgr = ConnectionManager.getSingleton();
 		
@@ -81,7 +81,8 @@ public abstract class AbstractQueryHandler<T> {
 	 *  the statement.
 	 */
 	protected abstract void setSubqueries(
-		PreparedStatement statement, String... subqueries) throws SQLException;
+		PreparedStatement statement, Object... subqueries) 
+		throws SQLException;
 	
 	/**
 	 * Handles a SQLException raises if the query fails.

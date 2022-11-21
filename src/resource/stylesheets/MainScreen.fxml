@@ -6,300 +6,80 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane fx:id="toolbar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1200.0">
-         <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1200.0">
+      <ToolBar prefHeight="60.0" prefWidth="1200.0">
+         <items>
+            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="48.0" prefWidth="48.0" style="-fx-background-radius: 7;">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <HBox fx:id="search_bar_container" alignment="CENTER" prefHeight="48.0" prefWidth="1035.0">
                <children>
-                  <ToolBar prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;">
-                    <items>
-                      <Button fx:id="home_button" mnemonicParsing="false" onAction="#onHomeClicked" prefHeight="48.0" prefWidth="48.0" style="-fx-background-radius: 7;">
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/home.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <HBox fx:id="search_bar_container" alignment="CENTER" prefHeight="48.0" prefWidth="1035.0">
-                           <children>
-                              <Label text="Search For">
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                              </Label>
-                              <TextField fx:id="search_bar" alignment="TOP_LEFT" onAction="#onSearch" prefHeight="25.0" prefWidth="734.0" />
-                              <Label text="By">
-                                 <padding>
-                                    <Insets left="10.0" right="10.0" />
-                                 </padding></Label>
-                              <ChoiceBox fx:id="search_type" prefWidth="150.0" />
-                           </children></HBox>
-                        <MenuButton fx:id="settings_button" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" translateY="-10.0">
-                          <items>
-                            <MenuItem fx:id="calendar_dropdown" mnemonicParsing="false" onAction="#onCalendarClicked" text="Update Time" />
-                            <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" onAction="#onLogoutClicked" text="Logout" />
-                          </items>
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/gear.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </MenuButton>
-                        <VBox prefHeight="32.0" prefWidth="24.0">
-                           <children>
-                              <Button fx:id="exit_button" alignment="TOP_LEFT" mnemonicParsing="false" text="X" />
-                           </children>
-                        </VBox>
-                    </items>
-                  </ToolBar>
+                  <Label text="Search For">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="search_bar" alignment="TOP_LEFT" prefHeight="25.0" prefWidth="734.0" />
+                  <Label text="By">
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <ChoiceBox fx:id="search_type" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <MenuButton alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" translateY="-10.0">
+               <items>
+                  <MenuItem fx:id="calendar_dropdown" mnemonicParsing="false" text="Update Time" />
+                  <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" text="Logout" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/gear.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </MenuButton>
+            <VBox prefHeight="32.0" prefWidth="24.0">
+               <children>
+                  <Button fx:id="exit_button" alignment="TOP_LEFT" mnemonicParsing="false" text="X" />
                </children>
             </VBox>
-         </children>
-      </StackPane>
-      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0">
+         </items>
+      </ToolBar>
+      <StackPane fx:id="child_container" prefHeight="680.0" prefWidth="1200.0" />
+      <AnchorPane prefHeight="60.0" prefWidth="1200.0">
          <children>
-            <BorderPane fx:id="home_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
-               <left>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </right>
-               <bottom>
-                  <Pane prefHeight="0.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-               </bottom>
-               <center>
-                  <GridPane BorderPane.alignment="BOTTOM_CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="500.0" minWidth="0.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="500.0" minWidth="0.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="300.0" vgrow="NEVER" />
-                      <RowConstraints maxHeight="250.0" minHeight="3.999969482421875" prefHeight="60.0" vgrow="NEVER" />
-                        <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="300.0" vgrow="NEVER" />
-                        <RowConstraints maxHeight="488.0000305175781" minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
-                    </rowConstraints>
-                     <children>
-                        <Button fx:id="book_button" mnemonicParsing="false" onAction="#onBookClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/book_button.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="borrower_button" mnemonicParsing="false" onAction="#onBorrowerClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/borrower_button.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label text="Books" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Label text="Borrowers" textFill="#00000073" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Button fx:id="fines_button" mnemonicParsing="false" onAction="#onFinesClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/money.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label text="Loans" textFill="#00000073" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <Button fx:id="loan_button" mnemonicParsing="false" onAction="#onLoanClicked" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #bfbfbf;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/calendar.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label text="Fines" textFill="#00000073" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                     </children>
-                  </GridPane>
-               </center>
-               <top>
-                  <Pane prefHeight="20.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-               </top>
-            </BorderPane>
-            <BorderPane fx:id="book_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
-               <center>
-                  <TableView fx:id="book_result_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-                    <columns>
-                      <TableColumn fx:id="bookIsbnCol" editable="false" prefWidth="123.3333740234375" text="ISBN" />
-                      <TableColumn fx:id="titleCol" editable="false" minWidth="0.0" prefWidth="350.0" text="Title" />
-                        <TableColumn fx:id="authorCol" editable="false" prefWidth="507.333251953125" text="Author(s)" />
-                        <TableColumn fx:id="isAvailableCol" editable="false" prefWidth="84.0" text="Status" />
-                    </columns>
-                  </TableView>
-               </center>
-               <top>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-               </top>
-               <left>
-                  <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
-               </right>
-            </BorderPane>
-            <BorderPane fx:id="loan_canvas" prefHeight="740.0" prefWidth="1200.0" style="-fx-background-color: #c1cad4;" visible="false">
-               <top>
-                  <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-               </top>
-               <left>
-                  <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
-               </left>
-               <bottom>
-                  <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </bottom>
-               <right>
-                  <Pane prefHeight="200.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
-               </right>
-               <center>
-                  <TableView fx:id="loan_result_table" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="loanIDCol" prefWidth="85.0" text="Loan ID" />
-                      <TableColumn fx:id="cardIDCol" prefWidth="85.0" text="Borrower ID" />
-                      <TableColumn fx:id="borrowerCol" prefWidth="335.0" text="Name" />
-                        <TableColumn fx:id="loanIsbnCol" minWidth="0.0" prefWidth="200.0" text="ISBN" />
-                        <TableColumn fx:id="checkoutCol" prefWidth="120.0" text="Check Out Date" />
-                        <TableColumn fx:id="dueDateCol" prefWidth="120.0" text="Due Date" />
-                        <TableColumn fx:id="checkinCol" prefWidth="120.0" text="Check In Date" />
-                    </columns>
-                  </TableView>
-               </center></BorderPane>
-            <BorderPane fx:id="borrower_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;" visible="false">
-               <left>
-                  <Pane prefHeight="430.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </left>
-               <bottom>
-                  <Pane prefHeight="125.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-               </bottom>
-               <right>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </right>
-               <center>
-                  <AnchorPane prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <TextField fx:id="user_ssn_field" layoutX="250.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
-                        <Label layoutX="65.0" layoutY="25.0" text="SSN" textFill="#00000073" />
-                        <Label layoutX="65.0" layoutY="75.0" text="First Name" textFill="#00000073" />
-                        <Label layoutX="65.0" layoutY="125.0" text="Last Name" textFill="#00000073" />
-                        <Label layoutX="65.0" layoutY="175.0" text="Address" textFill="#00000073" />
-                        <Label layoutX="65.0" layoutY="225.0" text="Phone Number" textFill="#00000073" />
-                        <TextField fx:id="user_fname_field" layoutX="250.0" layoutY="71.0" prefWidth="300.0" />
-                        <TextField fx:id="user_lname_field" layoutX="250.0" layoutY="121.0" prefWidth="300.0" />
-                        <TextField fx:id="user_address_field" layoutX="250.0" layoutY="171.0" prefWidth="300.0" />
-                        <TextField fx:id="user_phone_field" layoutX="250.0" layoutY="221.0" prefWidth="300.0" />
-                        <StackPane layoutY="288.0" prefHeight="86.0" prefWidth="800.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#onCreateUser" prefHeight="86.0" prefWidth="193.0" text="Create User" />
-                           </children>
-                        </StackPane>
-                     </children>
-                  </AnchorPane>
-               </center>
-               <top>
-                  <StackPane prefHeight="125.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Text fx:id="borrower_title" fill="#00000073" strokeType="OUTSIDE" strokeWidth="0.0" text="Borrower Management" />
-                     </children>
-                  </StackPane>
-               </top>
-            </BorderPane>
-            <BorderPane fx:id="fines_canvas" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
-               <top>
-                  <Pane prefHeight="50.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Text layoutX="376.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fines" />
-                        <Text layoutX="932.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Summary" />
-                     </children></Pane>
-               </top>
-               <left>
-                  <Pane prefHeight="540.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
-               </left>
-               <center>
-                  <TableView fx:id="fine_result_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="fineLoanIDCol" prefWidth="85.0" text="Loan ID" />
-                      <TableColumn fx:id="fineBorrowerIDCol" prefWidth="85.0" text="Card ID" />
-                        <TableColumn fx:id="fineNameCol" prefWidth="310.0" text="Name" />
-                        <TableColumn fx:id="fineAmountCol" minWidth="0.0" text="Amount" />
-                        <TableColumn fx:id="finePaidCol" minWidth="0.0" text="Paid" />
-                    </columns>
-                  </TableView>
-               </center>
-               <right>
-                  <BorderPane prefHeight="630.0" prefWidth="500.0" BorderPane.alignment="CENTER">
-                     <top>
-                        <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </top>
-                     <left>
-                        <Pane prefHeight="200.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
-                     </left>
-                     <right>
-                        <Pane prefHeight="200.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
-                     </right>
-                     <bottom>
-                        <Pane prefHeight="0.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </bottom>
-                     <center>
-                        <TableView fx:id="fine_summary_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="summaryLoanIDCol" prefWidth="75.0" text="Card ID" />
-                            <TableColumn fx:id="summaryBorrowerIDCol" prefWidth="185.0" text="Name" />
-                              <TableColumn fx:id="totalOwedCol" prefWidth="85.0" text="Total Owed" />
-                              <TableColumn fx:id="totalPaidCol" prefWidth="85.0" text="Total Paid" />
-                          </columns>
-                        </TableView>
-                     </center>
-                  </BorderPane>
-               </right></BorderPane>
-         </children>
-      </StackPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #c1cad4;">
-         <children>
-            <Text fx:id="date" layoutX="589.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <HBox alignment="CENTER_RIGHT" layoutX="618.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
+            <Text fx:id="date" layoutX="589.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <HBox fx:id="action_bar_container" alignment="CENTER_RIGHT" layoutX="620.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
                <children>
                   <Label fx:id="error_label" text="Label" textFill="RED">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="action_button" mnemonicParsing="false" onAction="#onActionButtonClicked" prefHeight="32.0" prefWidth="116.0" text="Button" />
+                  <Button fx:id="action_button" mnemonicParsing="false" prefHeight="32.0" prefWidth="116.0" text="Button" />
                </children>
             </HBox>
          </children>

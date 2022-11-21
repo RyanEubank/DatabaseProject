@@ -1,66 +1,37 @@
 package src.application.client.scenes.controllers;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import src.application.client.scenes.SceneManager;
-import src.application.client.scenes.Scenes;
-import src.application.client.scenes.dialogs.CalendarDialog;
-import src.application.client.scenes.dialogs.CheckoutDialog;
-import src.application.client.style.StylizedCell;
-import src.application.server.database.*;
-import src.application.server.database.exceptions.*;
-import src.application.server.database.query.BookSearchHandler;
-import src.application.server.database.query.CheckinHandler;
-import src.application.server.database.query.CheckoutHandler;
+import src.application.client.scenes.*;
+import src.application.server.database.ConnectionManager;
 import src.application.server.database.query.DateUpdater;
-import src.application.server.database.query.FineSearchHandler;
-import src.application.server.database.query.LibraryCardManager;
-import src.application.server.database.query.LoanSearchHandler;
-import src.application.server.database.records.BookSearchResult;
-import src.application.server.database.records.FineSearchResult;
-import src.application.server.database.records.FineSummaryResult;
-import src.application.server.database.records.FinesAggregator;
-import src.application.server.database.records.LoanSearchResult;
 
 public class MainScreen extends AbstractWindow {
-	
-	private String[] book_search_options = { "Any", "ISBN", "Title", "Author" };
-	private String[] loan_search_options = {"Any", "Card No.", "Name", "ISBN"};
-	private String[] fine_search_options = {"Any", "Card No.", "Name"};
-	
-	// database search threads
-	private Thread bookSearchThread;
-	private Thread loanSearchThread;
-	private Thread fineSearchThread;
-	
-	// table placeholders
-	private Text book_search_progress;
-	private Text loan_search_progress;
-	private Text fine_search_progress;
-	private Text fine_summary_progress;
-	
-	// GUI components for the home button canvas (default canvas when scene is loaded)
+
 	@FXML 
-	private BorderPane home_canvas;	
+	private StackPane child_container;	
+	@FXML
+	private Button home_button;
 	@FXML
 	private HBox search_bar_container;
+	@FXML
+	private HBox action_bar_container;
 	@FXML
 	private TextField search_bar;
 	@FXML
 	private ChoiceBox<String> search_type;
 	@FXML
-	private MenuButton settings_button;
+	private MenuItem calendar_dropdown;
 	@FXML
-	private MenuItem calendar_option;
-	@FXML
-	private MenuItem logout_option;
+	private MenuItem logout_dropdown;
 	@FXML
 	private Text date;
 	@FXML
@@ -68,252 +39,262 @@ public class MainScreen extends AbstractWindow {
 	@FXML
 	private Label error_label;
 	
-	// GUI components for the book search canvas opened by clicking the books
-	// button on the home canvas
-	@FXML
-	private BorderPane book_canvas;
-	@FXML
-	private TableView<BookSearchResult> book_result_table;
-	@FXML
-	private TableColumn<BookSearchResult, String> bookIsbnCol;
-	@FXML
-	private TableColumn<BookSearchResult, String> titleCol;
-	@FXML
-	private TableColumn<BookSearchResult, String> authorCol;
-	@FXML
-	private TableColumn<BookSearchResult, Boolean> isAvailableCol;
+	private final AbstractPane m_homePane;
+	private final AbstractPane m_borrowersPane;
+	private final AbstractPane m_booksPane;
+	private final AbstractPane m_loansPane;
+	private final AbstractPane m_finesPane;
 	
-	// GUI components for the borrower management canvas opened by clicking
-	// the borrower button on the home canvas
-	@FXML
-	private BorderPane borrower_canvas;
-	@FXML
-	private TextField user_ssn_field;
-	@FXML
-	private TextField user_fname_field;
-	@FXML
-	private TextField user_lname_field;
-	@FXML
-	private TextField user_address_field;
-	@FXML
-	private TextField user_phone_field;
-	
-	// GUI components for the loan search canvas opened by clicking the loan
-	// button on the home canvas
-	@FXML
-	private BorderPane loan_canvas;
-	@FXML
-	private TableView<LoanSearchResult> loan_result_table;
-	@FXML
-	private TableColumn<LoanSearchResult, Integer> loanIDCol;
-	@FXML
-	private TableColumn<LoanSearchResult, Integer> cardIDCol;
-	@FXML
-	private TableColumn<LoanSearchResult, String> borrowerCol;
-	@FXML
-	private TableColumn<LoanSearchResult, String> loanIsbnCol;
-	@FXML
-	private TableColumn<LoanSearchResult, LocalDate> checkoutCol;
-	@FXML
-	private TableColumn<LoanSearchResult, LocalDate> dueDateCol;
-	@FXML
-	private TableColumn<LoanSearchResult, LocalDate> checkinCol;
-	
-	
-	// GUI components for the fines display canvas opened by clicking the fines
-	// button on the home canvas
-	@FXML
-	private BorderPane fines_canvas;
-	@FXML
-	private TableView<FineSearchResult> fine_result_table;
-	@FXML
-	private TableColumn<FineSearchResult, Integer> fineBorrowerIDCol;
-	@FXML
-	private TableColumn<FineSearchResult, String> fineNameCol;
-	@FXML
-	private TableColumn<FineSearchResult, Double> fineAmountCol;
-	@FXML
-	private TableColumn<FineSearchResult, Boolean> finePaidCol;
-	@FXML
-	private TableView<FineSummaryResult> fine_summary_table;
-	@FXML
-	private TableColumn<FineSummaryResult, Integer> summaryLoanIDCol;
-	@FXML
-	private TableColumn<FineSummaryResult, Integer> summaryBorrowerIDCol;
-	@FXML
-	private TableColumn<FineSummaryResult, Double> totalOwedCol;
-	@FXML
-	private TableColumn<FineSummaryResult, Double> totalPaidCol;
+	private BooleanBinding searchBarVisibility;
+	private BooleanBinding actionBarVisibility;
 	
 	/**
-	 * Sets up the initial layout and displayed fields and binds the 
-	 * visibility of the book search and loan search containers to 
-	 * automaticly resize when toggled.
+	 * Constructs a new main screen controller and
+	 * initializes its children pane controllers.
+	 * 
+	 * @throws Exception 
+	 *  Throws an exception if there is an error loading
+	 *  the various panes in the main screen.
+	 */
+	public MainScreen() throws Exception {
+		this.m_homePane = SceneManager.getSingleton().loadPane(Scenes.HOME_PANE);
+		this.m_booksPane = SceneManager.getSingleton().loadPane(Scenes.BOOKS_PANE);
+		this.m_loansPane = SceneManager.getSingleton().loadPane(Scenes.LOANS_PANE);
+		this.m_borrowersPane = SceneManager.getSingleton().loadPane(Scenes.BORROWERS_PANE);
+		this.m_finesPane = SceneManager.getSingleton().loadPane(Scenes.FINES_PANE);
+	}
+	
+	/**
+	 * Initializes the various panes displayed by the main screen
+	 * and sets the default active pane.
 	 */
 	@Override
 	public void initialize() {
 		super.initialize();
-		bindVisibilty();
-		setPlaceholderCanvases();
-		initBookTableColumns();
-		initLoanTableColumns();
-		initFineSearchColumns();
-		initFineSummaryColumns();
-		
-		// initialize the cell factory to style rows based on the book availabilty
-		// value set in the isAvailable column
-		this.isAvailableCol.setCellFactory(
-			tableCell -> new StylizedCell<BookSearchResult, Boolean>
-				((availability) -> availability, "AVAILABLE", "UNAVAILABLE")
-		);
-		
+		initChildren();
+		addChildrenToScene();
+		bindSearchBarVisibilty();
+		bindActionBarVisibility();
+		registerEvenHandlers();
 		this.date.setText(LocalDate.now().toString());
-		onHomeClicked();
+		setActivePane(this.m_homePane);
 	}
 
 	/**
-	 * Binds the visibilty of the book/borrower/home canvases on the main screen
-	 * to the managaed property which will automatically resize them to screen
-	 * when the active canvas is swapped.
+	 * Initializes all ofthe children panes in the main screen.
 	 */
-	private void bindVisibilty() {
-		this.home_canvas.managedProperty().bind(this.home_canvas.visibleProperty());
-		this.book_canvas.managedProperty().bind(this.book_canvas.visibleProperty());
-		this.loan_canvas.managedProperty().bind(this.loan_canvas.visibleProperty());
-		this.borrower_canvas.managedProperty()
-			.bind(this.borrower_canvas.visibleProperty());
+	private void initChildren() {
+		this.m_homePane.setParent(this);
+		this.m_booksPane.setParent(this);
+		this.m_loansPane.setParent(this);
+		this.m_borrowersPane.setParent(this);
+		this.m_finesPane.setParent(this);
+	}
+
+	/**
+	 * Adds all children panes to the container displaying the main screen's 
+	 * content.
+	 */
+	private void addChildrenToScene() {
+		this.child_container.getChildren().addAll(
+			this.m_homePane.getPane(),
+			this.m_booksPane.getPane(),
+			this.m_loansPane.getPane(),
+			this.m_borrowersPane.getPane(),
+			this.m_finesPane.getPane()
+		);
 	}
 	
 	/**
-	 * Sets a default node to display when search tables are empty.
+	 * Binds the visibility of the search bar to a boolean
+	 * property listening for both the home and borrower screens being hidden
+	 * (and therefore the active screen must be a search pane)
 	 */
-	private void setPlaceholderCanvases() {
-		this.book_search_progress = new Text("Search for a book.");
-		this.loan_search_progress = new Text("Search for a loan.");
-		this.fine_search_progress = new Text("Search for a fine.");
-		this.fine_summary_progress = new Text("Search for a fine.");
-		this.book_result_table.setPlaceholder(this.book_search_progress);
-		this.loan_result_table.setPlaceholder(this.loan_search_progress);
-		this.fine_result_table.setPlaceholder(this.fine_search_progress);
-		this.fine_summary_table.setPlaceholder(this.fine_summary_progress);
+	private void bindSearchBarVisibilty() {
+		List<AbstractPane> nonSearchPanes = List.of(this.m_homePane, this.m_borrowersPane);
+		searchBarVisibility = Bindings.createBooleanBinding(
+			() -> nonSearchPanes.stream().allMatch(e -> !e.getPane().isVisible()),
+			nonSearchPanes.stream().map(pane -> pane.getPane().visibleProperty())
+				.toArray(Observable[]::new)
+		);
+		this.search_bar_container.visibleProperty().bind(searchBarVisibility);
+	}
+
+	/**
+	 * Binds the action bar visibility to the opposite of the home pane's
+	 * visibility, i.e. it is visible whenever the home pane is hidden.
+	 */
+	private void bindActionBarVisibility() {
+		this.actionBarVisibility = Bindings.createBooleanBinding(
+			() -> !this.m_homePane.getPane().isVisible(), 
+			List.of(this.m_homePane.getPane().visibleProperty()).toArray(Observable[]::new)
+		);
+		this.action_bar_container.visibleProperty().bind(actionBarVisibility);
+	}
+
+	/**
+	 * Registers event handlers for the various buttons and controls on the
+	 * main screen.
+	 */
+	private void registerEvenHandlers() {
+		this.home_button.setOnAction(e -> setActivePane(this.m_homePane));
+		this.search_bar.setOnAction(e -> onSearch());
+		this.action_button.setOnAction(e -> onActionClicked());
+		this.calendar_dropdown.setOnAction(e -> onOpenCalendar());
+		this.logout_dropdown.setOnAction(e -> onLogout());
 	}
 	
 	/**
-	 * Sets the binding between columns and the respective properties
-	 * defined in the BookSearchResult objects used to populate the book table.
+	 * Sets the active child pane in the main screen window.
+	 * 
+	 * @param pane - the child pane to be set as the active visible child.
 	 */
-	private void initBookTableColumns() {
-		this.bookIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-		this.titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-		this.authorCol.setCellValueFactory(new PropertyValueFactory<>("authors"));
-		this.isAvailableCol.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
+	public void setActivePane(AbstractPane pane) {
+		if (pane != this.m_homePane) 
+			this.m_homePane.getPane().setVisible(false);
+		if (pane != this.m_booksPane)
+			this.m_booksPane.getPane().setVisible(false);
+		if (pane != this.m_loansPane)
+			this.m_loansPane.getPane().setVisible(false);
+		if (pane != this.m_borrowersPane)
+			this.m_borrowersPane.getPane().setVisible(false);
+		if (pane != this.m_finesPane)
+			this.m_finesPane.getPane().setVisible(false);
+
+		pane.getPane().setVisible(true);
 	}
 	
 	/**
-	 * Sets the binding between columns and the respective properties
-	 * defined in the LoanSearchResult objects used to populate the loan
-	 * table.
+	 * Return the currently active pane.
+	 * 
+	 * @return
+	 *  Returns the child pane that is currently visible in the main screen.
 	 */
-	private void initLoanTableColumns() {
-		this.loanIDCol.setCellValueFactory(new PropertyValueFactory<>("loanID"));
-		this.cardIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
-		this.borrowerCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-		this.loanIsbnCol.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-		this.checkoutCol.setCellValueFactory(new PropertyValueFactory<>("checkoutDate"));
-		this.dueDateCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-		this.checkinCol.setCellValueFactory(new PropertyValueFactory<>("checkinDate"));
+	public AbstractPane getActivePane() {
+		if (this.m_homePane.getPane().isVisible())
+			return this.m_homePane;
+		else if (this.m_booksPane.getPane().isVisible())
+			return this.m_booksPane;
+		else if (this.m_loansPane.getPane().isVisible())
+			return this.m_loansPane;
+		else if (this.m_borrowersPane.getPane().isVisible())
+			return this.m_borrowersPane;
+		else if (this.m_finesPane.getPane().isVisible())
+			return this.m_finesPane;
+		else
+			throw new RuntimeException(
+				"No search pane is currently active: Search field null.");
 	}
 	
 	/**
-	 * Sets the binding between columns and the respective properties
-	 * defined in the FineSearchResult objects used to populate the fines
-	 * table.
+	 * Sets the error text displayed next to the main screen's action button.
+	 * 
+	 * @param error - the error to be displayed to the user.
 	 */
-	private void initFineSearchColumns() {
-		this.fineBorrowerIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
-		this.fineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-		this.fineAmountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-		this.finePaidCol.setCellValueFactory(new PropertyValueFactory<>("isPaid"));
+	public void setActionError(String error) {
+		this.error_label.setText(error);
 	}
 	
 	/**
-	 * Sets the binding between columns and the respective properties
-	 * defined in the FineSummaryResult objects used to populate the fines
-	 * summary table.
+	 * Sets the name displayed on the main screen's action button.
+	 * 
+	 * @param name - the new name of the button.
 	 */
-	private void initFineSummaryColumns() {
-		this.summaryLoanIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowerID"));
-		this.summaryBorrowerIDCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-		this.totalOwedCol.setCellValueFactory(new PropertyValueFactory<>("totalOwed"));
-		this.totalPaidCol.setCellValueFactory(new PropertyValueFactory<>("totalPaid"));
+	public void setActionName(String name) {
+		this.action_button.setText(name);
 	}
 	
 	/**
-	 * Sets the home canvas as the active screen and hides the 
-	 * search bar/other menus.
+	 * Sets the etxt for the search filter options in the search bar.
+	 * 
+	 * @param options - the list of selectable search options.
 	 */
-	public void onHomeClicked() {
-		this.book_canvas.setVisible(false);
-		this.borrower_canvas.setVisible(false);
-		this.loan_canvas.setVisible(false);
-		this.fines_canvas.setVisible(false);
-		this.search_bar_container.setVisible(false);
-		this.search_bar.clear();
-		this.action_button.setVisible(false);
-		this.error_label.setText("");
-		this.home_canvas.setVisible(true);
-	}
-	
-	/**
-	 * Sets the Book menu as the active container and hides the other canvases.
-	 */
-	public void onBookClicked() {
-		this.home_canvas.setVisible(false);
-		this.book_canvas.setVisible(true);
+	public void setFilterOptions(String[] options) {
 		this.search_type.getItems().clear();
-		this.search_type.getItems().addAll(book_search_options);
-		this.search_type.setValue(book_search_options[0]);
-		this.action_button.setText("Checkout");
-		this.action_button.setVisible(true);
-		this.search_bar_container.setVisible(true);
+		this.search_type.getItems().addAll(options);
+		this.search_type.setValue(options[0]);
 	}
 	
 	/**
-	 * Sets the loan menu as the active container and hides the other canvases.
+	 * Returns the books pane managed by the main screen.
+	 * 
+	 * @return
+	 *  Returns the AbstractPane object for the book search pane.
 	 */
-	public void onLoanClicked() {
-		this.home_canvas.setVisible(false);
-		this.loan_canvas.setVisible(true);
-		this.search_type.getItems().clear();
-		this.search_type.getItems().addAll(loan_search_options);
-		this.search_type.setValue(loan_search_options[0]);
-		this.action_button.setText("Check In");
-		this.action_button.setVisible(true);
-		this.search_bar_container.setVisible(true);
+	public AbstractPane getBooksPane() {
+		return this.m_booksPane;
 	}
 	
 	/**
-	 * Sets the fines menu as the active container and hides the other
-	 * canvases.
+	 * Returns the loans pane managed by the main screen.
+	 * 
+	 * @return
+	 *  Returns the AbstractPane object for the loan search pane.
 	 */
-	public void onFinesClicked() {
-		this.home_canvas.setVisible(false);
-		this.fines_canvas.setVisible(true);
-		this.search_type.getItems().clear();
-		this.search_type.getItems().addAll(fine_search_options);
-		this.search_type.setValue(fine_search_options[0]);
-		this.action_button.setText("Pay Fine");
-		this.action_button.setVisible(true);
-		this.search_bar_container.setVisible(true);
+	public AbstractPane getLoansPane() {
+		return this.m_loansPane;
 	}
 	
 	/**
-	 * Opens the borrower management canvas from the home screen
-	 * when the borrower button is clicked.
+	 * Returns the borrowers pane managed by the main screen.
+	 * 
+	 * @return
+	 *  Returns the AbstractPane object for the borrower managament pane.
 	 */
-	public void onBorrowerClicked() {
-		this.home_canvas.setVisible(false);
-		this.borrower_canvas.setVisible(true);
+	public AbstractPane getBorrowersPane() {
+		return this.m_borrowersPane;
+	}
+	
+	/**
+	 * Returns the fines pane managed by the main screen.
+	 * 
+	 * @return
+	 *  Returns the AbstractPane object for the fine search pane.
+	 */
+	public AbstractPane getFinesPane() {
+		return this.m_finesPane;
+	}
+	
+	/**
+	 * Returns the contents of the search bar at the top of the main screen.
+	 * 
+	 * @return
+	 *  Returns the text entered by the user into the search bar.
+	 */
+	public String getSearchText() {
+		return this.search_bar.getText();
+	}
+	
+	/**
+	 * Returns the filter selected for database searches to filter based
+	 * on attribute.
+	 * 
+	 * @return
+	 *  Returns the attribute name to filter the search on.
+	 */
+	public String getSearchFilter() {
+		return this.search_type.getValue();
+	}
+	
+	/**
+	 * Called when the main screen action button is clicked. This
+	 * performs some database operation defined by the active child
+	 * pane.
+	 */
+	public void onActionClicked() {
+		getActivePane().onPerformAction();
+	}
+	
+	/**
+	 * Called when the user hits the enter key when in the search bar
+	 * to query the database for information specific to the active pane.
+	 */
+	public void onSearch() {
+		AbstractPane pane = getActivePane();
+		if (pane instanceof AbstractSearchPane<?>)
+			((AbstractSearchPane<?>) pane).onSearch();
+		else
+			throw new RuntimeException("Active child is not a search pane.");
 	}
 	
 	/**
@@ -321,9 +302,10 @@ public class MainScreen extends AbstractWindow {
 	 * the date changing to track various information such as book due dates
 	 * and overdue fees.
 	 */
-	public void onCalendarClicked() {
+	public void onOpenCalendar() {
 		try {
-			Dialog<LocalDate> dialog = SceneManager.getSingleton().openDialog(Scenes.CALENDAR_DIALOG);
+			Dialog<LocalDate> dialog = SceneManager.getSingleton()
+				.openDialog(Scenes.CALENDAR_DIALOG);
 			Optional<LocalDate> result = dialog.showAndWait();
 			if (result.isPresent()) {
 				DateUpdater.setDate(result.get());
@@ -338,254 +320,9 @@ public class MainScreen extends AbstractWindow {
 	 * Clears the connection properties and returns to the application
 	 * login screen.
 	 */
-	public void onLogoutClicked() {
+	public void onLogout() {
 		ConnectionManager.getSingleton().clearProperties();
 		SceneManager.getSingleton().setMainStage(
 			Scenes.LOGIN_SCREEN, Scenes.DEFAULT_STYLESHEET, 1200, 800);
-	}
-	
-	/**
-	 * Called when the user selects a search result in one of the menus
-	 * and clicks the action button to either checkout/checkin a book or
-	 * mark a fine as paid.
-	 */
-	public void onActionButtonClicked() {
-		if (this.book_canvas.isVisible()) 
-			onCheckout();
-		else if (this.loan_canvas.isVisible()) 
-			onCheckIn();
-		else if (this.fines_canvas.isVisible())
-			onPayFine();
-		else
-			throw new RuntimeException(
-				"Null field. No table selected.");
-	}
-	
-	/**
-	 * Gets the slected fine and attempts to update and mark it as paid
-	 * in the database.
-	 */
-	private void onPayFine() {
-		SelectionModel<FineSearchResult> selectionHandler 
-		= this.fine_result_table.getSelectionModel();
-		FineSearchResult selection = selectionHandler.getSelectedItem();
-		
-		if (selection == null)
-			this.error_label.setText("No fine is selected.");
-		else
-			attemptPayFine(selection);
-	}
-
-	/**
-	 * Updates the paid attribute of a fine to true indicating it
-	 * has been paid off, and refreshes the fines table if successful.
-	 * 
-	 * @param loanID - the cardID
-	 */
-	private void attemptPayFine(FineSearchResult selection) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * Reads the currently selected row in the loans tables and
-	 * calls the check in handler. Sets an error messsage if nothing
-	 * is selected.
-	 */
-	private void onCheckIn() {
-		SelectionModel<LoanSearchResult> selectionHandler 
-			= this.loan_result_table.getSelectionModel();
-		LoanSearchResult selection = selectionHandler.getSelectedItem();
-	
-		if (selection == null)
-			this.error_label.setText("No loan is selected.");
-		else 
-			attemptCheckinBook(selection);
-	}
-
-	/**
-	 * Gets the current date and attempts to check the selected book in
-	 * with the current date as its check in date.
-	 * 
-	 * @param loan - the selected book loan to check in.
-	 */
-	private void attemptCheckinBook(LoanSearchResult loan) {
-		if (loan.getCheckinDate() == null) {
-			LocalDate dayIn = LocalDate.now();
-			if (CheckinHandler.checkinBook(loan.getLoanID(), dayIn)) {
-				loan.setCheckinDate(dayIn);
-				
-				this.book_result_table.getItems().stream().filter(
-					(book) -> book.getIsbn().equals(loan.getIsbn())
-				).findAny().ifPresent(
-					(book) -> { book.setIsAvailable(true); }
-				);
-				
-				this.loan_result_table.refresh();
-				this.book_result_table.refresh();
-			} else
-				this.error_label.setText(
-					"Loan ID: (" + loan.getBorrowerID() + ") not found!");
-		}
-	}
-	
-	/**
-	 * Reads the currently selected row in the books table and calls
-	 * the checkout handler if the book is available. Sets an error message
-	 * if nothing is selected or book is not available.
-	 */
-	private void onCheckout() {
-		SelectionModel<BookSearchResult> selectionHandler 
-			= this.book_result_table.getSelectionModel();
-		BookSearchResult selection = selectionHandler.getSelectedItem();
-		this.error_label.setText("");
-		
-		if (selection == null)
-			this.error_label.setText("No book is selected.");
-		else if (!selection.getIsAvailable())
-			this.error_label.setText("Book is unavailable!");
-		else 
-			attemptCheckoutBook(selection);
-	}
-	
-	/**
-	 * Opens a dialog for the user to enter a borrower card number
-	 * and attempts to insert a new loan in the library database for
-	 * the selected book and borrower.
-	 * 
-	 * @param book - the table row selected for checkout.
-	 */
-	private void attemptCheckoutBook(BookSearchResult book) {
-		try {
-			Dialog<Integer> dialog = SceneManager.getSingleton().openDialog(Scenes.CHECKOUT_DIALOG);
-			Optional<Integer> result = dialog.showAndWait();
-			if (result.isPresent()) {
-				try {
-					CheckoutHandler.checkoutBook(book.getIsbn(), result.get());
-					book.setIsAvailable(false);
-					this.book_result_table.refresh();
-				} catch (UnknownBorrowerException e) {
-					this.error_label.setText(
-						"Borrower ID: (" + result.get() + ") not found!");
-				} catch (MaximumLoanException e) {
-					this.error_label.setText(
-						"Borrower ID: (" + result.get() + ") has exceeded maximum allowed checkouts");
-				} catch (SQLException e) {
-					this.error_label.setText("An unknown error has occured.");
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Called when the user hits the enter key after typing a search query in
-	 * the search bar to populate the search table with results from a database
-	 * query.
-	 */
-	public void onSearch() {
-		String key = this.search_bar.getText();
-		String filter = this.search_type.getValue();
-		
-		if (this.book_canvas.isVisible()) 
-			onSearchBooks(key, filter);
-		else if (this.loan_canvas.isVisible()) 
-			onSearchLoans(key, filter);
-		else if (this.fines_canvas.isVisible())
-			onSearchFines(key, filter);
-		else
-			throw new RuntimeException(
-				"User searched null field. No table selected.");
-	}
-
-	/**
-	 * Performs a query on the database to return book loans matching
-	 * the specified filter on the given search key.
-	 * 
-	 * @param key - the search term entered by the user.
-	 * @param filter - the criteria category filter to match search results on.
-	 */
-	private void onSearchBooks(String key, String filter) {
-		if (this.bookSearchThread == null || !this.bookSearchThread.isAlive()) {
-			this.book_search_progress.setText("Searching books... please wait");
-			this.book_result_table.getItems().clear();
-			this.error_label.setText("");
-			
-			Runnable bookSearchTask = () -> {
-				List<BookSearchResult> results = new BookSearchHandler().onLookup(key, filter);
-				if (results.isEmpty())
-					this.book_search_progress.setText("No books found");
-				this.book_result_table.getItems().addAll(results);
-			};
-			this.bookSearchThread = new Thread(bookSearchTask);
-			this.bookSearchThread.start();
-		} else System.out.println("Book search already running...");
-	}
-	
-	/**
-	 * Performs a query on the database to return books and their availabilities
-	 * matching the specified filter on the given search key.
-	 * 
-	 * @param key - the search term entered by the user.
-	 * @param filter - the criteria category filter to match search results on.
-	 */
-	private void onSearchLoans(String key, String filter) {
-		if (this.loanSearchThread == null || !this.loanSearchThread.isAlive()) {
-			this.loan_search_progress.setText("Searching loans... please wait");
-			this.loan_result_table.getItems().clear();
-			this.error_label.setText("");
-			
-			Runnable loanSearchTask = () -> {
-				List<LoanSearchResult> results = new LoanSearchHandler().onLookup(key, filter);
-				if (results.isEmpty())
-					this.loan_search_progress.setText("No loans found");
-				this.loan_result_table.getItems().addAll(results);
-			};
-			this.loanSearchThread = new Thread(loanSearchTask);
-			this.loanSearchThread.start();
-		} else System.out.println("Loan search already running");
-	}
-	
-	/**
-	 * Performs a query on the database to return borrower fines and their 
-	 * paid status matching the specified filter on the given search key.
-	 * 
-	 * @param key - the search term entered by the user.
-	 * @param filter - the criteria category filter to match search results on.
-	 */
-	private void onSearchFines(String key, String filter) {
-		if (this.fineSearchThread == null || !this.fineSearchThread.isAlive()) {
-			String placeholder = "Searching fines... please wait";
-			this.fine_search_progress.setText(placeholder);
-			this.fine_summary_progress.setText(placeholder);
-			this.fine_result_table.getItems().clear();
-			this.error_label.setText("");
-			
-			Runnable fineSearchTask = () -> {
-				List<FineSearchResult> results = new FineSearchHandler().onLookup(key, filter);
-				if (results.isEmpty()) {
-					String error = "No loans/fines found";
-					this.fine_search_progress.setText(error);
-					this.fine_summary_progress.setText(error);
-				}
-				this.fine_result_table.getItems().addAll(results);
-				List<FineSummaryResult> summary = FinesAggregator.summarize(results);
-				this.fine_summary_table.getItems().addAll(summary);
-			};
-			
-			this.fineSearchThread = new Thread(fineSearchTask);
-			this.fineSearchThread.start();
-		} else System.out.println("Fine search already running");
-	}
-
-	public void onCreateUser() {
-		String ssn = this.user_ssn_field.getText();
-		String firstname = this.user_fname_field.getText();
-		String lastname = this.user_lname_field.getText();
-		String address = this.user_address_field.getText();
-		String phone = this.user_phone_field.getText();
-		
-		LibraryCardManager.createUser(ssn, firstname, lastname, address, phone);
 	}
 }

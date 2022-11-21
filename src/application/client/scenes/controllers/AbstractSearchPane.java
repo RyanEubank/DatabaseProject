@@ -1,17 +1,24 @@
 package src.application.client.scenes.controllers;
 
+import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import src.application.server.database.exceptions.LibraryRuleException;
 
 public abstract class AbstractSearchPane<T>  extends AbstractPane {
 
-	private Thread m_searchThread;
+	protected static final String UNKNOWN_ERROR = "An unknown error has occured.";
+	private static final String NULL_SELECTION = "No item is selected.";
+	
 	protected Text m_searchProgress;
 	protected Runnable m_searchTask;
 	
 	@FXML
 	protected TableView<T> m_table;
+	
+	private Thread m_searchThread;
 	
 	/**
 	 * Initializes table colummns and sets up a runnable
@@ -24,7 +31,7 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 		initTablePlaceholder();
 		initSearchTask();
 	}
-
+	
 	/**
 	 * Sets the runnable task that is called when the user
 	 * performs a search.
@@ -51,7 +58,7 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 			}
 		);
 	}
-
+	
 	/**
 	 * Performs a database search to return records such as 
 	 * books or loans.
@@ -97,7 +104,39 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 			= this.m_table.getSelectionModel();
 		return selectionHandler.getSelectedItem();
 	}
+
+	/**
+	 * Gets the selected search item and calls the action handler
+	 * if the selection is valid.
+	 */
+	@Override
+	protected void onPerformAction() {
+		this.m_parent.setActionError("");
+		T selection = getSelection();
+		
+		if (selection == null)
+			this.m_parent.setActionError(NULL_SELECTION);
+		else
+			callActionHandler(selection);
+	}
 	
+	/**
+	 * Handles the pane's main action and refreshes the search table
+	 * if the update is successful.
+	 * 
+	 * @param selection - the selected item to perform the update on.
+	 */
+	protected void callActionHandler(T selection) {
+		try {
+			if (updateDatabase(selection))
+				updateTable(selection);
+		} catch (LibraryRuleException e) {
+			this.m_parent.setActionError(e.getMessage());
+		} catch (SQLException e) {
+			this.m_parent.setActionError(UNKNOWN_ERROR);
+		}
+	}
+
 	/**
 	 * Sets up the columns of the table to display the various
 	 * fields returned in the query records.
@@ -127,4 +166,25 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 	 *  a query can filter by.
 	 */
 	protected abstract String[] getFilterOptions();
+	
+	/**
+	 * Performs the same update on the selection in the table 
+	 * to match if the database is successsfully updated.
+	 * 
+	 * @param selection - the selection to update.
+	 */
+	protected abstract void updateTable(T selection);
+
+	/**
+	 * Updates the database with the appropriate insert or update
+	 * statement for the screen's action.
+	 * 
+	 * @param selection - the selection to update in the database.
+	 * 
+	 * @return 
+	 *  Returns true if the database was updated, false if the operation
+	 *  was cancelled.
+	 */
+	protected abstract boolean updateDatabase(T selection) 
+		throws LibraryRuleException, SQLException;
 }

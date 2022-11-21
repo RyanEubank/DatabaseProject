@@ -87,3 +87,15 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+
+
+DROP TRIGGER IF EXISTS Library.Check_Paid;
+DELIMITER $$
+CREATE TRIGGER Library.Check_Paid BEFORE INSERT ON Library.Fines FOR EACH ROW 
+BEGIN
+	IF NEW.loan_id IN (
+		SELECT temp.loan_id FROM Library.Fines as temp WHERE date_in IS NULL
+	) THEN SIGNAL SQLSTATE 'UNAVAILABLE' SET MESSAGE TEXT 'Book is checked out';
+	END IF;
+END$$
+DELIMITER ;
