@@ -16,4 +16,6 @@ public class SQLExceptionTypes {
 	
 	public static int MAX_LOAN_ERROR_CODE = 1000;
 	public static int BOOK_UNAVAILABLE_CODE = 1001;
+	public static int LOAN_ALREADY_CHECKED_IN = 1002;
+	public static int FINE_ALREADY_PAID = 1003;
 }

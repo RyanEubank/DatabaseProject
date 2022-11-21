@@ -3,7 +3,11 @@ package src.application.server.database.query;
 import java.sql.*;
 import java.time.LocalDate;
 
+import src.application.server.database.exceptions.BookUnavailableException;
 import src.application.server.database.exceptions.LibraryRuleException;
+import src.application.server.database.exceptions.MaximumLoanException;
+import src.application.server.database.exceptions.SQLExceptionTypes;
+import src.application.server.database.exceptions.UnknownBorrowerException;
 
 public class CheckinHandler extends AbstractUpdateHandler {
 
@@ -27,42 +31,24 @@ public class CheckinHandler extends AbstractUpdateHandler {
 		statement.setDate(1, (Date) subqueries[0]);
 		statement.setInt(2, (int) subqueries[1]);
 	}
-
+	
 	/**
-	 * Attempts to check in a loan with the given load ID and
-	 * date of return.
-	 * 
-	 * @param loanID - the loan ID of the book loan to update.
-	 * @param dayIn - the check in date to update the loan with.
-	 * @return
-	 *
-	public static boolean checkinBook(int loanID, LocalDate dayIn) {
-		ConnectionManager connMgr = ConnectionManager.getSingleton();
-		String updateLoanStatement = "UPDATE Library.Book_Loans " + 
-									 "SET date_in = ? WHERE loan_id = ?";
-		try (
-			Connection conn = connMgr.getConnection();
-			PreparedStatement ps = conn.prepareStatement(updateLoanStatement);
-		) {
-			executeCheckinQuery(loanID, dayIn, ps);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+	 * Logs the error to console when the update fails and
+	 * sets the error to be reinterpreted and rethrown when 
+	 * the handler has finished.
+	 */
+	@Override
+	protected void handleException(SQLException e) {
+		super.handleException(e);
+		String state = e.getSQLState();
+		
+		if (state.equals(SQLExceptionTypes.USER_TRIGGER)) {
+			if (e.getErrorCode() == SQLExceptionTypes.MAX_LOAN_ERROR_CODE)
+				this.m_error = new MaximumLoanException(m_borrowerID);
+			else
+				this.m_error = new BookUnavailableException(m_isbn);
 		}
-		return true;
+		if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
+			this.m_error = new UnknownBorrowerException(m_borrowerID);
 	}
-
-	/**
-	 * @param loanID
-	 * @param dayIn
-	 * @param ps
-	 * @throws SQLException
-	 *
-	private static void executeCheckinQuery(
-		int loanID, LocalDate dayIn, PreparedStatement ps
-	) throws SQLException {
-		ps.setDate(1, Date.valueOf(dayIn));
-		ps.setInt(2, loanID);
-		ps.executeUpdate();
-	} */
 }
