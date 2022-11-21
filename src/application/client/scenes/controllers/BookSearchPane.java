@@ -1,6 +1,5 @@
 package src.application.client.scenes.controllers;
 
-import java.sql.SQLException;
 import java.util.*;
 
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.text.Text;
 
 import src.application.client.scenes.*;
 import src.application.client.style.StylizedCell;
-import src.application.server.database.exceptions.*;
 import src.application.server.database.query.*;
 import src.application.server.database.records.BookSearchResult;
 
@@ -139,15 +137,11 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	 * 
 	 * @param book - the book record selected to checkout.
 	 * 
-	 * @throws SQLException 
-	 *  Throws an SQLException if an unhandled error is encountered.
-	 *  
-	 * @throws LibraryRuleException
-	 *  Throws a LibraryRuleException if a constraint or trigger
-	 *  is violated.
+	 * @throws Exception 
+	 *  Throws an exception if there is an error with the search.
 	 */
 	protected boolean updateDatabase(BookSearchResult book) 
-		throws LibraryRuleException, SQLException 
+		throws Exception 
 	{
 		Optional<Integer> id = promptForID();
 		if (id.isPresent()) {
@@ -178,7 +172,10 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 		this.m_table.getItems().stream().filter(
 				(book) -> book.getIsbn().equals(isbn)
 			).findAny().ifPresent(
-				(book) -> { book.setIsAvailable(true); }
+				(book) -> { 
+					System.out.println(book);
+					book.setIsAvailable(true); }
 			);
+		this.m_table.refresh();
 	}
 }

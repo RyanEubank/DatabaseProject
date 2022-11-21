@@ -12,7 +12,7 @@ public class CheckoutHandler extends AbstractUpdateHandler {
 	private String m_isbn;
 	
 	public int onCheckout(String isbn, int borrowerID) 
-		throws LibraryRuleException, SQLException 
+		throws Exception 
 	{
 		this.m_borrowerID = borrowerID;
 		this.m_isbn = isbn;
@@ -72,10 +72,11 @@ public class CheckoutHandler extends AbstractUpdateHandler {
 		if (state.equals(SQLExceptionTypes.USER_TRIGGER)) {
 			if (e.getErrorCode() == SQLExceptionTypes.MAX_LOAN_ERROR_CODE)
 				this.m_error = new MaximumLoanException(m_borrowerID);
-			else
+			else if (e.getErrorCode() == SQLExceptionTypes.BOOK_UNAVAILABLE_CODE)
 				this.m_error = new BookUnavailableException(m_isbn);
 		}
-		if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
-			this.m_error = new UnknownBorrowerException(m_borrowerID);
+		else if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
+			this.m_error = new UnknownIDException(m_borrowerID);
+		else this.m_error = e;
 	}
 }

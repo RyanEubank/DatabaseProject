@@ -3,17 +3,21 @@ package src.application.server.database.query;
 import java.sql.*;
 import java.time.LocalDate;
 
+import src.application.server.database.exceptions.AlreadyCheckedInException;
 import src.application.server.database.exceptions.BookUnavailableException;
 import src.application.server.database.exceptions.LibraryRuleException;
 import src.application.server.database.exceptions.MaximumLoanException;
 import src.application.server.database.exceptions.SQLExceptionTypes;
-import src.application.server.database.exceptions.UnknownBorrowerException;
+import src.application.server.database.exceptions.UnknownIDException;
 
 public class CheckinHandler extends AbstractUpdateHandler {
 
+	private int m_loanID;
+	
 	public int onCheckin(int loanID) 
-		throws LibraryRuleException, SQLException 
+		throws Exception 
 	{
+		this.m_loanID = loanID;
 		Date checkinDate = Date.valueOf(LocalDate.now());
 		return onExecuteWithException(checkinDate, loanID);
 	}
@@ -43,12 +47,10 @@ public class CheckinHandler extends AbstractUpdateHandler {
 		String state = e.getSQLState();
 		
 		if (state.equals(SQLExceptionTypes.USER_TRIGGER)) {
-			if (e.getErrorCode() == SQLExceptionTypes.MAX_LOAN_ERROR_CODE)
-				this.m_error = new MaximumLoanException(m_borrowerID);
-			else
-				this.m_error = new BookUnavailableException(m_isbn);
+			this.m_error = new AlreadyCheckedInException(m_loanID);
 		}
-		if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
-			this.m_error = new UnknownBorrowerException(m_borrowerID);
+		else if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
+			this.m_error = new UnknownIDException(m_loanID);
+		else this.m_error = e;
 	}
 }

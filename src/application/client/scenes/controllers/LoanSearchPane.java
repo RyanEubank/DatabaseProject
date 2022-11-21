@@ -1,6 +1,6 @@
 package src.application.client.scenes.controllers;
 
-import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import src.application.server.database.exceptions.LibraryRuleException;
+
 import src.application.server.database.query.*;
 import src.application.server.database.records.*;
 
@@ -92,10 +92,13 @@ public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 
 	/**
 	 * Updates the given loan's checkin date in the database.
+	 * 
+	 * @throws Exception
+	 * 	Throws an exception if there is an error with the update.  
 	 */
 	@Override
 	protected boolean updateDatabase(LoanSearchResult selection) 
-		throws LibraryRuleException, SQLException 
+		throws Exception 
 	{
 		new CheckinHandler().onCheckin(selection.getLoanID());
 		return true;

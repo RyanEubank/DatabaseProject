@@ -130,10 +130,12 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 		try {
 			if (updateDatabase(selection))
 				updateTable(selection);
-		} catch (LibraryRuleException e) {
-			this.m_parent.setActionError(e.getMessage());
-		} catch (SQLException e) {
-			this.m_parent.setActionError(UNKNOWN_ERROR);
+		} catch (Exception e) {
+			if (e instanceof LibraryRuleException)
+				this.m_parent.setActionError(e.getMessage());
+			else
+				this.m_parent.setActionError(UNKNOWN_ERROR);
+			e.printStackTrace();
 		}
 	}
 
@@ -184,7 +186,10 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 	 * @return 
 	 *  Returns true if the database was updated, false if the operation
 	 *  was cancelled.
+	 *  
+	 * @throws Exception
+	 * 	Throws an exception if there is an error with the update. 
 	 */
 	protected abstract boolean updateDatabase(T selection) 
-		throws LibraryRuleException, SQLException;
+		throws LibraryRuleException, SQLException, Exception;
 }

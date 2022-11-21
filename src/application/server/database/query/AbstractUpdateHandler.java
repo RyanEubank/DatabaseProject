@@ -2,11 +2,9 @@ package src.application.server.database.query;
 
 import java.sql.*;
 
-import src.application.server.database.exceptions.LibraryRuleException;
-
 public abstract class AbstractUpdateHandler extends AbstractQueryHandler<Integer> {
 	
-	protected LibraryRuleException m_error = null;
+	protected Exception m_error = null;
 	
 	/**
 	 * Executes the handler's query with the specified subqueries
@@ -19,12 +17,12 @@ public abstract class AbstractUpdateHandler extends AbstractQueryHandler<Integer
 	 *  Returns the result of the handler's query or default result if
 	 *  an error occurs.
 	 *  
-	 * @throws
+	 * @throws Exception
 	 *  Throws a library rule exception if the insert or update fails
 	 *  due to an integrity violation or other business rule.
 	 */
 	protected int onExecuteWithException(Object... subqueries) 
-		throws LibraryRuleException, SQLException
+		throws Exception
 	{
 		int numRowsAffected = onExecute(subqueries);
 		if (m_error != null)

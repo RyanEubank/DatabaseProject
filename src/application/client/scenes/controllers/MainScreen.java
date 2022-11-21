@@ -150,6 +150,8 @@ public class MainScreen extends AbstractWindow {
 	 * @param pane - the child pane to be set as the active visible child.
 	 */
 	public void setActivePane(AbstractPane pane) {
+		this.setActionError("");
+		
 		if (pane != this.m_homePane) 
 			this.m_homePane.getPane().setVisible(false);
 		if (pane != this.m_booksPane)
