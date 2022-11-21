@@ -64,7 +64,6 @@ CREATE TABLE Library.Fines(
 	CONSTRAINT fk_loanid_book_loans FOREIGN KEY (loan_id) REFERENCES Library.Book_Loans(loan_id) ON DELETE CASCADE
 );
 
-
 DROP TRIGGER IF EXISTS Library.Loan_Maximum;
 DELIMITER $$
 CREATE TRIGGER Library.Loan_Maximum BEFORE INSERT ON Library.Book_Loans FOR EACH ROW 
@@ -72,30 +71,44 @@ BEGIN
 	IF NEW.card_id IN (
 		SELECT temp.card_id FROM (SELECT bl.card_id, COUNT(*) as num_loans FROM Library.Book_Loans as bl
 		GROUP BY bl.card_id HAVING num_loans >= 3) AS temp
-	) THEN SIGNAL SQLSTATE 'MAX_LOAN' SET MESSAGE TEXT 'Maximum allowed loans exceeded';
+	) THEN 
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Maximum allowed loans exceeded', MYSQL_ERRNO = 1000;
 	END IF;
 END$$
 DELIMITER ;
 
-DROP TRIGGER IF EXISTS Library.Check_Available;
+DROP TRIGGER IF EXISTS Library.Book_Not_Available;
 DELIMITER $$
-CREATE TRIGGER Library.Check_Available BEFORE INSERT ON Library.Book_Loans FOR EACH ROW 
+CREATE TRIGGER Library.Book_Not_Available BEFORE INSERT ON Library.Book_Loans FOR EACH ROW 
 BEGIN
 	IF NEW.isbn IN (
 		SELECT temp.isbn FROM Library.Book_Loans as temp WHERE date_in IS NULL
-	) THEN SIGNAL SQLSTATE 'UNAVAILABLE' SET MESSAGE TEXT 'Book is checked out';
+	) THEN 
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Book is checked out', MYSQL_ERRNO = 1001;
 	END IF;
 END$$
 DELIMITER ;
 
-
-DROP TRIGGER IF EXISTS Library.Check_Paid;
+DROP TRIGGER IF EXISTS Library.Fine_Already_Paid;
 DELIMITER $$
-CREATE TRIGGER Library.Check_Paid BEFORE INSERT ON Library.Fines FOR EACH ROW 
+CREATE TRIGGER Library.Fine_Already_Paid BEFORE UPDATE ON Library.Fines FOR EACH ROW 
 BEGIN
-	IF NEW.loan_id IN (
-		SELECT temp.loan_id FROM Library.Fines as temp WHERE date_in IS NULL
-	) THEN SIGNAL SQLSTATE 'UNAVAILABLE' SET MESSAGE TEXT 'Book is checked out';
+	IF OLD.paid = true THEN 
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Fine is already paid', MYSQL_ERRNO = 1002;
+	END IF;
+END$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS Library.Loan_Already_Returned;
+DELIMITER $$
+CREATE TRIGGER Library.Loan_Already_Returned BEFORE UPDATE ON Library.Book_Loans FOR EACH ROW 
+BEGIN
+	IF OLD.date_in IS NOT NULL THEN 
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Book is already checked in', MYSQL_ERRNO = 1003;
 	END IF;
 END$$
 DELIMITER ;
