@@ -70,7 +70,8 @@ CREATE TRIGGER Library.Loan_Maximum BEFORE INSERT ON Library.Book_Loans FOR EACH
 BEGIN
 	IF NEW.card_id IN (
 		SELECT temp.card_id FROM (SELECT bl.card_id, COUNT(*) as num_loans FROM Library.Book_Loans as bl
-		GROUP BY bl.card_id HAVING num_loans >= 3 AND temp.date_in IS NULL) AS temp
+		WHERE bl.date_in IS NULL
+		GROUP BY bl.card_id HAVING num_loans >= 3) AS temp
 	) THEN 
 		SIGNAL SQLSTATE '45000' 
 		SET MESSAGE_TEXT = 'Maximum allowed loans exceeded', MYSQL_ERRNO = 1000;
