@@ -22,12 +22,12 @@
                   <Image url="@../img/book.png" />
                </image>
             </ImageView>
-            <Text fill="#00000073" layoutX="218.0" layoutY="727.0" strokeType="OUTSIDE" strokeWidth="0.5" text="Solutions">
+            <Text fill="#00000073" layoutX="218.0" layoutY="727.0" strokeType="OUTSIDE" strokeWidth="0.5" styleClass="title" text="Solutions">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
             </Text>
-            <Text fill="#00000073" layoutX="95.0" layoutY="36.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
+            <Text fill="#00000073" layoutX="95.0" layoutY="36.0" stroke="#75757500" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" styleClass="title" text="Library Management" textAlignment="CENTER" wrappingWidth="410.828125">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
@@ -54,7 +54,7 @@
                </image>
             </ImageView>
             <TextField fx:id="username_field" layoutX="200.0" layoutY="306.0" prefHeight="35.0" prefWidth="300.0" />
-            <Label fx:id="login_warning_label" layoutX="199.0" layoutY="271.0" textFill="#bc0b0b" />
+            <Label fx:id="login_warning_label" layoutX="199.0" layoutY="271.0" styleClass="error" textFill="#bc0b0b" />
             <PasswordField fx:id="password_field" layoutX="200.0" layoutY="406.0" prefHeight="35.0" prefWidth="300.0" />
             <Button fx:id="login_button" layoutX="200.0" layoutY="491.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="175.0" text="Login" textFill="#0000007f">
                <font>

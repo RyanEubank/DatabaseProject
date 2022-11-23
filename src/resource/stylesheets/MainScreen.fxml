@@ -45,7 +45,7 @@
                   <ChoiceBox fx:id="search_type" prefWidth="150.0" />
                </children>
             </HBox>
-            <MenuButton alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" translateY="-10.0">
+            <MenuButton alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="64.0" styleClass="settings" translateY="-10.0">
                <items>
                   <MenuItem fx:id="calendar_dropdown" mnemonicParsing="false" text="Update Time" />
                   <MenuItem fx:id="logout_dropdown" mnemonicParsing="false" text="Logout" />
@@ -71,15 +71,15 @@
       <StackPane fx:id="child_container" prefHeight="680.0" prefWidth="1200.0" />
       <AnchorPane prefHeight="60.0" prefWidth="1200.0">
          <children>
-            <Text fx:id="date" layoutX="589.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <HBox fx:id="action_bar_container" alignment="CENTER_RIGHT" layoutX="620.0" layoutY="14.0" prefHeight="32.0" prefWidth="524.0">
+            <Text fx:id="date" layoutX="589.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <HBox fx:id="action_bar_container" alignment="CENTER_RIGHT" layoutX="620.0" layoutY="5.0" prefHeight="32.0" prefWidth="524.0">
                <children>
-                  <Label fx:id="error_label" text="Label" textFill="RED">
+                  <Label fx:id="error_label" styleClass="error" text="Label" textFill="RED">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="action_button" mnemonicParsing="false" prefHeight="32.0" prefWidth="116.0" text="Button" />
+                  <Button fx:id="action_button" mnemonicParsing="false" prefHeight="32.0" prefWidth="116.0" styleClass="action" text="Button" />
                </children>
             </HBox>
          </children>
