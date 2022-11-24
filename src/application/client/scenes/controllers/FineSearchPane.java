@@ -1,7 +1,7 @@
 package src.application.client.scenes.controllers;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,8 +14,9 @@ import src.application.server.database.records.*;
 public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 
 	private static final String[] FINE_SEARCH_FILTERS = {"Any", "Card No.", "Name"};
-	
-	protected Text m_summaryProgress;
+	private List<FineSearchResult> m_results = new ArrayList<>();
+	private List<FineSearchResult> m_paid = new ArrayList<>();
+	private Text m_summaryProgress;
 	
 	@FXML
 	private TableColumn<FineSearchResult, Integer> fineBorrowerIDCol;
@@ -25,6 +26,8 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 	private TableColumn<FineSearchResult, Double> fineAmountCol;
 	@FXML
 	private TableColumn<FineSearchResult, Boolean> finePaidCol;
+	@FXML
+	private CheckBox hide_fines_checkbox;
 	
 	// Secondary table for summary information
 	@FXML
@@ -37,6 +40,15 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 	private TableColumn<FineSummaryResult, Double> totalOwedCol;
 	@FXML
 	private TableColumn<FineSummaryResult, Double> totalPaidCol;
+	
+	/**
+	 * Sets up the handler for the check box hiding/showing paid fines.
+	 */
+	@Override
+	public void initialize() {
+		super.initialize();
+		this.hide_fines_checkbox.setOnAction(e -> onHidePaidFines());
+	}
 	
 	/**
 	 * Returns the list of options that fines can be filtered on.
@@ -100,15 +112,25 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 	 */
 	@Override
 	protected void searchTask(String key, String filter) {
-		List<FineSearchResult> results = new FineSearchHandler()
+		this.m_results = new FineSearchHandler()
 			.onLookup(key, filter);
-		if (results.isEmpty()) {
+		this.m_paid = this.m_results.stream()
+			.filter(fine -> !fine.getIsPaid()).toList();
+		
+		if (this.m_results.isEmpty()) {
 			String error = "No loans/fines found";
 			this.m_searchProgress.setText(error);
 			this.m_summaryProgress.setText(error);
 		}
-		this.m_table.getItems().addAll(results);
-		List<FineSummaryResult> summary = FinesAggregator.summarize(results);
+		
+		this.m_table.getItems().clear();
+		if (this.hide_fines_checkbox.isSelected())
+			this.m_table.getItems().addAll(this.m_paid);
+		else
+			this.m_table.getItems().addAll(this.m_results);
+		
+		List<FineSummaryResult> summary = FinesAggregator.summarize(this.m_results);
+		this.fine_summary_table.getItems().clear();
 		this.fine_summary_table.getItems().addAll(summary);
 	}
 	
@@ -133,5 +155,18 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 	protected void updateTable(FineSearchResult fine) {
 		fine.setIsPaid(true);
 		this.m_table.refresh();
+	}
+	
+	/**
+	 * Hides/shows the already paid fines in the search result table.
+	 */
+	private void onHidePaidFines() {
+		if (this.hide_fines_checkbox.isSelected()) {
+			this.m_table.getItems().clear();
+			this.m_table.getItems().addAll(this.m_paid);
+		} else {
+			this.m_table.getItems().clear();
+			this.m_table.getItems().addAll(this.m_results);
+		}
 	}
 }

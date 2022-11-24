@@ -121,6 +121,7 @@
 
 .home-grid .label {
 	-fx-font-size: 24;
+	-fx-text-fill: -clicked-grey;
 }
 
 .action {
