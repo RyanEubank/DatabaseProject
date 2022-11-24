@@ -19,7 +19,7 @@
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <AnchorPane prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="borrower_pane" prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="user_ssn_field" layoutX="250.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
             <Label layoutX="65.0" layoutY="25.0" styleClass="borrower-label" text="SSN" textFill="#00000073" />
