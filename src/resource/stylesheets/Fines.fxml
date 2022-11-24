@@ -48,8 +48,8 @@
          <center>
             <TableView fx:id="fine_summary_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn fx:id="summaryLoanIDCol" prefWidth="75.0" text="Card ID" />
-                  <TableColumn fx:id="summaryBorrowerIDCol" prefWidth="185.0" text="Name" />
+                  <TableColumn fx:id="summaryBorrowerIDCol" prefWidth="75.0" text="Card ID" />
+                  <TableColumn fx:id="summaryNameIDCol" prefWidth="185.0" text="Name" />
                   <TableColumn fx:id="totalOwedCol" prefWidth="85.0" text="Total Owed" />
                   <TableColumn fx:id="totalPaidCol" prefWidth="85.0" text="Total Paid" />
                </columns>

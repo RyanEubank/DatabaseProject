@@ -88,4 +88,13 @@ public class CalendarDialog extends AbstractDialogController<LocalDate> {
 	public void postInitialize() {
 		// does nothing, calendar does not require post initilization
 	}
+
+	/**
+	 * Sets the calendar date.
+	 * 
+	 * @param date - the date to set.
+	 */
+	public void setDate(LocalDate date) {
+		this.calendar.setValue(date);
+	}
 }

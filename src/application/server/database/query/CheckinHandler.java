@@ -3,12 +3,7 @@ package src.application.server.database.query;
 import java.sql.*;
 import java.time.LocalDate;
 
-import src.application.server.database.exceptions.AlreadyCheckedInException;
-import src.application.server.database.exceptions.BookUnavailableException;
-import src.application.server.database.exceptions.LibraryRuleException;
-import src.application.server.database.exceptions.MaximumLoanException;
-import src.application.server.database.exceptions.SQLExceptionTypes;
-import src.application.server.database.exceptions.UnknownIDException;
+import src.application.server.database.exceptions.*;
 
 public class CheckinHandler extends AbstractUpdateHandler {
 

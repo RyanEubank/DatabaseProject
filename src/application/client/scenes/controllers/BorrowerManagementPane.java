@@ -1,7 +1,21 @@
 package src.application.client.scenes.controllers;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+
 public class BorrowerManagementPane extends AbstractPane {
 
+	@FXML
+	private TextField user_ssn_field;
+	@FXML
+	private TextField user_fname_field;
+	@FXML
+	private TextField user_lname_field;
+	@FXML
+	private TextField user_address_field;
+	@FXML
+	private TextField user_phone_field;
+	
 	@Override
 	public void postInitialize() {
 		super.postInitialize();
@@ -9,8 +23,12 @@ public class BorrowerManagementPane extends AbstractPane {
 
 	@Override
 	protected void onPerformAction() {
-		// TODO Auto-generated method stub
-		
+		this.m_parent.setActionError("");
+		String ssn = this.user_ssn_field.getText();
+		String fname = this.user_fname_field.getText();
+		String lName = this.user_lname_field.getText();
+		String address = this.user_address_field.getText();
+		String phone = this.user_phone_field.getText();
 	}
 	
 

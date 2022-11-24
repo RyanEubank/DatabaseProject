@@ -31,6 +31,10 @@
             <TextField fx:id="user_lname_field" layoutX="250.0" layoutY="121.0" prefWidth="300.0" />
             <TextField fx:id="user_address_field" layoutX="250.0" layoutY="171.0" prefWidth="300.0" />
             <TextField fx:id="user_phone_field" layoutX="250.0" layoutY="221.0" prefWidth="300.0" />
+            <Text layoutX="203.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text layoutX="203.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text layoutX="203.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text layoutX="203.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
          </children>
       </AnchorPane>
    </center>

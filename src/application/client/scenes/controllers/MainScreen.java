@@ -11,8 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import src.application.client.scenes.*;
+import src.application.client.scenes.dialogs.CalendarDialog;
 import src.application.server.database.ConnectionManager;
-import src.application.server.database.query.DateUpdater;
+import src.application.server.database.query.FinesUpdater;
 
 public class MainScreen extends AbstractWindow {
 
@@ -308,9 +309,10 @@ public class MainScreen extends AbstractWindow {
 		try {
 			Dialog<LocalDate> dialog = SceneManager.getSingleton()
 				.openDialog(Scenes.CALENDAR_DIALOG);
+			((CalendarDialog) dialog).setDate(this.getDate());
 			Optional<LocalDate> result = dialog.showAndWait();
 			if (result.isPresent()) {
-				DateUpdater.setDate(result.get());
+				FinesUpdater.setDate(result.get());
 				this.date.setText(result.get().toString());
 			}
 		} catch (Exception e) {
@@ -326,5 +328,13 @@ public class MainScreen extends AbstractWindow {
 		ConnectionManager.getSingleton().clearProperties();
 		SceneManager.getSingleton().setMainStage(
 			Scenes.LOGIN_SCREEN, Scenes.DEFAULT_STYLESHEET, 1200, 800);
+	}
+
+	/**
+	 * Returns the date of the text shown at the bottom of the main screen.
+	 * @return
+	 */
+	public LocalDate getDate() {
+		return LocalDate.parse(this.date.getText());
 	}
 }

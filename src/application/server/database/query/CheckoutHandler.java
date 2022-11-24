@@ -11,13 +11,13 @@ public class CheckoutHandler extends AbstractUpdateHandler {
 	private int m_borrowerID;
 	private String m_isbn;
 	
-	public int onCheckout(String isbn, int borrowerID) 
+	public int onCheckout(String isbn, int borrowerID, LocalDate currentDate) 
 		throws Exception 
 	{
 		this.m_borrowerID = borrowerID;
 		this.m_isbn = isbn;
 		
-		Date checkout = Date.valueOf(LocalDate.now());
+		Date checkout = Date.valueOf(currentDate);
 		Date due = getDueDateFromCheckout(checkout);
 		return onExecuteWithException(isbn, borrowerID, checkout, due);
 	}

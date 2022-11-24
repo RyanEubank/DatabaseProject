@@ -1,5 +1,6 @@
 package src.application.client.scenes.controllers;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javafx.fxml.FXML;
@@ -145,7 +146,9 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 	{
 		Optional<Integer> id = promptForID();
 		if (id.isPresent()) {
-			new CheckoutHandler().onCheckout(book.getIsbn(), id.get());
+			LocalDate current = this.m_parent.getDate();
+			new CheckoutHandler().onCheckout(
+				book.getIsbn(), id.get(), current);
 			return true;
 		}
 		return false;
@@ -172,9 +175,7 @@ public class BookSearchPane extends AbstractSearchPane<BookSearchResult> {
 		this.m_table.getItems().stream().filter(
 				(book) -> book.getIsbn().equals(isbn)
 			).findAny().ifPresent(
-				(book) -> { 
-					System.out.println(book);
-					book.setIsAvailable(true); }
+				(book) -> { book.setIsAvailable(true); }
 			);
 		this.m_table.refresh();
 	}
