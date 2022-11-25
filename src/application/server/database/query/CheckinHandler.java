@@ -9,20 +9,41 @@ public class CheckinHandler extends AbstractUpdateHandler {
 
 	private int m_loanID;
 	
-	public int onCheckin(int loanID) 
+	/**
+	 * Attempts to update the record with the given loanID to set
+	 * it as checked in at the specified date.
+	 * 
+	 * @param loanID - the loanID of the record to update.
+	 * @param currentDate - the current date the book is checked in.
+	 * 
+	 * @return
+	 *  Returns the number of rows updated.
+	 *  
+	 * @throws Exception
+	 *  Throws an excpetion if there is an error updating the database.
+	 */
+	public int onCheckin(int loanID, LocalDate currentDate) 
 		throws Exception 
 	{
 		this.m_loanID = loanID;
-		Date checkinDate = Date.valueOf(LocalDate.now());
+		Date checkinDate = Date.valueOf(currentDate);
 		return onExecuteWithException(checkinDate, loanID);
 	}
 	
+	/**
+	 * Returns an SQL query to update the correct loan with
+	 * the gioven date.
+	 */
 	@Override
 	protected String getQuery() {
 		return "UPDATE Library.Book_Loans " + 
 			   "SET date_in = ? WHERE loan_id = ?";
 	}
 
+	/**
+	 * Prepares the SQL statement by setting the correct fields with
+	 * the given subqueries.
+	 */
 	@Override
 	protected void setSubqueries(
 		PreparedStatement statement, Object... subqueries) throws SQLException 

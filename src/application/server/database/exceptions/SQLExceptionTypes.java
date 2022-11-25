@@ -13,6 +13,7 @@ public class SQLExceptionTypes {
 	public static final String PERMISSION_DENIED = "42000";
 	public static final String USER_TRIGGER = "45000";
 	public static final String INTEGRITY_CONSTRAINT_VIOLATION = "23000";
+	public static final String DUPLICATE_NAME_ADDRESS = "borrower.uk_borrower_name_addr_phone";
 	
 	public static int MAX_LOAN_ERROR_CODE = 1000;
 	public static int BOOK_UNAVAILABLE_CODE = 1001;

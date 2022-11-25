@@ -8,8 +8,6 @@ import javafx.scene.text.Text;
 import src.application.server.database.exceptions.LibraryRuleException;
 
 public abstract class AbstractSearchPane<T>  extends AbstractPane {
-
-	protected static final String UNKNOWN_ERROR = "An unknown error has occured.";
 	private static final String NULL_SELECTION = "No item is selected.";
 	
 	protected Text m_searchProgress;
@@ -131,11 +129,7 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 			if (updateDatabase(selection))
 				updateTable(selection);
 		} catch (Exception e) {
-			if (e instanceof LibraryRuleException)
-				this.m_parent.setActionError(e.getMessage());
-			else
-				this.m_parent.setActionError(UNKNOWN_ERROR);
-			e.printStackTrace();
+			displayError(e);
 		}
 	}
 

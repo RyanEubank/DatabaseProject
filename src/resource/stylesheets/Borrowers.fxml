@@ -13,28 +13,32 @@
       <Pane prefHeight="430.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
-      <Pane prefHeight="125.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="125.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="success_text" layoutX="482.0" layoutY="54.0" text="Label" />
+         </children></Pane>
    </bottom>
    <right>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <AnchorPane fx:id="borrower_pane" prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="269.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="user_ssn_field" layoutX="250.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
-            <Label layoutX="65.0" layoutY="25.0" styleClass="borrower-label" text="SSN" textFill="#00000073" />
-            <Label layoutX="65.0" layoutY="75.0" styleClass="borrower-label" text="First Name" textFill="#00000073" />
-            <Label layoutX="65.0" layoutY="125.0" styleClass="borrower-label" text="Last Name" textFill="#00000073" />
-            <Label layoutX="65.0" layoutY="175.0" styleClass="borrower-label" text="Address" textFill="#00000073" />
-            <Label layoutX="65.0" layoutY="225.0" styleClass="borrower-label" text="Phone Number" textFill="#00000073" />
-            <TextField fx:id="user_fname_field" layoutX="250.0" layoutY="71.0" prefWidth="300.0" />
-            <TextField fx:id="user_lname_field" layoutX="250.0" layoutY="121.0" prefWidth="300.0" />
-            <TextField fx:id="user_address_field" layoutX="250.0" layoutY="171.0" prefWidth="300.0" />
-            <TextField fx:id="user_phone_field" layoutX="250.0" layoutY="221.0" prefWidth="300.0" />
-            <Text layoutX="203.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
-            <Text layoutX="203.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
-            <Text layoutX="203.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
-            <Text layoutX="203.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <TextField fx:id="user_ssn_field" layoutX="292.0" layoutY="21.0" prefHeight="25.0" prefWidth="300.0" />
+            <Label layoutX="53.0" layoutY="25.0" styleClass="borrower-label" text="SSN" textFill="#00000073" />
+            <Label layoutX="34.0" layoutY="75.0" styleClass="borrower-label" text="First Name" textFill="#00000073" />
+            <Label layoutX="35.0" layoutY="125.0" styleClass="borrower-label" text="Last Name" textFill="#00000073" />
+            <Label layoutX="42.0" layoutY="175.0" styleClass="borrower-label" text="Address" textFill="#00000073" />
+            <Label layoutX="23.0" layoutY="223.0" styleClass="borrower-label" text="Phone Number" textFill="#00000073" />
+            <TextField fx:id="user_fname_field" layoutX="292.0" layoutY="71.0" prefWidth="300.0" />
+            <TextField fx:id="user_lname_field" layoutX="292.0" layoutY="121.0" prefWidth="300.0" />
+            <TextField fx:id="user_address_field" layoutX="292.0" layoutY="171.0" prefWidth="300.0" />
+            <TextField fx:id="user_phone_field" layoutX="292.0" layoutY="219.0" prefWidth="300.0" />
+            <Text fx:id="ssn_error" fill="RED" layoutX="140.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text fx:id="fname_error" fill="RED" layoutX="140.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text fx:id="lname_error" fill="RED" layoutX="140.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text fx:id="address_error" fill="RED" layoutX="140.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
+            <Text fx:id="phone_error" fill="RED" layoutX="140.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="error" text="Text" />
          </children>
       </AnchorPane>
    </center>

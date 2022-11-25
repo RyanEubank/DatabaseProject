@@ -100,7 +100,8 @@ public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 	protected boolean updateDatabase(LoanSearchResult selection) 
 		throws Exception 
 	{
-		new CheckinHandler().onCheckin(selection.getLoanID());
+		new CheckinHandler().onCheckin(
+			selection.getLoanID(), this.m_parent.getDate());
 		return true;
 	}
 	
@@ -111,7 +112,7 @@ public class LoanSearchPane extends AbstractSearchPane<LoanSearchResult> {
 	 */
 	@Override
 	protected void updateTable(LoanSearchResult selection) {
-		selection.setCheckinDate(LocalDate.now());
+		selection.setCheckinDate(this.m_parent.getDate());
 		BookSearchPane bookPane = (BookSearchPane) this.m_parent.getBooksPane();
 		bookPane.updateAvailability(selection.getIsbn());
 		this.m_table.refresh();

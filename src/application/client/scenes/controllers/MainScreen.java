@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import src.application.client.scenes.*;
 import src.application.client.scenes.dialogs.CalendarDialog;
 import src.application.server.database.ConnectionManager;
-import src.application.server.database.query.FinesUpdater;
+import src.application.server.database.FinesUpdater;
 
 public class MainScreen extends AbstractWindow {
 
@@ -312,7 +312,7 @@ public class MainScreen extends AbstractWindow {
 			((CalendarDialog) dialog).setDate(this.getDate());
 			Optional<LocalDate> result = dialog.showAndWait();
 			if (result.isPresent()) {
-				FinesUpdater.setDate(result.get());
+				new FinesUpdater().onUpdateDate(this.getDate(), result.get());
 				this.date.setText(result.get().toString());
 			}
 		} catch (Exception e) {

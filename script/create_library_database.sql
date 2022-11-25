@@ -113,3 +113,16 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+
+DROP TRIGGER IF EXISTS Library.Fine_Book_Not_Returned;
+DELIMITER $$
+CREATE TRIGGER Library.Fine_Book_Not_Returned BEFORE INSERT ON Library.Fines FOR EACH ROW 
+BEGIN
+	IF NEW.loan_id IN (
+		SELECT * FROM Library.Book_Loans WHERE date_in IS NULL
+	) THEN
+		SIGNAL SQLSTATE '45000'  
+		SET MESSAGE_TEXT = 'Fine is already paid', MYSQL_ERRNO = 1004;
+	END IF;
+END$$
+DELIMITER ;
