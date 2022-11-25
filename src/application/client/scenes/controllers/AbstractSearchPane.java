@@ -35,9 +35,11 @@ public abstract class AbstractSearchPane<T>  extends AbstractPane {
 	 * performs a search.
 	 */
 	private void initSearchTask() {
-		String key = this.m_parent.getSearchText();
-		String filter = this.m_parent.getSearchFilter();
-		this.m_searchTask = () -> searchTask(key, filter);
+		this.m_searchTask = () -> {
+			String key = this.m_parent.getSearchText();
+			String filter = this.m_parent.getSearchFilter();
+			searchTask(key, filter);
+		};
 	}
 	
 	/**

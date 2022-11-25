@@ -11,7 +11,7 @@ import src.application.server.database.records.*;
 
 public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 
-	private static final String[] FINE_SEARCH_FILTERS = {"Any", "Card No.", "Name"};
+	private static final String[] FINE_SEARCH_FILTERS = {"Any", "Loan No.", "Card No.", "Name"};
 	
 	private List<FineSearchResult> m_results = new ArrayList<>();
 	private List<FineSearchResult> m_paid = new ArrayList<>();

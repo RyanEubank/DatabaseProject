@@ -19,4 +19,6 @@ public class SQLExceptionTypes {
 	public static int BOOK_UNAVAILABLE_CODE = 1001;
 	public static int FINE_ALREADY_PAID_CODE = 1002;
 	public static int LOAN_ALREADY_CHECKED_IN_CODE = 1003;
+	public static int FINE_BOOK_CHECKED_IN = 1004;
+	public static int PAY_FINE_NOT_CHECKED_IN = 1005;
 }

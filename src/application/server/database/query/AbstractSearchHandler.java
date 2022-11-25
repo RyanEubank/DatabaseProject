@@ -8,10 +8,8 @@ import src.application.server.database.records.IResultFactory;
 
 public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List<T>> {
 
-	private static final String[] EMPTY_QUERY = new String[0];
-
 	protected String m_query;
-	
+
 	/**
 	 * Performs a query on the library database with the given search
 	 * key and filter.
@@ -24,10 +22,11 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 */
 	public List<T> onLookup(String key, String filter) {
 		setQuery(filter);
-		Object searchTerms[] = getSearchTerms(key);
+		int numSubqueries = getNumSubqueries(filter);
+		Object searchTerms[] = getSearchTerms(key, numSubqueries);
 		return onExecute(searchTerms);
 	}
-	
+
 	/**
 	 * Returns an empty list by default if the search fails.
 	 */
@@ -44,10 +43,8 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	protected void setSubqueries(
 		PreparedStatement statement, Object... subqueries
 	) throws SQLException {
-		if (subqueries.length > 0) {
-			for (int i = 0; i < subqueries.length; i++)
-				statement.setString(i, (String) subqueries[0]);
-		}
+		for (int i = 0; i < subqueries.length; i++)
+			statement.setString(i + 1, "%" + (String) subqueries[i] + "%");
 	}
 
 	/**
@@ -147,11 +144,18 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 *  Returns a singleton array or empty array to provide as subqueries
 	 *  to the search query.
 	 */
-	private String[] getSearchTerms(String key) {
-		if (key == null || key.isBlank() || key.isEmpty())
-			return EMPTY_QUERY;
-		else 
-			return new String[] {key};
+	private String[] getSearchTerms(String key, int numSubqueries) {
+		String[] arr = new String[numSubqueries];
+		String subquery;
+		
+		if (key == null || key.isBlank() || key.isEmpty()) {
+			subquery = "";
+		} else {
+			subquery = key;
+		}
+		for (int i = 0; i < numSubqueries; i++) 
+			arr[i] = subquery;
+		return arr;
 	}
 	
 	/**
@@ -184,4 +188,17 @@ public abstract class AbstractSearchHandler<T> extends AbstractQueryHandler<List
 	 * 				   the search on.
 	 */
 	protected abstract void setQuery(String filter);
+	
+	/**
+	 * Returns the number of subqueries that need to be filled
+	 * for the given search filter.
+	 * 
+	 * @param filter - the attribute the search is being filtered on.
+	 * 
+	 * @return
+	 *  Returns the number of subqieries, or '?' fields in the SQL
+	 *  statement returned by {@link #getQuery()} that need to be filled
+	 *  before the statement can be executed.
+	 */
+	protected abstract int getNumSubqueries(String filter);
 }

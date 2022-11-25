@@ -60,7 +60,10 @@ public class FinePaymentHandler extends AbstractUpdateHandler {
 		String state = e.getSQLState();
 		
 		if (state.equals(SQLExceptionTypes.USER_TRIGGER)) {
-			this.m_error = new AlreadyPaidException(m_loanID);
+			if (e.getErrorCode() == SQLExceptionTypes.PAY_FINE_NOT_CHECKED_IN)
+				this.m_error = new CannotPayException(m_loanID);
+			else
+				this.m_error = new AlreadyPaidException(m_loanID);
 		}
 		else if (state.equals(SQLExceptionTypes.INTEGRITY_CONSTRAINT_VIOLATION))
 			this.m_error = new UnknownIDException(m_loanID);
