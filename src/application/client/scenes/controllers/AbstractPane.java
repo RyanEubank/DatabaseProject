@@ -2,8 +2,11 @@ package src.application.client.scenes.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import src.application.server.database.exceptions.LibraryRuleException;
 
 public abstract class AbstractPane implements IController {
+	
+	protected static final String UNKNOWN_ERROR = "An unknown error has occured.";
 	
 	@FXML
 	private Pane primary_node;
@@ -35,10 +38,24 @@ public abstract class AbstractPane implements IController {
 	 */
 	protected void addVisibilityListener() {
 		this.getPane().visibleProperty().addListener((obs, oldVal, newVal) -> {
-			if (newVal) {
+			if (newVal) 
 				this.m_parent.setActionName(getActionName());
-			}
 		});
+	}
+	
+	/**
+	 * Displays an error relevant for the caught exception. Library
+	 * defined exceptions have specific error details while general
+	 * exceptions will log the stack trace and display a generic error.
+	 * 
+	 * @param e - the exception caught to display an error for.
+	 */
+	protected void displayError(Exception e) {
+		if (e instanceof LibraryRuleException)
+			this.m_parent.setActionError(e.getMessage());
+		else
+			this.m_parent.setActionError(UNKNOWN_ERROR);
+		e.printStackTrace();
 	}
 	
 	/**
