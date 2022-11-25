@@ -126,3 +126,16 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+
+DROP TRIGGER IF EXISTS Library.Pay_Fine_Book_Not_CheckedIn;
+DELIMITER $$
+CREATE TRIGGER Library.Pay_Fine_Book_Not_CheckedIn BEFORE UPDATE ON Library.Fines FOR EACH ROW 
+BEGIN
+	IF NEW.paid = true AND NEW.loan_id IN ( 
+		SELECT temp.loan_id FROM Library.Book_Loans as temp WHERE temp.date_in IS NULL
+	) THEN 
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Cannot be paid, not checked in', MYSQL_ERRNO = 1005;
+	END IF;
+END$$
+DELIMITER ;
