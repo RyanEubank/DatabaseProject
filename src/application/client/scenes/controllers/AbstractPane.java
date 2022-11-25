@@ -23,7 +23,6 @@ public abstract class AbstractPane implements IController {
 	public void initialize() {
 		this.primary_node.managedProperty().bind(
 			this.primary_node.visibleProperty());
-		this.getPane();
 	}
 	
 	/**
