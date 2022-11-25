@@ -1,2 +1,0 @@
-INSERT INTO Library.Fines;
-UPDATE Library.Fines AS f SET f.amount = f.amount + 0.25 WHERE f.loan_id IN (SELECT * FROM Library.Fines as f2 JOIN Library.Book_Loans as b ON f2.loan_id = b.loan_id WHERE b.date_in IS NULL;

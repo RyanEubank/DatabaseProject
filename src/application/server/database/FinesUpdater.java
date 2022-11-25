@@ -13,11 +13,8 @@ public class FinesUpdater {
 	 * 
 	 * @parm current - the current date in the system.
 	 * @param next - the new date to update the database with.
-	 * 
-	 * @return
-	 *  Returns the total number of updates performed.
 	 */
-	public long onUpdateDate(LocalDate current, LocalDate next) {
+	public void onUpdateDate(LocalDate current, LocalDate next) {
 		
 		// simply passing dates will throw an exception, requires
 		// time with seconds precision
@@ -25,7 +22,14 @@ public class FinesUpdater {
 			current.atStartOfDay(), next.atStartOfDay()
 		).toDays();
 		
-		return executeScriptNumTimes(m_numTimesExecute, next);
+		// if the new date is in the past from the current date then
+		// fines are reset and recalculated, otherwise they are update as normal
+		if (this.m_numTimesExecute > 0)
+			executeScriptNumTimes(this.m_numTimesExecute, current);
+		else {
+			FineResetHandler.reset();
+			executeScriptNumTimes(1, current.plusDays(-1));
+		}
 	}
 
 	/**
@@ -34,20 +38,22 @@ public class FinesUpdater {
 	 * 
 	 * @param numRuns - the number of times to run the batch script.
 	 * @param current - the current date in the system.
-	 * 
-	 * @return
-	 *  Returns the total number of affected rows from every run
-	 *  of the script.
 	 */
-	private long executeScriptNumTimes(long numRuns, LocalDate current) {
-		long total = 0;
-		for (int i = 0; i < m_numTimesExecute; i++) {
-			current = current.plusDays(1);
-			int inserts = new FineInsertHandler().insertFines(current);
-			total += inserts;
-			int updates = new FineUpdateHandler().updateFines();
-			total += updates;
-		}
-		return total;
+	private void executeScriptNumTimes(long numRuns, LocalDate current) {
+		Runnable task = () -> {
+			long total = 0;
+			
+			for (int i = 0; i < numRuns; i++) {
+				LocalDate date = current.plusDays(i + 1);
+				int inserts = new FineInsertHandler().insertFines(date);
+				total += inserts;
+				int updates = new FineUpdateHandler().updateFines(date);
+				total += updates;
+				System.out.println("Update for " + date);
+			}
+			
+			System.out.println("Total updates: " + total);
+		};
+		new Thread(task).start();;
 	}
 }

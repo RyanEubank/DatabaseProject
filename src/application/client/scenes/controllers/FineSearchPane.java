@@ -122,9 +122,10 @@ public class FineSearchPane extends AbstractSearchPane<FineSearchResult> {
 			.onLookup(key, filter);
 		cacheResults(results);
 		
-		if (this.m_results.isEmpty()) 
+		if (this.m_results.isEmpty())  {
+			clearTables();
 			emptySearch();
-		else {
+		} else {
 			clearTables();
 			populateTables();
 		}

@@ -23,8 +23,9 @@ public class FineInsertHandler extends AbstractUpdateHandler {
 	@Override
 	protected String getQuery() {
 		return "INSERT INTO Library.Fines (loan_id, fine_amt, paid) " +
-			   "SELECT loan_id, 0.25, FALSE FROM Library.Book_Loans AS b " + 
-			   "WHERE b.date_in IS NULL AND b.due_date < ?";
+			   "SELECT b.loan_id, 0, FALSE FROM Library.Book_Loans AS b " + 
+			   "WHERE b.date_in IS NULL AND b.due_date < ? AND b.loan_id NOT IN " + 
+			   "(SELECT loan_id FROM Library.Fines);";
 	}
 
 	@Override

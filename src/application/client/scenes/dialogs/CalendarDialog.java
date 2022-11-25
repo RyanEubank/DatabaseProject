@@ -11,11 +11,8 @@ public class CalendarDialog extends AbstractDialogController<LocalDate> {
 	
 	@FXML
 	private DatePicker calendar;
-	@FXML
-	private Label error;
 	
 	private DateTimeFormatter m_format;
-	private LocalDate m_current;
 	
 	/**
 	 * Constructs a new CalendarDialog with the default selection
@@ -58,21 +55,10 @@ public class CalendarDialog extends AbstractDialogController<LocalDate> {
 	 */
 	@Override
 	public void initialize() {
-		this.error.setText("");
 		setCalendarFormat();
 		this.calendar.setValue(m_dialogRetVal);
 		this.calendar.getEditor().textProperty()
 			.addListener((obs, oldDate, newDate) -> parseDate(newDate));
-		
-		this.calendar.valueProperty().addListener((obs, oldVal, newVal) -> {
-			if (newVal.compareTo(this.m_current) < 0) {
-				this.error.setText("Cannot set date back in time");
-				this.getDialogPane().lookupButton(ButtonType.OK).setDisable(true);
-				this.calendar.setValue(this.m_current);
-			} else {
-				this.getDialogPane().lookupButton(ButtonType.OK).setDisable(false);
-			}
-		});
 	}
 	
 	/**
@@ -110,7 +96,6 @@ public class CalendarDialog extends AbstractDialogController<LocalDate> {
 	 * @param date - the date to set.
 	 */
 	public void setDate(LocalDate date) {
-		this.m_current = date;
 		this.calendar.setValue(date);
 	}
 }
