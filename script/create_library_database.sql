@@ -41,7 +41,7 @@ CREATE TABLE Library.Borrower(
 	phone		CHAR(14) CHARACTER SET UTF8MB4,
 	CONSTRAINT pk_borrower PRIMARY KEY (card_id),
 	CONSTRAINT uk_borrower_ssn UNIQUE KEY (ssn),
-	CONSTRAINT uk_borrower_name_addr_phone UNIQUE KEY (bname, address)
+	CONSTRAINT uk_borrower_name_addr UNIQUE KEY (bname, address)
 );
 
 CREATE TABLE Library.Book_Loans(

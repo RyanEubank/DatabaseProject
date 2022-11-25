@@ -91,7 +91,7 @@ def constructBookAndAuthorInserts(record, output):
 # fines in the library database
 def constructBorrowerAndLoanInserts(record, output):
     borrower_id = record[0][2:8]
-    ssn = "\"" + record[1][0:2] + record[1][4:5] + record[1][7:10] + "\""
+    ssn = "\"" + record[1] + "\""
     name = "\"" + record[2] + " " + record[3] + "\""
     address = "\"" + record[5] + ", " + record[6] + ", " + record[7] + "\""
     phone = "\"" + record[8][:len(record[8]) - 1] + "\""
