@@ -3,7 +3,8 @@ package src.application.client.scenes.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import src.application.server.database.query.BorrowerHandler;
+import src.application.server.database.query.BorrowerInsertHandler;
+import src.application.server.database.query.BorrowerLookupHandler;
 
 public class BorrowerManagementPane extends AbstractPane {
 
@@ -28,6 +29,9 @@ public class BorrowerManagementPane extends AbstractPane {
 	private Text address_error;
 	@FXML
 	private Text phone_error;
+	
+	@FXML
+	private Label success_text;
 	
 	/**
 	 * Clears all text in the error fields
@@ -90,6 +94,7 @@ public class BorrowerManagementPane extends AbstractPane {
 		this.lname_error.setText("");
 		this.address_error.setText("");
 		this.phone_error.setText("");
+		this.success_text.setText("");
 	}
 	
 	/**
@@ -122,9 +127,13 @@ public class BorrowerManagementPane extends AbstractPane {
 	}
 
 	/**
-	 * Returns true if 
-	 * @param ssn
+	 * Returns whether the specified string is a valid ssn.
+	 * 
+	 * @param ssn - the ssn to validate.
+	 * 
 	 * @return
+	 *  Returns true if the specified string is exactly 9 numerical
+	 *  digits.
 	 */
 	private boolean validateSsn(String ssn) {
 		if (!checkRequired(ssn, this.ssn_error)) 
@@ -136,6 +145,15 @@ public class BorrowerManagementPane extends AbstractPane {
 		return true;
 	}
 	
+	/**
+	 * Returns whether the specified string is a valid phone number.
+	 * 
+	 * @param phone - the phone number to validate.
+	 * 
+	 * @return
+	 *  Returns true if the specified string is exactly 10 numerical
+	 *  digits.
+	 */
 	private boolean validatePhoneNum(String phone) {
 		if (phone.isEmpty() || phone.isBlank())
 			return true; // phone number is not a required field.
@@ -158,8 +176,11 @@ public class BorrowerManagementPane extends AbstractPane {
 		String ssn, String fullName, String address, String phone
 	) {
 		try {
-			new BorrowerHandler().createUser(ssn, fullName, address, phone);
+			String formattedSsn = new BorrowerInsertHandler().createUser(
+				ssn, fullName, address, phone);
+			int borrowerID = new BorrowerLookupHandler().lookup(formattedSsn);
 			clearValues();
+			this.success_text.setText("New Borrower's ID: " + borrowerID);
 		} catch (Exception e) {
 			displayError(e);
 		}

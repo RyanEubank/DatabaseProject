@@ -11,6 +11,21 @@ public class CheckoutHandler extends AbstractUpdateHandler {
 	private int m_borrowerID;
 	private String m_isbn;
 	
+	/**
+	 * Attempts to insert a new book loan into the library database with
+	 * the given information.
+	 * 
+	 * @param isbn - the isbn of the book being checked out.
+	 * @param borrowerID - the id of the borrower checking out the book.
+	 * @param currentDate - the current date in the system.
+	 * 
+	 * @return
+	 *  Returns the number of rows affected by the insertion.
+	 *  
+	 * @throws Exception
+	 *  Throws an exception if there is an error such as connectivity issues
+	 *  or the book is already checked out.
+	 */
 	public int onCheckout(String isbn, int borrowerID, LocalDate currentDate) 
 		throws Exception 
 	{
@@ -41,12 +56,20 @@ public class CheckoutHandler extends AbstractUpdateHandler {
 	    return due;
 	}
 	
+	/**
+	 * Returns the SQL query to insert a new record into the book loans
+	 * table.
+	 */
 	@Override
 	protected String getQuery() {
 		return "INSERT INTO Library.Book_Loans (isbn, card_id, date_out, due_date) " 
 			 + "VALUES (?, ?, ?, ?);";
 	}
 
+	/**
+	 * Sets the appropriate fields in the insert statement with the specified
+	 * subqueries.
+	 */
 	@Override
 	protected void setSubqueries(
 		PreparedStatement statement, Object... subqueries) throws SQLException 

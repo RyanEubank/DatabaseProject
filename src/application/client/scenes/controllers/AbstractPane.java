@@ -2,6 +2,7 @@ package src.application.client.scenes.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import src.application.client.scenes.Scenes;
 import src.application.server.database.exceptions.LibraryRuleException;
 
 public abstract class AbstractPane implements IController {
@@ -22,6 +23,7 @@ public abstract class AbstractPane implements IController {
 	public void initialize() {
 		this.primary_node.managedProperty().bind(
 			this.primary_node.visibleProperty());
+		this.getPane();
 	}
 	
 	/**
@@ -53,9 +55,9 @@ public abstract class AbstractPane implements IController {
 	protected void displayError(Exception e) {
 		if (e instanceof LibraryRuleException)
 			this.m_parent.setActionError(e.getMessage());
-		else
+		else {
 			this.m_parent.setActionError(UNKNOWN_ERROR);
-		e.printStackTrace();
+		}
 	}
 	
 	/**

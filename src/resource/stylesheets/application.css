@@ -48,6 +48,12 @@
 	-fx-font-size: 12;	
 }
 
+#success_text {
+	-fx-text-fill: -border-blue;
+	-fx-font-family: "Kenyan Coffee Rg";
+	-fx-font-size: 30;
+}
+
 .menu-item {
 	-fx-background-color: -clicked-grey;
 }
@@ -86,7 +92,7 @@
 }
 
 #login_button:armed {
-	-fx-background-color: -background-grey;
+	-fx-background-color: -clicked-grey;
 }
 
 #home_button {
