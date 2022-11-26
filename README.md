@@ -9,7 +9,7 @@ Builds for the project work on 64-bit Windows systems (x86-64).
 This project requires a recent version of the Java Runtime Environment to run. The proper java installations can be found on [Oracle's Website](https://www.oracle.com/java/technologies/downloads) or with [OpenJDK](https://openjdk.org/) for up to date versions. Be sure that Java is setup properly in the system's PATH environment variable, see [here](https://www.java.com/en/download/help/path.html) or the step-by-step instructions below [here](#Install-JDK).
 
 ##### Install MySQL:
-The application requires connection to a library database as defined in the [Database Requirements](#Database-Requirements). MySQL can be installed from the [MySQL Website](https://dev.mysql.com/downloads/installer/) -- choose the installer for 64-bit Windows systems.
+The application requires connection to a library database as defined in the [Database Requirements](#Database-Requirements:). MySQL can be installed from the [MySQL Website](https://dev.mysql.com/downloads/installer/) -- choose the installer for 64-bit Windows systems.
 
 ## Build Requirements
 Building the project from source requires the above system requirements in addition to the following steps
@@ -20,7 +20,10 @@ This project uses JavaFX, an open source library for UI development for Java app
 ##### Install Connector/J 8.0:
 Connection to the project database requires Connector/J version 8.0, a driver to allow java sql to talk to mysql systems, which can be installed using the installer for [MySQL](#Install-MySQL). In addition, ensure MySQL shell and MySQL server application are installed.
 
-## Launching the program
+#### !!NOTE!!
+JavaFX and Connector J are provided by default in the /lib folder in the project's root directory, but can be replaced with newer versions.
+
+## Launching the program:
 In the launch.bat file, be sure to edit the correct path to your javafx-sdk-19/lib folder and connectorj.jar if you are not using the libraries already provided. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: $cd \<your local path\>/DatabaseProject. Run the following commands to compile and launch the program:
 ```
 set PATH_TO_FX=<your path to javafx>
@@ -30,8 +33,10 @@ java --module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml -class
 pause
 ```
 
+The script launch.bat, found in the /script folder will automatically run the commands above to compile and launch the application. Clean.bat will remove all .class files recursively if a clean install is required. Lastly, if attempting to connect to a database on a different machine over a network, this can be specified in the file "config.ini" in the root directory. The host name (IP address) and port number can be configured, by default these are set to localhost and the default MySQL port 3306.
+
 ## Developer Requirements
-#### Install Eclipse
+#### Install Eclipse:
 For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/downloads/). Fork the project repository to your local machine, and open Eclipse IDE and follow these steps:
 - Go to File -> Import Projects from File System -> Import Directory and select the main project folder. Click next through the remaining steps in Eclipse to create a new project with default settings.
 - Once the project is open, go to Run -> Run configurations -> Java Application and make a new configuration if one does not yet exist. 
@@ -41,7 +46,7 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 - If you don't see a Referenced Libraries section in Eclipse's Package Explorer, then right click on project -> build path -> configure build path -> java build path -> libraries -> classpath -> add the .jar files for mySQL connector and javafx from the previous steps and click apply -> apply and close.
 - Finally, click Run -> Run As -> Java Application to run the project.
 
-#### Install latest JDK version
+#### Install latest JDK version:
 - install [jdk version 19](https://jdk.java.net/19/), unzip it and move the folder to a location of your choosing.
 - Follow the instructions from [here](https://openjfx.io/openjfx-docs/) to setup javafx, and the eclipse [non-modular setup](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
 - Check what java runtime version you have in Command Promot using: java -version
@@ -52,7 +57,13 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 - Fianlly edit the eclipse runtime environment and compiler. Click the project tab -> properties -> java build path -> libraries -> jre system library -> edit -> execution enviroment -> set it to JavaSE-18 (jdk-19) and click finish. Set the compiler level in the same tab, go to java compiler -> compiler compliance level and set it to the most up to date version and click apply.
 
 ## Database Requirements
-- Database is to match the cleaned up database that one of the team members has plans for
-- In mysql shell run setup_user.sql, create_library_database.sql. 
-- Then run populateDB.py with command line arguments books.csv and borrowers.csv. 
-- This previous step will create a new file populate.sql. Run that, give it a few minutes to finish
+- Once MySQL Server is installed and a MySQL server is running (see [above](#Install-MySQL:)) run the following scripts via "source <filename>" in a MySQL shell or through the commandline with the mysqld command provided with the server.
+	setup_user.sql (This will create a deafult user for the library system, Username: admin, Password: password)
+	create_library_database.sql (This creates the library database, sets up the schema, and registers triggers for inserts and updates)
+- With the database setup it can now be populated by running the following python script on the command line
+	'''
+	createInserts.py books.csv borrowers.csv
+	'''
+	Pass the name of the books file then the borrowers file as arguments like shown. This will generate a new SQL script "populate.sql".
+- Run populate.sql from a MySQL shell and this will insert the initial book and borrower data into the library database. This process takes serveral minute to complete. Once finished, the application is ready to launch and connect.
+
