@@ -56,3 +56,6 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 - In mysql shell run setup_user.sql, create_library_database.sql. 
 - Then run populateDB.py with command line arguments books.csv and borrowers.csv. 
 - This previous step will create a new file populate.sql. Run that, give it a few minutes to finish
+- After ensuring the mySQL server has permissions to see the library database, use the user/password that works for your mysql server i.e if your username is root    then use root, and then use whatever password you have setup for mySQL
+- By default, brand new users other than root have no permissions for anything
+
