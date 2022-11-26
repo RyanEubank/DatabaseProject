@@ -62,7 +62,7 @@ Once MySQL Server is installed and a MySQL server is running (see [above](#Insta
 source setup_user.sql
 source create_library_database.sql
 ```
-Run these in a MySQL shell or through the command line with the mysql command provided with the server. setup_user.sql will create a default user for the library system with Username = 'admin', Password = 'password'. create_library_database.sql creates the library database, sets up the schema, and registers triggers for inserts and updates.
+Run these in a MySQL shell or through the command line with the mysql command provided with the server. setup_user.sql will create a default user for the library system with Username = 'librarian', Password = 'password'. create_library_database.sql creates the library database, sets up the schema, and registers triggers for inserts and updates.
 
 With the database setup it can now be populated by running the following python script on the command line, also found in the /script folder:
 ```
