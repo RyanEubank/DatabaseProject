@@ -49,12 +49,12 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 #### Install latest JDK version:
 - install [jdk version 19](https://jdk.java.net/19/), unzip it and move the folder to a location of your choosing.
 - Follow the instructions from [here](https://openjfx.io/openjfx-docs/) to setup javafx, and the eclipse [non-modular setup](https://openjfx.io/openjfx-docs/#IDE-Eclipse)
-- Check what java runtime version you have in Command Promot using: java -version
+- Check what java runtime version you have in Command Prompt using: java -version
 - Check what java compiler version you have in Command prompt using: javac -version
 - These are installed correctly if command prompt recognizes both the java and javac commands and displays version info.
-- Otherwise, update your PATH environment variable: go to advanced system settings -> view advanced system settings -> advanced tab -> enviromental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path to your JDK as its value -> click ok and apply
+- Otherwise, update your PATH environment variable: go to advanced system settings -> view advanced system settings -> advanced tab -> environmental variables -> user variables -> new -> set JAVA_HOME as the variable name -> set path to your JDK as its value -> click ok and apply
 - Include the jdk in eclipse by clicking Window -> Preferences -> Java -> Installed JREs. Select add to install a new jre, select the Standard VM option and set the location to your JDK path.
-- Fianlly edit the eclipse runtime environment and compiler. Click the project tab -> properties -> java build path -> libraries -> jre system library -> edit -> execution enviroment -> set it to JavaSE-18 (jdk-19) and click finish. Set the compiler level in the same tab, go to java compiler -> compiler compliance level and set it to the most up to date version and click apply.
+- Finally edit the eclipse runtime environment and compiler. Click the project tab -> properties -> java build path -> libraries -> jre system library -> edit -> execution environment -> set it to JavaSE-18 (jdk-19) and click finish. Set the compiler level in the same tab, go to java compiler -> compiler compliance level and set it to the most up to date version and click apply.
 
 ## Database Requirements
 Once MySQL Server is installed and a MySQL server is running (see [above](#Install-MySQL)) run the following scripts via the commands:
@@ -62,7 +62,7 @@ Once MySQL Server is installed and a MySQL server is running (see [above](#Insta
 source setup_user.sql
 source create_library_database.sql
 ```
-Run these in a MySQL shell or through the commandline with the mysqld command provided with the server. setup_user.sql will create a default user for the library system with Username = 'admin', Password = 'password'. create_library_database.sql creates the library database, sets up the schema, and registers triggers for inserts and updates.
+Run these in a MySQL shell or through the command line with the mysql command provided with the server. setup_user.sql will create a default user for the library system with Username = 'admin', Password = 'password'. create_library_database.sql creates the library database, sets up the schema, and registers triggers for inserts and updates.
 
 With the database setup it can now be populated by running the following python script on the command line, also found in the /script folder:
 ```
