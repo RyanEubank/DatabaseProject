@@ -24,7 +24,7 @@ Connection to the project database requires Connector/J version 8.0, a driver to
 JavaFX and Connector J are provided by default in the /lib folder in the project's root directory, but can be replaced with newer versions.
 
 ## Launching the program:
-In the launch.bat file, be sure to edit the correct path to your javafx-sdk-19/lib folder and connectorj.jar if you are not using the libraries already provided. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: $cd \<your local path\>/DatabaseProject. Run the following commands to compile and launch the program:
+The script launch.bat, found in the /script folder will automatically run the commands below to compile and launch the application. In the launch.bat file, be sure to edit the correct path to your javafx-sdk-19/lib folder and connectorj.jar if you are not using the libraries already provided. The code in the batch file can also be run directly in the command prompt from the root directory of the project. Navigate to the correct folder using the cd command, ex: $cd \<your local path\>/DatabaseProject. Run the following commands to compile and launch the program:
 ```
 set PATH_TO_FX=<your path to javafx>
 set PATH_TO_DRIVER=<your path to connectorj>
@@ -33,7 +33,7 @@ java --module-path %PATH_TO_FX% --add-modules javafx.controls,javafx.fxml -class
 pause
 ```
 
-The script launch.bat, found in the /script folder will automatically run the commands above to compile and launch the application. Clean.bat will remove all .class files recursively if a clean install is required. Lastly, if attempting to connect to a database on a different machine over a network, this can be specified in the file "config.ini" in the root directory. The host name (IP address) and port number can be configured, by default these are set to localhost and the default MySQL port 3306.
+Clean.bat will remove all .class files recursively if a clean install is required. Lastly, if attempting to connect to a database on a different machine over a network, this can be specified in the file "config.ini" in the root directory. The host name (IP address) and port number can be configured, by default these are set to localhost and the default MySQL port 3306.
 
 ## Developer Requirements
 #### Install Eclipse:
