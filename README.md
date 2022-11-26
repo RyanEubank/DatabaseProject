@@ -9,7 +9,7 @@ Builds for the project work on 64-bit Windows systems (x86-64).
 This project requires a recent version of the Java Runtime Environment to run. The proper java installations can be found on [Oracle's Website](https://www.oracle.com/java/technologies/downloads) or with [OpenJDK](https://openjdk.org/) for up to date versions. Be sure that Java is setup properly in the system's PATH environment variable, see [here](https://www.java.com/en/download/help/path.html) or the step-by-step instructions below [here](#Install-JDK).
 
 ##### Install MySQL:
-The application requires connection to a library database as defined in the [Database Requirements](#Database-Requirements:). MySQL can be installed from the [MySQL Website](https://dev.mysql.com/downloads/installer/) -- choose the installer for 64-bit Windows systems.
+The application requires connection to a library database as defined in the [Database Requirements](#Database-Requirements). MySQL can be installed from the [MySQL Website](https://dev.mysql.com/downloads/installer/) -- choose the installer for 64-bit Windows systems.
 
 ## Build Requirements
 Building the project from source requires the above system requirements in addition to the following steps
@@ -57,13 +57,17 @@ For ease of editing and development, use [Eclipse IDE](https://www.eclipse.org/d
 - Fianlly edit the eclipse runtime environment and compiler. Click the project tab -> properties -> java build path -> libraries -> jre system library -> edit -> execution enviroment -> set it to JavaSE-18 (jdk-19) and click finish. Set the compiler level in the same tab, go to java compiler -> compiler compliance level and set it to the most up to date version and click apply.
 
 ## Database Requirements
-- Once MySQL Server is installed and a MySQL server is running (see [above](#Install-MySQL:)) run the following scripts via "source <filename>" in a MySQL shell or through the commandline with the mysqld command provided with the server.
-	setup_user.sql (This will create a deafult user for the library system, Username: admin, Password: password)
-	create_library_database.sql (This creates the library database, sets up the schema, and registers triggers for inserts and updates)
-- With the database setup it can now be populated by running the following python script on the command line
-	'''
-	createInserts.py books.csv borrowers.csv
-	'''
-	Pass the name of the books file then the borrowers file as arguments like shown. This will generate a new SQL script "populate.sql".
-- Run populate.sql from a MySQL shell and this will insert the initial book and borrower data into the library database. This process takes serveral minute to complete. Once finished, the application is ready to launch and connect.
+Once MySQL Server is installed and a MySQL server is running (see [above](#Install-MySQL)) run the following scripts via the commands:
+```
+source setup_user.sql
+source create_library_database.sql
+```
+Run these in a MySQL shell or through the commandline with the mysqld command provided with the server. setup_user.sql will create a default user for the library system with Username = 'admin', Password = 'password'. create_library_database.sql creates the library database, sets up the schema, and registers triggers for inserts and updates.
+
+With the database setup it can now be populated by running the following python script on the command line, also found in the /script folder:
+```
+createInserts.py books.csv borrowers.csv
+```
+Pass the name of the books file then the borrowers file as arguments like shown. This will generate a new SQL script "populate.sql".
+Run populate.sql from a MySQL shell and this will insert the initial book and borrower data into the library database. This process takes serveral minutes to complete. Once finished, the application is ready to launch and connect.
 
